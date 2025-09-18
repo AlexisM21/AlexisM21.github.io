@@ -10,4 +10,3 @@
         <input id = "fileupload" type = "file" />
         <input type = "submit" value = "submit" id = "submit" />
   </form>
-theme: jekyll-theme-minimal
