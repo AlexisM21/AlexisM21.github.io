@@ -6,9 +6,7 @@
         <body>
             Enter TDA in PDF format below
         <body>
-    </head>
     <form id = "uploadbanner" method = "post" action = "#">
         <input id = "fileupload" type = "file" />
         <input type = "submit" value = "submit" id = "submit" />
   </form>
-</html>
