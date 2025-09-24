@@ -2,8 +2,8 @@
 
   <img src="https://raw.githubusercontent.com/AlexisM21/AlexisM21.github.io/d164b64cd7bc1bfef0d29c37e0cb338af00e27fd/CPSC%20362.jpg" 
        alt="CPSC 362" 
-       width="200" 
-       style="float:left; margin-right:1rem; margin-bottom:0.5rem;" />
+       width="300" 
+       style="float:left; margin-right:1.6rem; margin-bottom:0.8rem;" />
     <p style="margin-bottom:0.5rem;">Welcome to the Titan Scheduler! Here, you can submit your Titan Degree Audit. We will tell you what classes you are required to take for next semester along with their availability. If you want us to create a schedule for you, we can do that as well!</p>
   <div>
     <p style="margin-bottom:0.5rem;">Enter your Titan Degree Audit in PDF format below to submit a schedule</p>
