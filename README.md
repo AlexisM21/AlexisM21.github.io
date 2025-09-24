@@ -4,9 +4,9 @@
        alt="CPSC 362" 
        width="200" 
        style="float:left; margin-right:1rem; margin-bottom:0.5rem;" />
-
+    <p style="margin-bottom:0.5rem;">"Welcome to the Titan Scheduler! Here, you can place the file from your Titan Degree Audit. We will tell you what classes you are required to take for next semester along with their availability. If you want us to create a schedule for you, we can do that as well!</p>
   <div>
-    <p style="margin-bottom:0.5rem;">Enter TDA in PDF format below</p>
+    <p style="margin-bottom:0.5rem;">Enter your Titan Degree Audit in PDF format below to submit a schedule</p>
 
 <form id="uploadbanner" method="get" action="currently-in-progress.html" 
       style="display:inline-block; background:none !important; opacity:1 !important; padding:0; margin:0; border:none;">
