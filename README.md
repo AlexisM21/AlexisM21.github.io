@@ -1,7 +1,3 @@
-<h1 class="site-title" style="font-size:3rem; margin-bottom:2rem; text-align:center;">
-  Titan Scheduler
-</h1>
-
 <div style="overflow:hidden; margin-bottom:1rem;">
 
   <img src="https://raw.githubusercontent.com/AlexisM21/AlexisM21.github.io/d164b64cd7bc1bfef0d29c37e0cb338af00e27fd/CPSC%20362.jpg" 
