@@ -1,6 +1,5 @@
-title: Titan Scheduler
+title: "Titan Scheduler"
 theme: beautiful-jekyll-theme
-description: Welcome to the Titan Scheduler! Here, you can place the file from your Titan Degreee Audit. We will tell you what classes you are required to take for next semester along with their availability. If you want us to create a schedule for you, we can do that aswell!
- Resources:
-    - Beautiful Jekyll: "https://beautifuljekyll.com"
-    
+description: "Welcome to the Titan Scheduler! Here, you can place the file from your Titan Degree Audit. We will tell you what classes you are required to take for next semester along with their availability. If you want us to create a schedule for you, we can do that as well!"
+resources:
+  - Beautiful Jekyll: "https://beautifuljekyll.com"
