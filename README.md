@@ -5,3 +5,4 @@
         <input id = "fileupload" type = "file" />
         <input type = "submit" value = "submit" id = "submit" />
   </form>
+<button type="button">Create Schedule</button>
