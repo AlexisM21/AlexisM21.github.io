@@ -13,10 +13,12 @@ driver.get("https://cmsweb.fullerton.edu/psc/CFULPRD/EMPLOYEE/SA/c/SA_LEARNER_SE
 dropdown= driver.find_element(By. ID, "CLASS_SRCH_WRK2_STRM$35$")
 dd= Select(dropdown)
 
-term_select= dd.select_by_index(1)
-
-for i in term_select:
+i = 1
+while i < 5:
     term_select= dd.select_by_index(i)
+    time.sleep(3)
+
+
         
 
 
