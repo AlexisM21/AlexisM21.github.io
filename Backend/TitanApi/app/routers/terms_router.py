@@ -12,13 +12,16 @@ def get_terms(term: int | str):
         return c
 
 @router.delete("/terms/{term}")
-def delete_terms(term: int | str):
-    c = terms_crud.delete_terms(term)
-    if c is False:
+def delete_terms(term_id: int | None = None, term: str | None = None):
+    if (term_id is None) == (term is None): #If empty value is accepted, return error
+         raise HTTPException(
+              status_code = 400,
+              detail="Provide exactly one of: term_id OR term"
+         )
+    ok = terms_crud.delete_terms(term_id=term_id, term=term)
+    if not ok:
          raise HTTPException(status_code=404, detail="Term not found")
-    else:
-         print("Successfully deleted:", term, "!")
-    return c
+    return None
 
 @router.post("/terms/{term}")
 def create_term(term : str):
@@ -26,3 +29,7 @@ def create_term(term : str):
      if c is None:
         raise HTTPException(status_code=409, detail="Term already exist")
      return c
+
+@router.get("/terms")
+def get_all_terms():
+     return get_all_terms()
