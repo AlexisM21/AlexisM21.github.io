@@ -1,13 +1,6 @@
 from db import get_conn
 import sqlite3
 
-
-def if_helper(value : int | str) ->bool:
-    if isinstance(value, int):
-        return True
-    else:
-        return False
-
 def get_terms(value : str):
     with get_conn() as c:
         if isinstance(value, str):
