@@ -32,4 +32,4 @@ def create_term(term : str):
 
 @router.get("/terms")
 def get_all_terms():
-     return get_all_terms()
+     return terms_crud.get_all_terms()
