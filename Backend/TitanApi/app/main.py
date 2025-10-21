@@ -1,9 +1,10 @@
 import sqlite3
 from fastapi import FastAPI, APIRouter, HTTPException
-from routers import terms_router
+from routers import terms_router, courses_router
 
 app = FastAPI()
 app.include_router(terms_router.router)
+app.include_router(courses_router.router)
 
 @app.get('/')
 def root():
