@@ -11,7 +11,7 @@ def get_terms(term: int | str):
             raise HTTPException(status_code=404, detail="Term not found!")
         return c
 
-@router.delete("/terms/{term}")
+@router.delete("/terms", status_code=204)
 def delete_terms(term_id: int | None = None, term: str | None = None):
     if (term_id is None) == (term is None): #If empty value is accepted, return error
          raise HTTPException(
