@@ -6,11 +6,21 @@ router = APIRouter()
 
 @router.post("/courses/upload")
 async def upload_courses_csv(file: UploadFile = File(...)):
+    # Check if CSV file
+    if file.content_type != "text/csv":
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid file type: {file.content_type}. Only CSV files are allowed!"
+        )
+
     contents = await file.read()
 
     rows_inserted = courses_csv.scrape_courses_csv(contents, table_name="course")
-
-    return{"message": f"Inserted {rows_inserted} rows into the  'course' table."}
+    if rows_inserted["status"] == "error":
+        return rows_inserted
+    else:
+        rows_inserted.pop("status")
+        return{"message": f"Inserted {rows_inserted} rows into the  'course' table."}
 
 @router.post("/courses/{course_id}")
 def get_courses(course_id: str):
