@@ -37,9 +37,9 @@ def create_terms(value: str):
 def get_all_terms():
     with get_conn() as c:
         table = c.execute("SELECT * FROM term")
-        table.fetchall()
+        rows = table.fetchall()
 
-        results = [dict(table) for row in table]
+        results = [dict(row) for row in rows]
 
         return results
     
