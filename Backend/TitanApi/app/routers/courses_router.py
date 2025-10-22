@@ -4,6 +4,7 @@ from crud import courses_crud
 
 router = APIRouter()
 
+
 @router.post("/courses/upload")
 async def upload_courses_csv(file: UploadFile = File(...)):
     # Check if CSV file
@@ -22,6 +23,7 @@ async def upload_courses_csv(file: UploadFile = File(...)):
         rows_inserted.pop("status")
         return{"message": f"Inserted {rows_inserted} rows into the  'course' table."}
 
+
 @router.post("/courses/{course_id}")
 def get_courses(course_id: str):
     c = courses_crud.get_courses(course_id)
@@ -29,9 +31,11 @@ def get_courses(course_id: str):
         raise HTTPException(status_code=404, detail="Course not found!")
     return c
 
+
 @router.get("/courses")
 def get_all_courses():
     return courses_crud.get_all_courses()
+
 
 @router.delete("/courses/{course_id}")
 def delete_courses(course_id):
