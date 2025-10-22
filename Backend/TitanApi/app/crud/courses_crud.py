@@ -5,7 +5,13 @@ def get_courses(value: str | None = None):
     with get_conn() as c:
         row = c.execute("SELECT * FROM course WHERE course_id=?", (value,)).fetchone()
         return dict(row) if row else None
-    
+
+def delete_courses(value: str | None = None):
+    with get_conn() as c:
+        if value is not None:
+            row = c.execute("DELETE FROM course WHERE course_id=?",(value,))
+        return row.rowcount > 0
+
 def get_all_courses():
     with get_conn() as c:
         table = c.execute("SELECT * FROM course")
