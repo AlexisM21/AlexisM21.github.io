@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS course (
 -- SECTION TABLE
 -- Note: using CRN as the primary key (INTEGER)
 CREATE TABLE IF NOT EXISTS section (
-  crn              INTEGER PRIMARY KEY,
+  crn              TEXT PRIMARY KEY,
   course_id        TEXT    NOT NULL,
   term_id          INTEGER NOT NULL,
   section          TEXT,               -- e.g., 01-LEC
@@ -38,10 +38,11 @@ CREATE TABLE IF NOT EXISTS section (
 -- start_min / end_min are minutes from midnight (e.g., 8:30am -> 510)
 CREATE TABLE IF NOT EXISTS meeting (
   meeting_id  INTEGER PRIMARY KEY AUTOINCREMENT,
-  crn         INTEGER NOT NULL,        -- FK to section.crn
-  day_of_week INTEGER NOT NULL CHECK (day_of_week BETWEEN 1 AND 7),
+  crn         TEXT NOT NULL,        -- FK to section.crn
+  day_of_week INTEGER NOT NULL CHECK (day_of_week BETWEEN -1 AND 7),
   start_min   INTEGER NOT NULL,
   end_min     INTEGER NOT NULL,
+  room        TEXT    NOT NULL,
   FOREIGN KEY (crn) REFERENCES section(crn)
   ON DELETE CASCADE
 );

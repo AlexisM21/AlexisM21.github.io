@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter, HTTPException, File, UploadFile
-from services import courses_csv
+from services import courses_csv, courses_service
 from crud import courses_crud
 
 router = APIRouter()
@@ -26,7 +26,7 @@ async def upload_courses_csv(file: UploadFile = File(...)):
 
 @router.post("/courses/{course_id}")
 def get_courses(course_id: str):
-    c = courses_crud.get_courses(course_id)
+    c = courses_service.get_course(course_id)
     if c is None:
         raise HTTPException(status_code=404, detail="Course not found!")
     return c
@@ -34,7 +34,7 @@ def get_courses(course_id: str):
 
 @router.get("/courses")
 def get_all_courses():
-    return courses_crud.get_all_courses()
+    return courses_service.get_all_courses()
 
 
 @router.delete("/courses/{course_id}")
