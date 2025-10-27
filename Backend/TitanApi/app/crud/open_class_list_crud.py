@@ -68,6 +68,8 @@ def group_meetings(df: list[dict]):
 def get_open_class_list():
     with get_conn() as c:
         rows = c.execute("SELECT * FROM open_classes").fetchall()
+        if not rows:
+            return{"data": [], "message": "No open classes found."}
         rows = [dict(row) for row in rows]
         rows = convert_days_of_week(rows)
         rows = group_meetings(rows)
