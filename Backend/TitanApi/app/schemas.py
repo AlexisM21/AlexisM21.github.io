@@ -1,6 +1,15 @@
 from pydantic import BaseModel, field_validator
 from typing import Optional, List
 
+def _coerce_int(v, field):
+    if v is None or v == "" or str(v).lower() in {"nan", "none"}:
+        raise ValueError(f"{field} is required and must be an integer")
+    # Handle floats/strings like "510.0"
+    try:
+        return int(float(v))
+    except Exception:
+        raise ValueError(f"{field} must be an integer, got {v!r}")
+
 class CourseOut(BaseModel):
     course_id: str
     subject: str
@@ -47,8 +56,13 @@ class SectionIn(BaseModel):
             raise ValueError(f"{info.field_name} is a required field!")
         return str(v).strip()
     
+    @field_validator("term_id", mode="before")
+    def to_int_term_id(cls, v):
+        return _coerce_int(v, "term_id")
+    
 class MeetingIn(BaseModel):
     # meeting_id : int
+    term_id: int
     crn: str
     day_of_week: int
     start_min: int
@@ -60,6 +74,9 @@ class MeetingIn(BaseModel):
         if v is None:
             raise ValueError("crn is a required field!")
         return str(v).strip()
+    @field_validator("term_id", "day_of_week", "start_min", "end_min", mode="before")
+    def to_int_fields(cls, v, info):
+        return _coerce_int(v, info.field_name)
     
     # @field_validator("section",mode="before")
     # def to_str(cls, v):

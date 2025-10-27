@@ -5,8 +5,9 @@ from db import get_conn
 from schemas import MeetingIn
 from pydantic import ValidationError
 from typing import Any, Dict, List
+## DELETE ##
 
-REQUIRED_HEADERS = {"crn","day_of_week","start_min","end_min","room"}
+REQUIRED_HEADERS = {"term","crn","day_of_week","start_min","end_min","room"}
 ALL_COLLS = ["crn","day_of_week","start_min","end_min","room"]
 
 

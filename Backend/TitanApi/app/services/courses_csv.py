@@ -6,6 +6,7 @@ from schemas import CourseIn
 from pydantic import ValidationError
 from typing import Any, Dict, List
 
+## DELETE ##
 
 REQUIRED_HEADERS = {"course_id", "subject", "number", "units"}
 ALL_COLS = ["course_id", "subject", "number", "description", "units", "prereq", "coreq"]

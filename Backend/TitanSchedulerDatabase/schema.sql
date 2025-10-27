@@ -38,14 +38,20 @@ CREATE TABLE IF NOT EXISTS section (
 -- start_min / end_min are minutes from midnight (e.g., 8:30am -> 510)
 CREATE TABLE IF NOT EXISTS meeting (
   meeting_id  INTEGER PRIMARY KEY AUTOINCREMENT,
+  term_id     INTEGER NOT NULL,
   crn         TEXT NOT NULL,        -- FK to section.crn
   day_of_week INTEGER NOT NULL CHECK (day_of_week BETWEEN -1 AND 7),
   start_min   INTEGER NOT NULL,
   end_min     INTEGER NOT NULL,
   room        TEXT    NOT NULL,
   FOREIGN KEY (crn) REFERENCES section(crn)
-  ON DELETE CASCADE
+   ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY (term_id) REFERENCES term(term_id)
+   ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS uq_meeting_unique
+ON meeting(term_id, crn, day_of_week);
 
 -- Helpful indexes
 CREATE INDEX IF NOT EXISTS idx_section_term   ON section(term_id);

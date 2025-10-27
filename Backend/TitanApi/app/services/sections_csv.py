@@ -6,6 +6,7 @@ from schemas import SectionIn
 from pydantic import ValidationError
 from typing import Any, Dict, List
 
+## DELETE ##
 REQUIRED_HEADERS = {"crn","course_id","term_id","instruction_mode","status"}
 ALL_COLS = ["crn","course_id","term_id","section","instruction_mode","professor","status"]
 
