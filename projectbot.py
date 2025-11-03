@@ -4,14 +4,19 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
 
+URL = "https://cmsweb.fullerton.edu/psc/CFULPRD/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?&public"
+
 # opens the website 
 opts = Options()
 opts.add_experimental_option('detach', True)
 driver = webdriver.Chrome(options=opts)
-driver.get("https://cmsweb.fullerton.edu/psc/CFULPRD/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.CLASS_SEARCH.GBL?&public")
+driver.get(URL)
 
 dropdown= driver.find_element(By. ID, "CLASS_SRCH_WRK2_STRM$35$")
 dd= Select(dropdown)
+
+def iframe_switch():    
+    iframe= driver.switch_to.frame(driver.find_element(By. ID, "CLASS_SRCH_WRK2_STRM$35$"))
 
 i = 1
 while i < 5:
