@@ -39,13 +39,13 @@ def group_meetings(df: list[dict]):
     df = pd.DataFrame(df)
 
     # Build a list of meeting dicts directly from each row
-    df["meeting"] = df[["day_of_week", "start_min", "end_min"]] \
+    df["meeting"] = df[["day_of_week", "start_min", "end_min", "room"]] \
         .rename(columns={"day_of_week": "day", "start_min": "start", "end_min": "end"}) \
         .to_dict(orient="records")
 
     # Group and collect those meeting dicts into lists
     grouped = (
-        df.groupby(["term","crn","course_id","section","professor","status","room"], as_index=False)
+        df.groupby(["term","crn","course_id","section","professor","status"], as_index=False)
           .agg(meetings=("meeting", list))
     )
 
