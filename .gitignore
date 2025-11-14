@@ -21,3 +21,7 @@ Thumbs.db
 
 # Database
 openclasslist.db
+
+# Environment variables and sensitive files
+.env
+api_key.py
