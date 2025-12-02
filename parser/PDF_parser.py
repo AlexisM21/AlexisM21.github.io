@@ -12,7 +12,7 @@ if not api_key:
 
 client = OpenAI(api_key=api_key)
 
-with open('pdf_testing', 'rb') as f:
+with open('pdf_tester.pdf', 'rb') as f:
     uploaded_file = client.files.create(
     file=f,
     purpose="assistants"
@@ -85,6 +85,14 @@ response = client.responses.create(
 
 raw_text = response.output[0].content[0].text
 
-output_path = "parsed_credits.json"
-with open(output_path, "w", encoding="utf-8") as f:
-    json.dump(json.loads(raw_text), f, indent=2, ensure_ascii=False)
+try:
+    parsed_json = json.loads(raw_text)
+except json.JSONDecodeError:
+    print("ERROR: OpenAI did not return valid JSON")
+    print(raw_text)
+    raise
+
+with open("parsed_credits.json", "w", encoding="utf-8") as f:
+    json.dump(parsed_json, f, indent=2, ensure_ascii=False)
+
+print("parsed_credits.json created successfully")

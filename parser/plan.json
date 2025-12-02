@@ -1,0 +1,2928 @@
+{
+  "student_info": {
+    "name": "Kim, Eugene",
+    "id": "886836733",
+    "catalog_year": "FA2024"
+  },
+  "summary": {
+    "remaining_requirements": 25
+  },
+  "requirements": [
+    {
+      "requirement_id": "GEB-CPSC",
+      "name": "SCIENTIFIC INQUIRY AND QUANTITATIVE REASONING",
+      "type": "GE",
+      "total_units_required": 12,
+      "total_units_completed": 0,
+      "courses_allowed": [],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "GE-A",
+      "name": "CORE COMPETENCIES (NEEDS C- OR BETTER)",
+      "type": "GE",
+      "total_units_required": 6,
+      "total_units_completed": 6,
+      "courses_allowed": [],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "CRIT THINKING",
+      "name": "CRITICAL THINKING",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 0,
+      "courses_allowed": [],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "WRITTEN COMM",
+      "name": "WRITTEN COMMUNICATION",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 3,
+      "courses_allowed": [],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "ORAL COMM",
+      "name": "ORAL COMMUNICATION",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 3,
+      "courses_allowed": [],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "BIOLOGY",
+      "name": "LIFE SCIENCE",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 0,
+      "courses_allowed": [],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "PHY SCI",
+      "name": "PHYSICAL SCIENCE",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 12,
+      "courses_allowed": [
+        "PHYS 225",
+        "PHYS 225L",
+        "PHYS 226",
+        "PHYS 226L"
+      ],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "EXPM",
+      "name": "IMPLICATIONS AND EXPLORATION IN MATH AND NAT SCI",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 0,
+      "courses_allowed": [
+        "MATH 338"
+      ],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "B4 CSU CERT",
+      "name": "MATHEMATICS QUANTITATIVE REASONING",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 12,
+      "courses_allowed": [
+        "MATH 170A"
+      ],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "LAB",
+      "name": "LABORATORY EXPERIENCE",
+      "type": "GE",
+      "total_units_required": 0,
+      "total_units_completed": 2,
+      "courses_allowed": [
+        "PHYS 225L",
+        "PHYS 226L",
+        "BIOLT0525",
+        "B2 CSU CERT"
+      ],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "B2 CSU CERT",
+      "name": "LIFE SCIENCE",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 6,
+      "courses_allowed": [
+        "BIOLT0525",
+        "B2 CSU CERT"
+      ],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "C.2",
+      "name": "INTRODUCTION TO HUMANITIES",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 3,
+      "courses_allowed": [],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "C.1",
+      "name": "INTRODUCTION TO ARTS",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 3,
+      "courses_allowed": [],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "F",
+      "name": "ETHNIC STUDIES",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 3,
+      "courses_allowed": [],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "E",
+      "name": "LIFELONG LEARNING AND SELF DEVELOPMENT",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 0,
+      "courses_allowed": [],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "D",
+      "name": "SOCIAL SCIENCES",
+      "type": "GE",
+      "total_units_required": 6,
+      "total_units_completed": 9,
+      "courses_allowed": [
+        "ANTH 311",
+        "HIST 110A",
+        "SOCI 101",
+        "ANTH 102",
+        "D6 CSU CERT",
+        "LING 102"
+      ],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "CPSC LOWER DIVISION CORE",
+      "name": "CPSC LOWER DIVISION CORE",
+      "type": "Major",
+      "total_units_required": 9,
+      "total_units_completed": 14,
+      "courses_allowed": [
+        "CPSC 121",
+        "CPSC 223J",
+        "CPSC 120A",
+        "CPSC 120L"
+      ],
+      "open_sections": [
+        {
+          "term": "FALL 2025",
+          "crn": "21189",
+          "course_id": "CPSC 223J",
+          "section": "01",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 600,
+              "end": 710,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21190",
+          "course_id": "CPSC 223J",
+          "section": "02",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 600,
+              "end": 710,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17569",
+          "course_id": "CPSC 120A",
+          "section": "01",
+          "professor": "Michael Shafae",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 510,
+              "end": 560,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 510,
+              "end": 560,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17570",
+          "course_id": "CPSC 120A",
+          "section": "02",
+          "professor": "Michael Shafae",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 570,
+              "end": 620,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 570,
+              "end": 620,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17571",
+          "course_id": "CPSC 120A",
+          "section": "03",
+          "professor": "Garrett Whelan",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 630,
+              "end": 680,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 630,
+              "end": 680,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17572",
+          "course_id": "CPSC 120A",
+          "section": "04",
+          "professor": "Garrett Whelan",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 690,
+              "end": 740,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 690,
+              "end": 740,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17573",
+          "course_id": "CPSC 120A",
+          "section": "05",
+          "professor": "A S M Rizvi",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 750,
+              "end": 800,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 750,
+              "end": 800,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17574",
+          "course_id": "CPSC 120A",
+          "section": "06",
+          "professor": "Michael Shafae",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 810,
+              "end": 860,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 810,
+              "end": 860,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17575",
+          "course_id": "CPSC 120A",
+          "section": "07",
+          "professor": "A S M Rizvi",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 870,
+              "end": 920,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 870,
+              "end": 920,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18306",
+          "course_id": "CPSC 120A",
+          "section": "01",
+          "professor": "Michael Shafae",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 510,
+              "end": 560,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 510,
+              "end": 560,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18307",
+          "course_id": "CPSC 120A",
+          "section": "02",
+          "professor": "Michael Shafae",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 570,
+              "end": 620,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 570,
+              "end": 620,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18308",
+          "course_id": "CPSC 120A",
+          "section": "03",
+          "professor": "Michael Shafae",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 630,
+              "end": 680,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 630,
+              "end": 680,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17489",
+          "course_id": "CPSC 120L",
+          "section": "04",
+          "professor": "Garrett Whelan,\nMariia Nikitash",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 840,
+              "end": 950,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17491",
+          "course_id": "CPSC 120L",
+          "section": "06",
+          "professor": "Garrett Whelan,\nHarika Animireddy Gari",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 960,
+              "end": 1070,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17493",
+          "course_id": "CPSC 120L",
+          "section": "08",
+          "professor": "Michael Shafae,\nKomal Arvindbhai Kiri",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 960,
+              "end": 1070,
+              "room": "MOD 109 - Computer Lab (PC)"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17496",
+          "course_id": "CPSC 120L",
+          "section": "11",
+          "professor": "A S M Rizvi,\nNhat Ho",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 1080,
+              "end": 1190,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17497",
+          "course_id": "CPSC 120L",
+          "section": "12",
+          "professor": "A S M Rizvi,\nNhat Ho",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 1080,
+              "end": 1190,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20201",
+          "course_id": "CPSC 120L",
+          "section": "20",
+          "professor": "A S M Rizvi,\nMariia Nikitash",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 600,
+              "end": 710,
+              "room": "MOD 109 - Computer Lab (PC)"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20202",
+          "course_id": "CPSC 120L",
+          "section": "21",
+          "professor": "Michael Shafae,\nMariia Nikitash",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 480,
+              "end": 590,
+              "room": "MOD 109 - Computer Lab (PC)"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20203",
+          "course_id": "CPSC 120L",
+          "section": "22",
+          "professor": "A S M Rizvi,\nMariia Nikitash",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 600,
+              "end": 710,
+              "room": "MOD 109 - Computer Lab (PC)"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18310",
+          "course_id": "CPSC 120L",
+          "section": "01",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 690,
+              "end": 800,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18311",
+          "course_id": "CPSC 120L",
+          "section": "02",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 690,
+              "end": 800,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18312",
+          "course_id": "CPSC 120L",
+          "section": "03",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 690,
+              "end": 800,
+              "room": "MOD 109 - Computer Lab (PC)"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18313",
+          "course_id": "CPSC 120L",
+          "section": "04",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 690,
+              "end": 800,
+              "room": "MOD 109 - Computer Lab (PC)"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18314",
+          "course_id": "CPSC 120L",
+          "section": "05",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 810,
+              "end": 920,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18315",
+          "course_id": "CPSC 120L",
+          "section": "06",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 810,
+              "end": 920,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "CPSC UPPER DIVISION CORE - B",
+      "name": "CPSC UPPER DIVISION CORE - B",
+      "type": "Major",
+      "total_units_required": 15,
+      "total_units_completed": 3,
+      "courses_allowed": [
+        "CPSC 323",
+        "CPSC 362"
+      ],
+      "open_sections": [
+        {
+          "term": "FALL 2025",
+          "crn": "17286",
+          "course_id": "CPSC 323",
+          "section": "05",
+          "professor": "Gaurav Dinesh Pawar",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 1050,
+              "end": 1125,
+              "room": "KHS 160 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 1050,
+              "end": 1125,
+              "room": "KHS 160 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17473",
+          "course_id": "CPSC 323",
+          "section": "08",
+          "professor": "Atharva Kalange",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 780,
+              "end": 855,
+              "room": "KHS 172 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 780,
+              "end": 855,
+              "room": "KHS 172 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21370",
+          "course_id": "CPSC 323",
+          "section": "14",
+          "professor": "Anuj More",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 1140,
+              "end": 1305,
+              "room": "Hum 511 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18119",
+          "course_id": "CPSC 323",
+          "section": "04",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 510,
+              "end": 585,
+              "room": "CS 406 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 510,
+              "end": 585,
+              "room": "CS 406 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18186",
+          "course_id": "CPSC 323",
+          "section": "05",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 1140,
+              "end": 1305,
+              "room": "Hum 511 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18235",
+          "course_id": "CPSC 323",
+          "section": "09",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 1050,
+              "end": 1125,
+              "room": "LH 320 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 1050,
+              "end": 1125,
+              "room": "LH 320 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18439",
+          "course_id": "CPSC 323",
+          "section": "11",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 510,
+              "end": 585,
+              "room": "Hum 414 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 510,
+              "end": 585,
+              "room": "Hum 414 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18615",
+          "course_id": "CPSC 323",
+          "section": "12",
+          "professor": "Syed Hassan Shah",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 1140,
+              "end": 1305,
+              "room": "KHS 172 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "21238",
+          "course_id": "CPSC 323",
+          "section": "14",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 1050,
+              "end": 1125,
+              "room": "LH 315B - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 1050,
+              "end": 1125,
+              "room": "LH 315B - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17598",
+          "course_id": "CPSC 362",
+          "section": "01",
+          "professor": "Adithya Vykuntam",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 780,
+              "end": 855,
+              "room": "KHS 160 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 780,
+              "end": 855,
+              "room": "KHS 160 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17615",
+          "course_id": "CPSC 362",
+          "section": "03",
+          "professor": "Paul Oginni",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Sat",
+              "start": 780,
+              "end": 945,
+              "room": "EC 032 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18575",
+          "course_id": "CPSC 362",
+          "section": "02",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Sat",
+              "start": 540,
+              "end": 705,
+              "room": "Hum 509 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18576",
+          "course_id": "CPSC 362",
+          "section": "03",
+          "professor": "Paul Oginni",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Sat",
+              "start": 780,
+              "end": 945,
+              "room": "KHS 172 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18577",
+          "course_id": "CPSC 362",
+          "section": "04",
+          "professor": "Gina Ackerman",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Sat",
+              "start": 540,
+              "end": 705,
+              "room": "EC 034 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18583",
+          "course_id": "CPSC 362",
+          "section": "11",
+          "professor": "Mustafa Ibrahim",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 1050,
+              "end": 1125,
+              "room": "Hum 514 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 1050,
+              "end": 1125,
+              "room": "Hum 514 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18584",
+          "course_id": "CPSC 362",
+          "section": "12",
+          "professor": "Mustafa Ibrahim",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 960,
+              "end": 1035,
+              "room": "LH 315B - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 960,
+              "end": 1035,
+              "room": "LH 315B - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18585",
+          "course_id": "CPSC 362",
+          "section": "13",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 1050,
+              "end": 1125,
+              "room": "Hum 426 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 1050,
+              "end": 1125,
+              "room": "Hum 426 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18647",
+          "course_id": "CPSC 362",
+          "section": "14",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 1050,
+              "end": 1125,
+              "room": "LH 403A - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 1050,
+              "end": 1125,
+              "room": "LH 403A - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18648",
+          "course_id": "CPSC 362",
+          "section": "15",
+          "professor": "Mehdi Peiravi",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 960,
+              "end": 1035,
+              "room": "LH 403A - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 960,
+              "end": 1035,
+              "room": "LH 403A - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "22112",
+          "course_id": "CPSC 362",
+          "section": "16",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Thur",
+              "start": 1140,
+              "end": 1305,
+              "room": "Hum 514 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SUMMER 2025",
+          "crn": "11028",
+          "course_id": "CPSC 362",
+          "section": "01",
+          "professor": "Paul Salvador Inventado",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 815,
+              "end": 995,
+              "room": "CS 408 - Teaching Lab"
+            },
+            {
+              "day": "Tue",
+              "start": 815,
+              "end": 995,
+              "room": "CS 408 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 815,
+              "end": 995,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "CPSC UPPER DIVISION CORE - A",
+      "name": "CPSC UPPER DIVISION CORE - A",
+      "type": "Major",
+      "total_units_required": 15,
+      "total_units_completed": 3,
+      "courses_allowed": [
+        "CPSC 131",
+        "CPSC 240",
+        "CPSC 253"
+      ],
+      "open_sections": [
+        {
+          "term": "FALL 2025",
+          "crn": "17292",
+          "course_id": "CPSC 131",
+          "section": "05",
+          "professor": "Thomas Bettens",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 510,
+              "end": 585,
+              "room": "CS 104 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 510,
+              "end": 585,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20235",
+          "course_id": "CPSC 131",
+          "section": "03",
+          "professor": "Mike Peralta",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 870,
+              "end": 945,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 870,
+              "end": 945,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20236",
+          "course_id": "CPSC 131",
+          "section": "06",
+          "professor": "Thomas Bettens",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 870,
+              "end": 945,
+              "room": "EC 121 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 870,
+              "end": 945,
+              "room": "EC 121 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20238",
+          "course_id": "CPSC 131",
+          "section": "09",
+          "professor": "Thomas Bettens",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 600,
+              "end": 675,
+              "room": "CS 104 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 600,
+              "end": 675,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20240",
+          "course_id": "CPSC 131",
+          "section": "10",
+          "professor": "Thomas Bettens",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 960,
+              "end": 1035,
+              "room": "EC 032 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 960,
+              "end": 1035,
+              "room": "EC 032 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20245",
+          "course_id": "CPSC 131",
+          "section": "13",
+          "professor": "Thomas Bettens",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 780,
+              "end": 855,
+              "room": "EC 063 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 780,
+              "end": 855,
+              "room": "EC 063 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "17926",
+          "course_id": "CPSC 131",
+          "section": "01",
+          "professor": "Thomas Bettens",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 600,
+              "end": 675,
+              "room": "EC 067 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 600,
+              "end": 675,
+              "room": "EC 067 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "17927",
+          "course_id": "CPSC 131",
+          "section": "02",
+          "professor": "Thomas Bettens",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 1050,
+              "end": 1125,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 1050,
+              "end": 1125,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18004",
+          "course_id": "CPSC 131",
+          "section": "03",
+          "professor": "Mike Peralta",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 960,
+              "end": 1035,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 960,
+              "end": 1035,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18029",
+          "course_id": "CPSC 131",
+          "section": "05",
+          "professor": "Thomas Bettens",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 510,
+              "end": 585,
+              "room": "EC 167 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 510,
+              "end": 585,
+              "room": "EC 167 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18033",
+          "course_id": "CPSC 131",
+          "section": "04",
+          "professor": "Thomas Bettens",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 690,
+              "end": 765,
+              "room": "CS 101 - Teaching Lab"
+            },
+            {
+              "day": "Thur",
+              "start": 690,
+              "end": 765,
+              "room": "CS 101 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18158",
+          "course_id": "CPSC 131",
+          "section": "07",
+          "professor": "Mike Peralta",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 1050,
+              "end": 1125,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 1050,
+              "end": 1125,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20266",
+          "course_id": "CPSC 240",
+          "section": "03",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 480,
+              "end": 590,
+              "room": "CS 300 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20267",
+          "course_id": "CPSC 240",
+          "section": "04",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Thur",
+              "start": 480,
+              "end": 590,
+              "room": "CS 300 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20270",
+          "course_id": "CPSC 240",
+          "section": "13",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 600,
+              "end": 710,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20271",
+          "course_id": "CPSC 240",
+          "section": "14",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Thur",
+              "start": 600,
+              "end": 710,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20272",
+          "course_id": "CPSC 240",
+          "section": "16",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 480,
+              "end": 590,
+              "room": "CS 300 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20366",
+          "course_id": "CPSC 240",
+          "section": "15",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 480,
+              "end": 590,
+              "room": "CS 300 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21232",
+          "course_id": "CPSC 240",
+          "section": "21",
+          "professor": "Mehdi Peiravi",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 480,
+              "end": 590,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21234",
+          "course_id": "CPSC 240",
+          "section": "22",
+          "professor": "Mehdi Peiravi",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Thur",
+              "start": 480,
+              "end": 590,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "17993",
+          "course_id": "CPSC 240",
+          "section": "11",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 600,
+              "end": 710,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18025",
+          "course_id": "CPSC 240",
+          "section": "03",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 600,
+              "end": 710,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18026",
+          "course_id": "CPSC 240",
+          "section": "04",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 600,
+              "end": 710,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18104",
+          "course_id": "CPSC 240",
+          "section": "07",
+          "professor": "Joshua Ku",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 1020,
+              "end": 1130,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18105",
+          "course_id": "CPSC 240",
+          "section": "08",
+          "professor": "Joshua Ku",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Thur",
+              "start": 1020,
+              "end": 1130,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18128",
+          "course_id": "CPSC 240",
+          "section": "09",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 480,
+              "end": 590,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18129",
+          "course_id": "CPSC 240",
+          "section": "10",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 480,
+              "end": 590,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18207",
+          "course_id": "CPSC 240",
+          "section": "13",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 480,
+              "end": 590,
+              "room": "CS 300 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18208",
+          "course_id": "CPSC 240",
+          "section": "14",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Thur",
+              "start": 480,
+              "end": 590,
+              "room": "CS 300 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18347",
+          "course_id": "CPSC 240",
+          "section": "12",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Thur",
+              "start": 600,
+              "end": 710,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17395",
+          "course_id": "CPSC 253",
+          "section": "02",
+          "professor": "Michael Franklin",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Fri",
+              "start": 780,
+              "end": 945,
+              "room": "EC 034 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17414",
+          "course_id": "CPSC 253",
+          "section": "03",
+          "professor": "Michael Franklin",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Sat",
+              "start": 540,
+              "end": 705,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17479",
+          "course_id": "CPSC 253",
+          "section": "08",
+          "professor": "Michael Franklin",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 600,
+              "end": 675,
+              "room": "MH 554 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 600,
+              "end": 675,
+              "room": "MH 554 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21309",
+          "course_id": "CPSC 253",
+          "section": "16",
+          "professor": "Nithya Tanguturi",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 600,
+              "end": 675,
+              "room": "CS 101 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 600,
+              "end": 675,
+              "room": "CS 101 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21447",
+          "course_id": "CPSC 253",
+          "section": "18",
+          "professor": "Joshua Chin",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 1050,
+              "end": 1125,
+              "room": "LH 315B - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 1050,
+              "end": 1125,
+              "room": "LH 315B - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18151",
+          "course_id": "CPSC 253",
+          "section": "03",
+          "professor": "A S M Rizvi",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 870,
+              "end": 945,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 870,
+              "end": 945,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18152",
+          "course_id": "CPSC 253",
+          "section": "04",
+          "professor": "A S M Rizvi",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 1050,
+              "end": 1125,
+              "room": "CS 408 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 1050,
+              "end": 1125,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18190",
+          "course_id": "CPSC 253",
+          "section": "05",
+          "professor": "Doaa Abouzeid",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 1140,
+              "end": 1305,
+              "room": "Hum 409 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18191",
+          "course_id": "CPSC 253",
+          "section": "06",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Sat",
+              "start": 540,
+              "end": 705,
+              "room": "Hum 409 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18349",
+          "course_id": "CPSC 253",
+          "section": "07",
+          "professor": "Doaa Abouzeid",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 1140,
+              "end": 1305,
+              "room": "Hum 409 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18401",
+          "course_id": "CPSC 253",
+          "section": "10",
+          "professor": "Yoonsuk Choi",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 510,
+              "end": 585,
+              "room": "Hum 514 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 510,
+              "end": 585,
+              "room": "Hum 514 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18668",
+          "course_id": "CPSC 253",
+          "section": "14",
+          "professor": "Doaa Abouzeid",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 870,
+              "end": 945,
+              "room": "LH 320 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 870,
+              "end": 945,
+              "room": "LH 320 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SUMMER 2025",
+          "crn": "10626",
+          "course_id": "CPSC 253",
+          "section": "01",
+          "professor": "Michael Shafae",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 815,
+              "end": 995,
+              "room": "CS 101 - Teaching Lab"
+            },
+            {
+              "day": "Tue",
+              "start": 815,
+              "end": 995,
+              "room": "CS 101 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 815,
+              "end": 995,
+              "room": "CS 101 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SUMMER 2025",
+          "crn": "10979",
+          "course_id": "CPSC 253",
+          "section": "02",
+          "professor": "Floyd Holliday",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 540,
+              "end": 720,
+              "room": "CS 104 - Teaching Lab"
+            },
+            {
+              "day": "Tue",
+              "start": 540,
+              "end": 720,
+              "room": "CS 104 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 540,
+              "end": 720,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "CPSCMATHUD",
+      "name": "CPSC UPPER DIVISION MATHEMATICS REQUIREMENT",
+      "type": "Major",
+      "total_units_required": 4,
+      "total_units_completed": 0,
+      "courses_allowed": [
+        "MATH 338"
+      ],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "CPSCLDMATH-B",
+      "name": "CPSC LOWER DIVISION MATHEMATICS REQUIREMENTS-B",
+      "type": "Major",
+      "total_units_required": 8,
+      "total_units_completed": 4,
+      "courses_allowed": [
+        "MATH 170A"
+      ],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "CPSCLDMATH-A",
+      "name": "CPSC LOWER DIVISION MATHEMATICS REQUIREMENTS-A",
+      "type": "Major",
+      "total_units_required": 6,
+      "total_units_completed": 3,
+      "courses_allowed": [
+        "MATH 150A",
+        "MATH 150B",
+        "MATH 170B"
+      ],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "CPSC-ELECT",
+      "name": "CPSC ELECTIVES",
+      "type": "Major",
+      "total_units_required": 15,
+      "total_units_completed": 0,
+      "courses_allowed": [
+        "CPSC 254",
+        "CPSC 301",
+        "CPSC 349",
+        "CPSC 375",
+        "CPSC 386",
+        "CPSC 411",
+        "CPSC 411A",
+        "CPSC 431",
+        "CPSC 439",
+        "CPSC 440",
+        "CPSC 449",
+        "CPSC 352",
+        "CPSC 454",
+        "CPSC 456",
+        "CPSC 458",
+        "CPSC 462",
+        "CPSC 463",
+        "CPSC 464",
+        "CPSC 466",
+        "CPSC 474",
+        "CPSC 479",
+        "CPSC 483",
+        "CPSC 484",
+        "CPSC 485",
+        "CPSC 486",
+        "CPSC 499",
+        "EGGN 495",
+        "MATH 335",
+        "MATH 340",
+        "MATH 370",
+        "CPSC 455",
+        "CPSC 459"
+      ],
+      "open_sections": [
+        {
+          "term": "FALL 2025",
+          "crn": "21863",
+          "course_id": "CPSC 254",
+          "section": "03",
+          "professor": "Dhusdee Chandswang",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 960,
+              "end": 1125,
+              "room": "MOD 107 - Computer Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21313",
+          "course_id": "CPSC 349",
+          "section": "06",
+          "professor": "Sha Dong",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Sat",
+              "start": 780,
+              "end": 945,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18625",
+          "course_id": "CPSC 349",
+          "section": "07",
+          "professor": "Sha Dong",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Sat",
+              "start": 780,
+              "end": 945,
+              "room": "E 321 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17417",
+          "course_id": "CPSC 375",
+          "section": "01",
+          "professor": "Kenytt Avery",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 1050,
+              "end": 1125,
+              "room": "CS 408 - Teaching Lab"
+            },
+            {
+              "day": "Thur",
+              "start": 1050,
+              "end": 1125,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SUMMER 2025",
+          "crn": "10983",
+          "course_id": "CPSC 375",
+          "section": "01",
+          "professor": "Kanika Sood",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 540,
+              "end": 720,
+              "room": "CS 300 - Teaching Lab"
+            },
+            {
+              "day": "Tue",
+              "start": 540,
+              "end": 720,
+              "room": "CS 300 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 540,
+              "end": 720,
+              "room": "CS 300 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17303",
+          "course_id": "CPSC 386",
+          "section": "01",
+          "professor": "Eric May",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 780,
+              "end": 855,
+              "room": "EC 203 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 780,
+              "end": 855,
+              "room": "EC 203 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17455",
+          "course_id": "CPSC 386",
+          "section": "02",
+          "professor": "Eric May",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 690,
+              "end": 765,
+              "room": "EC 049 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 690,
+              "end": 765,
+              "room": "EC 049 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17600",
+          "course_id": "CPSC 386",
+          "section": "04",
+          "professor": "Eric May",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 960,
+              "end": 1035,
+              "room": "E 202 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 960,
+              "end": 1035,
+              "room": "E 202 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21911",
+          "course_id": "CPSC 386",
+          "section": "06",
+          "professor": "Eric May",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 1050,
+              "end": 1125,
+              "room": "EC 034 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 1050,
+              "end": 1125,
+              "room": "EC 034 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17418",
+          "course_id": "CPSC 411",
+          "section": "03",
+          "professor": "Susan Dsouza",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 960,
+              "end": 1035,
+              "room": "CS 101 - Teaching Lab"
+            },
+            {
+              "day": "Thur",
+              "start": 960,
+              "end": 1035,
+              "room": "CS 101 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18403",
+          "course_id": "CPSC 411",
+          "section": "03",
+          "professor": "Tseng-Ching Shen",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 1140,
+              "end": 1215,
+              "room": "Hum 128 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 1140,
+              "end": 1215,
+              "room": "Hum 128 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18621",
+          "course_id": "CPSC 411",
+          "section": "06",
+          "professor": "Tseng-Ching Shen",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Thur",
+              "start": 1140,
+              "end": 1305,
+              "room": "Hum 125 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18230",
+          "course_id": "CPSC 439",
+          "section": "02",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 870,
+              "end": 945,
+              "room": "CS 104 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 870,
+              "end": 945,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21372",
+          "course_id": "CPSC 440",
+          "section": "02",
+          "professor": "Qichao Dong",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 1050,
+              "end": 1125,
+              "room": "Hum 128 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 1050,
+              "end": 1125,
+              "room": "Hum 128 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17705",
+          "course_id": "CPSC 449",
+          "section": "05",
+          "professor": "Alireza Abdoli",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Sat",
+              "start": 780,
+              "end": 945,
+              "room": "Hum 414 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21204",
+          "course_id": "CPSC 449",
+          "section": "06",
+          "professor": "Alireza Abdoli",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Sat",
+              "start": 540,
+              "end": 705,
+              "room": "Hum 414 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SUMMER 2025",
+          "crn": "11351",
+          "course_id": "CPSC 449",
+          "section": "01",
+          "professor": "Duy Ho",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 540,
+              "end": 720,
+              "room": "CS 101 - Teaching Lab"
+            },
+            {
+              "day": "Tue",
+              "start": 540,
+              "end": 720,
+              "room": "CS 101 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 540,
+              "end": 720,
+              "room": "CS 101 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18057",
+          "course_id": "CPSC 352",
+          "section": "01",
+          "professor": "Mikhail Gofman",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 1140,
+              "end": 1305,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21230",
+          "course_id": "CPSC 454",
+          "section": "03",
+          "professor": "Yun Tian",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 690,
+              "end": 765,
+              "room": "CS 104 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 690,
+              "end": 765,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21308",
+          "course_id": "CPSC 454",
+          "section": "04",
+          "professor": "Deo Halili",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 1050,
+              "end": 1125,
+              "room": "CS 110B - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 1050,
+              "end": 1125,
+              "room": "CS 110B - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "21789",
+          "course_id": "CPSC 454",
+          "section": "06",
+          "professor": "Yun Tian",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Sat",
+              "start": 540,
+              "end": 705,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "SUMMER 2025",
+          "crn": "11354",
+          "course_id": "CPSC 454",
+          "section": "01",
+          "professor": "Yun Tian",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 540,
+              "end": 720,
+              "room": "CS 408 - Teaching Lab"
+            },
+            {
+              "day": "Tue",
+              "start": 540,
+              "end": 720,
+              "room": "CS 408 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 540,
+              "end": 720,
+              "room": "CS 408 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17525",
+          "course_id": "CPSC 456",
+          "section": "02",
+          "professor": "Mikhail Gofman",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 1140,
+              "end": 1305,
+              "room": "CS 101 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17694",
+          "course_id": "CPSC 456",
+          "section": "03",
+          "professor": "Duy Ho",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 780,
+              "end": 855,
+              "room": "CS 101 - Teaching Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 780,
+              "end": 855,
+              "room": "CS 101 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17696",
+          "course_id": "CPSC 456",
+          "section": "05",
+          "professor": "Duy Ho",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 600,
+              "end": 675,
+              "room": "CS 401 - Computer Lab"
+            },
+            {
+              "day": "Thur",
+              "start": 600,
+              "end": 675,
+              "room": "CS 401 - Computer Lab"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18141",
+          "course_id": "CPSC 456",
+          "section": "01",
+          "professor": "Mikhail Gofman",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 1140,
+              "end": 1305,
+              "room": "EC 034 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17394",
+          "course_id": "CPSC 458",
+          "section": "01",
+          "professor": "Kenytt Avery",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Thur",
+              "start": 1140,
+              "end": 1305,
+              "room": "CS 104 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17632",
+          "course_id": "CPSC 458",
+          "section": "03",
+          "professor": "Kenytt Avery",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 870,
+              "end": 945,
+              "room": "RGC 019 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 870,
+              "end": 945,
+              "room": "RGC 019 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17627",
+          "course_id": "CPSC 462",
+          "section": "01",
+          "professor": "Mine Hagen",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 510,
+              "end": 585,
+              "room": "Hum 509 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 510,
+              "end": 585,
+              "room": "Hum 509 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17628",
+          "course_id": "CPSC 462",
+          "section": "02",
+          "professor": "Mine Hagen",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 600,
+              "end": 675,
+              "room": "Hum 509 - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 600,
+              "end": 675,
+              "room": "Hum 509 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18586",
+          "course_id": "CPSC 462",
+          "section": "01",
+          "professor": "Mine Hagen",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 510,
+              "end": 585,
+              "room": "LH 403A - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 510,
+              "end": 585,
+              "room": "LH 403A - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17287",
+          "course_id": "CPSC 463",
+          "section": "01",
+          "professor": "Ning Chen",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 510,
+              "end": 585,
+              "room": "LH 403A - Lecture Room"
+            },
+            {
+              "day": "Wed",
+              "start": 510,
+              "end": 585,
+              "room": "LH 403A - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20427",
+          "course_id": "CPSC 464",
+          "section": "03",
+          "professor": "Annie Ji",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 870,
+              "end": 945,
+              "room": "Hum 409 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 870,
+              "end": 945,
+              "room": "Hum 409 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21690",
+          "course_id": "CPSC 464",
+          "section": "06",
+          "professor": "Metin Kaplan",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Fri",
+              "start": 960,
+              "end": 1125,
+              "room": "EC 034 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18032",
+          "course_id": "CPSC 464",
+          "section": "01",
+          "professor": "Annie Ji",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Thur",
+              "start": 1140,
+              "end": 1305,
+              "room": "Hum 522 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "22251",
+          "course_id": "CPSC 464",
+          "section": "06",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Thur",
+              "start": 960,
+              "end": 1125,
+              "room": "EC 044 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21228",
+          "course_id": "CPSC 483",
+          "section": "11",
+          "professor": "Kanika Sood",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 600,
+              "end": 675,
+              "room": "KHS 172 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 600,
+              "end": 675,
+              "room": "KHS 172 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "21689",
+          "course_id": "CPSC 483",
+          "section": "13",
+          "professor": "Tseng-Ching Shen",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 1050,
+              "end": 1125,
+              "room": "CS 101 - Teaching Lab"
+            },
+            {
+              "day": "Thur",
+              "start": 1050,
+              "end": 1125,
+              "room": "CS 101 - Teaching Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "20431",
+          "course_id": "CPSC 486",
+          "section": "01",
+          "professor": "Michael Shafae",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Mon",
+              "start": 690,
+              "end": 765,
+              "room": "CS 401 - Computer Lab"
+            },
+            {
+              "day": "Wed",
+              "start": 690,
+              "end": 765,
+              "room": "CS 401 - Computer Lab"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17690",
+          "course_id": "CPSC 455",
+          "section": "01",
+          "professor": "Joshua Chin",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 1140,
+              "end": 1305,
+              "room": "EC 063 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18149",
+          "course_id": "CPSC 455",
+          "section": "01",
+          "professor": "To Be Announced",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Thur",
+              "start": 1140,
+              "end": 1305,
+              "room": "Hum 414 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "SPRING 2026",
+          "crn": "18424",
+          "course_id": "CPSC 455",
+          "section": "02",
+          "professor": "A S M Rizvi",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Wed",
+              "start": 1140,
+              "end": 1305,
+              "room": "Hum 514 - Lecture Room"
+            }
+          ]
+        },
+        {
+          "term": "FALL 2025",
+          "crn": "17604",
+          "course_id": "CPSC 459",
+          "section": "01",
+          "professor": "Wenlin Han",
+          "status": "Open",
+          "meetings": [
+            {
+              "day": "Tue",
+              "start": 780,
+              "end": 855,
+              "room": "EC 121 - Lecture Room"
+            },
+            {
+              "day": "Thur",
+              "start": 780,
+              "end": 855,
+              "room": "EC 121 - Lecture Room"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "CPSCSCIENCE",
+      "name": "CPSC MATH AND SCIENCE ELECTIVES",
+      "type": "Major",
+      "total_units_required": 12,
+      "total_units_completed": 15,
+      "courses_allowed": [
+        "PHYS 225",
+        "PHYS 225L",
+        "MATH 250A",
+        "PHYS 226",
+        "PHYS 226L",
+        "PHYS 227",
+        "PHYS 227L"
+      ],
+      "open_sections": []
+    },
+    {
+      "requirement_id": "POLSC1",
+      "name": "AMERICAN GOVERNMENT",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 0,
+      "courses_allowed": [
+        "POSC 100"
+      ],
+      "open_sections": []
+    }
+  ]
+}

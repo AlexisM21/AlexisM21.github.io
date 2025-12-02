@@ -1,0 +1,577 @@
+{
+  "student_info": {
+    "name": "Kim, Eugene",
+    "id": "886836733",
+    "catalog_year": "FA2024"
+  },
+  "completed_courses": [
+    {
+      "term": "FA20",
+      "subject": "ENGL",
+      "number": "101",
+      "title": "COLLEGE WRITING",
+      "units": 4.0,
+      "grade": "A",
+      "status": "completed"
+    },
+    {
+      "term": "FA20",
+      "subject": "HCOM",
+      "number": "102",
+      "title": "PUBLIC SPEAKING",
+      "units": 4.0,
+      "grade": "A",
+      "status": "completed"
+    },
+    {
+      "term": "SP21",
+      "subject": "CPSC",
+      "number": "121",
+      "title": "INTRO TO PROGR CONCEPTS IN C+",
+      "units": 4.0,
+      "grade": "B",
+      "status": "completed"
+    },
+    {
+      "term": "SP21",
+      "subject": "MATH",
+      "number": "125",
+      "title": "TRIGONOMETRY",
+      "units": 8.0,
+      "grade": "B",
+      "status": "completed"
+    },
+    {
+      "term": "FA21",
+      "subject": "MATH",
+      "number": "150A",
+      "title": "CALCULUS I",
+      "units": 4.0,
+      "grade": "A",
+      "status": "completed"
+    },
+    {
+      "term": "FA21",
+      "subject": "ANTH",
+      "number": "102",
+      "title": "CULTURAL ANTHROPOLOGY",
+      "units": 3.0,
+      "grade": "B",
+      "status": "completed"
+    },
+    {
+      "term": "FA21",
+      "subject": "MUS",
+      "number": "100",
+      "title": "MUSIC APPRECIATION",
+      "units": 3.0,
+      "grade": "A",
+      "status": "completed"
+    },
+    {
+      "term": "FA21",
+      "subject": "D6",
+      "number": "CSU CERT",
+      "title": "WESTERN CIVILIZATIONS TO 1550",
+      "units": 3.0,
+      "grade": "A",
+      "status": "completed"
+    },
+    {
+      "term": "SS21",
+      "subject": "HIST",
+      "number": "110A",
+      "title": "WORLD CIVILIZATIONS TO 1550",
+      "units": 3.0,
+      "grade": "A",
+      "status": "completed"
+    },
+    {
+      "term": "SP22",
+      "subject": "GEOG",
+      "number": "110",
+      "title": "PHYSICAL GEOGRAPHY",
+      "units": 3.0,
+      "grade": "A",
+      "status": "completed"
+    },
+    {
+      "term": "SP22",
+      "subject": "MATH",
+      "number": "150B",
+      "title": "CALCULUS II",
+      "units": 4.0,
+      "grade": "B",
+      "status": "completed"
+    },
+    {
+      "term": "SP22",
+      "subject": "PHYS",
+      "number": "225",
+      "title": "GENERAL PHYSICS I",
+      "units": 3.0,
+      "grade": "B",
+      "status": "completed"
+    },
+    {
+      "term": "SP22",
+      "subject": "PHYS",
+      "number": "225L",
+      "title": "GENERAL PHYSICS I",
+      "units": 1.0,
+      "grade": "B",
+      "status": "completed"
+    },
+    {
+      "term": "SS22",
+      "subject": "MATH",
+      "number": "250A",
+      "title": "MULTIVARIABLE CALCULUS",
+      "units": 4.0,
+      "grade": "B",
+      "status": "completed"
+    },
+    {
+      "term": "FA22",
+      "subject": "B4",
+      "number": "CSU CERT",
+      "title": "LINEAR ALGEBRA AND DIFF EQUAT",
+      "units": 4.0,
+      "grade": "B",
+      "status": "completed"
+    },
+    {
+      "term": "FA22",
+      "subject": "CPSC",
+      "number": "131",
+      "title": "DATA STRUCTURES IN C++",
+      "units": 4.0,
+      "grade": "C",
+      "status": "completed"
+    },
+    {
+      "term": "FA22",
+      "subject": "PHYS",
+      "number": "226",
+      "title": "GENERAL PHYSICS II",
+      "units": 3.0,
+      "grade": "C",
+      "status": "completed"
+    },
+    {
+      "term": "FA22",
+      "subject": "PHYS",
+      "number": "226L",
+      "title": "GENERAL PHYSICS II",
+      "units": 1.0,
+      "grade": "C",
+      "status": "completed"
+    },
+    {
+      "term": "FA23",
+      "subject": "CPSC",
+      "number": "131",
+      "title": "DATA STRUCTURES IN C++",
+      "units": 4.0,
+      "grade": "C",
+      "status": "completed"
+    },
+    {
+      "term": "FA23",
+      "subject": "MATH",
+      "number": "170A",
+      "title": "DISCRETE MATHEMATICS",
+      "units": 4.0,
+      "grade": "C",
+      "status": "completed"
+    },
+    {
+      "term": "SP24",
+      "subject": "B2",
+      "number": "CSU CERT",
+      "title": "HUMAN BIOLOGY",
+      "units": 3.0,
+      "grade": "B",
+      "status": "completed"
+    },
+    {
+      "term": "SP24",
+      "subject": "CPSC",
+      "number": "223J",
+      "title": "JAVA PROGRAMMING I",
+      "units": 4.0,
+      "grade": "A",
+      "status": "completed"
+    },
+    {
+      "term": "FA24",
+      "subject": "ANTH",
+      "number": "311",
+      "title": "Culture and Communication",
+      "units": 3.0,
+      "grade": "A",
+      "status": "completed"
+    },
+    {
+      "term": "FA24",
+      "subject": "CPSC",
+      "number": "253",
+      "title": "Cybersecurity Fnd. and Prncp.",
+      "units": 3.0,
+      "grade": "C",
+      "status": "completed"
+    },
+    {
+      "term": "FA24",
+      "subject": "JAPN",
+      "number": "101",
+      "title": "Fundamental Japanese - A",
+      "units": 3.0,
+      "grade": "A-",
+      "status": "completed"
+    },
+    {
+      "term": "FA24",
+      "subject": "LING",
+      "number": "102",
+      "title": "Languages of the World",
+      "units": 3.0,
+      "grade": "A",
+      "status": "completed"
+    },
+    {
+      "term": "SP25",
+      "subject": "CPSC",
+      "number": "120A",
+      "title": "Intro to Programming Lecture",
+      "units": 2.0,
+      "grade": "B",
+      "status": "completed"
+    },
+    {
+      "term": "SP25",
+      "subject": "CPSC",
+      "number": "120L",
+      "title": "Intro to Programming Lab",
+      "units": 1.0,
+      "grade": "A",
+      "status": "completed"
+    },
+    {
+      "term": "SP25",
+      "subject": "CPSC",
+      "number": "323",
+      "title": "Compilers and Languages",
+      "units": 3.0,
+      "grade": "C",
+      "status": "completed"
+    },
+    {
+      "term": "SP25",
+      "subject": "HIST",
+      "number": "180",
+      "title": "Survey of American Hist",
+      "units": 3.0,
+      "grade": "A",
+      "status": "completed"
+    },
+    {
+      "term": "SP25",
+      "subject": "MATH",
+      "number": "170B",
+      "title": "Mathematical Structure II",
+      "units": 3.0,
+      "grade": "B-",
+      "status": "completed"
+    }
+  ],
+  "requirements": [
+    {
+      "requirement_id": "GEB-CPSC",
+      "name": "SCIENTIFIC INQUIRY AND QUANTITATIVE REASONING",
+      "type": "GE",
+      "total_units_required": 12,
+      "total_units_completed": 0,
+      "courses_allowed": []
+    },
+    {
+      "requirement_id": "GE-A",
+      "name": "CORE COMPETENCIES (NEEDS C- OR BETTER)",
+      "type": "GE",
+      "total_units_required": 6,
+      "total_units_completed": 6,
+      "courses_allowed": []
+    },
+    {
+      "requirement_id": "CRIT THINKING",
+      "name": "CRITICAL THINKING",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 0,
+      "courses_allowed": []
+    },
+    {
+      "requirement_id": "WRITTEN COMM",
+      "name": "WRITTEN COMMUNICATION",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 3,
+      "courses_allowed": []
+    },
+    {
+      "requirement_id": "ORAL COMM",
+      "name": "ORAL COMMUNICATION",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 3,
+      "courses_allowed": []
+    },
+    {
+      "requirement_id": "BIOLOGY",
+      "name": "LIFE SCIENCE",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 0,
+      "courses_allowed": []
+    },
+    {
+      "requirement_id": "PHY SCI",
+      "name": "PHYSICAL SCIENCE",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 12,
+      "courses_allowed": [
+        "PHYS 225",
+        "PHYS 225L",
+        "PHYS 226",
+        "PHYS 226L"
+      ]
+    },
+    {
+      "requirement_id": "EXPM",
+      "name": "IMPLICATIONS AND EXPLORATION IN MATH AND NAT SCI",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 0,
+      "courses_allowed": [
+        "MATH 338"
+      ]
+    },
+    {
+      "requirement_id": "B4 CSU CERT",
+      "name": "MATHEMATICS QUANTITATIVE REASONING",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 12,
+      "courses_allowed": [
+        "MATH 170A"
+      ]
+    },
+    {
+      "requirement_id": "LAB",
+      "name": "LABORATORY EXPERIENCE",
+      "type": "GE",
+      "total_units_required": 0,
+      "total_units_completed": 2,
+      "courses_allowed": [
+        "PHYS 225L",
+        "PHYS 226L",
+        "BIOLT0525",
+        "B2 CSU CERT"
+      ]
+    },
+    {
+      "requirement_id": "B2 CSU CERT",
+      "name": "LIFE SCIENCE",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 6,
+      "courses_allowed": [
+        "BIOLT0525",
+        "B2 CSU CERT"
+      ]
+    },
+    {
+      "requirement_id": "C.2",
+      "name": "INTRODUCTION TO HUMANITIES",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 3,
+      "courses_allowed": []
+    },
+    {
+      "requirement_id": "C.1",
+      "name": "INTRODUCTION TO ARTS",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 3,
+      "courses_allowed": []
+    },
+    {
+      "requirement_id": "F",
+      "name": "ETHNIC STUDIES",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 3,
+      "courses_allowed": []
+    },
+    {
+      "requirement_id": "E",
+      "name": "LIFELONG LEARNING AND SELF DEVELOPMENT",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 0,
+      "courses_allowed": []
+    },
+    {
+      "requirement_id": "D",
+      "name": "SOCIAL SCIENCES",
+      "type": "GE",
+      "total_units_required": 6,
+      "total_units_completed": 9,
+      "courses_allowed": [
+        "ANTH 311",
+        "HIST 110A",
+        "SOCI 101",
+        "ANTH 102",
+        "D6 CSU CERT",
+        "LING 102"
+      ]
+    },
+    {
+      "requirement_id": "CPSC LOWER DIVISION CORE",
+      "name": "CPSC LOWER DIVISION CORE",
+      "type": "Major",
+      "total_units_required": 9,
+      "total_units_completed": 14,
+      "courses_allowed": [
+        "CPSC 121",
+        "CPSC 223J",
+        "CPSC 120A",
+        "CPSC 120L"
+      ]
+    },
+    {
+      "requirement_id": "CPSC UPPER DIVISION CORE - B",
+      "name": "CPSC UPPER DIVISION CORE - B",
+      "type": "Major",
+      "total_units_required": 15,
+      "total_units_completed": 3,
+      "courses_allowed": [
+        "CPSC 323",
+        "CPSC 362"
+      ]
+    },
+    {
+      "requirement_id": "CPSC UPPER DIVISION CORE - A",
+      "name": "CPSC UPPER DIVISION CORE - A",
+      "type": "Major",
+      "total_units_required": 15,
+      "total_units_completed": 3,
+      "courses_allowed": [
+        "CPSC 131",
+        "CPSC 240",
+        "CPSC 253"
+      ]
+    },
+    {
+      "requirement_id": "CPSCMATHUD",
+      "name": "CPSC UPPER DIVISION MATHEMATICS REQUIREMENT",
+      "type": "Major",
+      "total_units_required": 4,
+      "total_units_completed": 0,
+      "courses_allowed": [
+        "MATH 338"
+      ]
+    },
+    {
+      "requirement_id": "CPSCLDMATH-B",
+      "name": "CPSC LOWER DIVISION MATHEMATICS REQUIREMENTS-B",
+      "type": "Major",
+      "total_units_required": 8,
+      "total_units_completed": 4,
+      "courses_allowed": [
+        "MATH 170A"
+      ]
+    },
+    {
+      "requirement_id": "CPSCLDMATH-A",
+      "name": "CPSC LOWER DIVISION MATHEMATICS REQUIREMENTS-A",
+      "type": "Major",
+      "total_units_required": 6,
+      "total_units_completed": 3,
+      "courses_allowed": [
+        "MATH 150A",
+        "MATH 150B",
+        "MATH 170B"
+      ]
+    },
+    {
+      "requirement_id": "CPSC-ELECT",
+      "name": "CPSC ELECTIVES",
+      "type": "Major",
+      "total_units_required": 15,
+      "total_units_completed": 0,
+      "courses_allowed": [
+        "CPSC 254",
+        "CPSC 301",
+        "CPSC 349",
+        "CPSC 375",
+        "CPSC 386",
+        "CPSC 411",
+        "CPSC 411A",
+        "CPSC 431",
+        "CPSC 439",
+        "CPSC 440",
+        "CPSC 449",
+        "CPSC 352",
+        "CPSC 454",
+        "CPSC 456",
+        "CPSC 458",
+        "CPSC 462",
+        "CPSC 463",
+        "CPSC 464",
+        "CPSC 466",
+        "CPSC 474",
+        "CPSC 479",
+        "CPSC 483",
+        "CPSC 484",
+        "CPSC 485",
+        "CPSC 486",
+        "CPSC 499",
+        "EGGN 495",
+        "MATH 335",
+        "MATH 340",
+        "MATH 370",
+        "CPSC 455",
+        "CPSC 459"
+      ]
+    },
+    {
+      "requirement_id": "CPSCSCIENCE",
+      "name": "CPSC MATH AND SCIENCE ELECTIVES",
+      "type": "Major",
+      "total_units_required": 12,
+      "total_units_completed": 15,
+      "courses_allowed": [
+        "PHYS 225",
+        "PHYS 225L",
+        "MATH 250A",
+        "PHYS 226",
+        "PHYS 226L",
+        "PHYS 227",
+        "PHYS 227L"
+      ]
+    },
+    {
+      "requirement_id": "POLSC1",
+      "name": "AMERICAN GOVERNMENT",
+      "type": "GE",
+      "total_units_required": 3,
+      "total_units_completed": 0,
+      "courses_allowed": [
+        "POSC 100"
+      ]
+    }
+  ]
+}
