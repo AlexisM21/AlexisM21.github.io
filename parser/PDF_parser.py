@@ -50,6 +50,7 @@ Extract the information into STRICT JSON following this schema:
       "total_units_required": number,
       "total_units_completed": number,
       "courses_allowed": ["string", "string"]
+      "in_progress": "string"
     }
   ]
 }
