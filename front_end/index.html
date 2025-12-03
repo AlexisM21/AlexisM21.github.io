@@ -1,9 +1,70 @@
+<!--loading screen-->
+<div class="loading-screen" id="loading-screen">
+        <div class="loading-ui">
+                <div class="spinner"></div>
+                <div class="Generating your schedule..."></div>
+        </div>
+</div>
+
+
 <section id= "intro">
         <h1>Titan Scheduler</h1>
-        <p>Welcome! Begin by selecting your filters or uploading your Titan Degree Audit!</p>
+        <p>Welcome! Begin by selecting your filters or uploading your Titan Degree Audit (TDA)!</p>
 
         <h2>Filters and Preferences (optional)</h2>
         <p>Choose which days and times you'd prefer to have your schedule, then we'll do our best to generate the best fit!</p>
 
         <h3>Disclaimer! Due to varying times and section availabilities we may not be able to create an exact match.</h3>
+</section>
+
+<section id="controls">
+        <div id="upload=panel" class="card">
+                <h2>Submit your TDA</h2>
+                <p class="helper-text">Upload the most recent PDF version of your TDA.</p>
+
+                <label for="tda-file">TDA PDF</label>
+                <input type="file" id="tda-file" accept=".pdf">
+
+                <button id="generate-btn">Generate Schedule</button>
+                <span id="status-text"></span>
+        </div>
+
+        <div id="filter-panel">
+                <h2>Filters and Prefrences</h2>
+                <p class="helper-text">These filters are optional</p>
+                
+                <label>Preferred Days</label>
+                <div class="days">
+                        <label><input type="checkbox" class="filter-day" value="M" checked> Mon</label>
+                        <label><input type="checkbox" class="filter-day" value="Tu" checked> Tue</label>
+                        <label><input type="checkbox" class="filter-day" value="W" checked> Wed</label>
+                        <label><input type="checkbox" class="filter-day" value="Th" checked> Thu</label>
+                        <label><input type="checkbox" class="filter-day" value="F" checked> Fri</label>
+                        <label><input type="checkbox" class="filter-day" value="S" checked> Sat</label>
+                </div>
+        </div>
+</section>
+
+<section id="results">
+    <!-- Open classes sub-panel -->
+        <div id="open-classes-panel">
+                <h2>Open Classes</h2>
+                <div class="search-bar">
+                        <input type="text" id="search-input" placeholder="Search by class code, instructor, or days...">
+                </div>
+                <div id="open-classes-list">
+                        <em>No classes yet. Upload your TDA to generate options.</em>
+                </div>
+        </div>
+
+    <!-- Schedule sub-panel -->
+        <div id="schedule-panel">
+                <h2>Generated Schedule</h2>
+                <p id="schedule-note">
+                        We’ll suggest a schedule that tries to match your preferred days, times, and units.
+                </p>
+                <div id="schedule-drop-area">
+                        <em>Your schedule will appear here after you generate it.</em>
+                </div>
+        </div>
 </section>
