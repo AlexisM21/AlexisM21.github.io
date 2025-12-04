@@ -1,83 +1,264 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <style>
-            h1 {
-                color: black;
-                text-align: center;
-            }
-        </style>
-    </head>
-    <!--loading screen-->
-<div class="loading-screen" id="loading-screen">
-        <div class="loading-ui">
-                <div class="spinner"></div>
-                <div class="Generating your schedule..."></div>
-        </div>
-</div>
+        <head>
+                <style>
+                        .hidden {
+                        display: none;
+                        }
 
+                        /* Overall page feel */
+                        body {
+                        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                        margin: 0;
+                        padding: 20px;
+                        background-color: #f5f5f5;
+                        }
 
-<section id= "intro">
-        <h1>Titan Scheduler</h1>
-        <p>Welcome! Begin by selecting your filters or uploading your Titan Degree Audit (TDA)!</p>
+                        /* Intro section */
+                        #intro {
+                        max-width: 800px;
+                        margin: 0 auto 20px auto;
+                        text-align: center;
+                        }
 
-        <h2>Filters and Preferences (optional)</h2>
-        <p>Choose which days and times you'd prefer to have your schedule, then we'll do our best to generate the best fit!</p>
+                        #intro h2 {
+                        margin-top: 16px;
+                        }
 
-        <h3>Disclaimer! Due to varying times and section availabilities we may not be able to create an exact match.</h3>
-</section>
+                        /* Controls section: upload + filters side by side */
+                        #controls {
+                        max-width: 1000px;
+                        margin: 0 auto 20px auto;
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 20px;
+                        }
 
-<!--Filter and Upload panel-->
-<section id="controls">
-        <div id="upload=panel" class="card">
-                <h2>Submit your TDA</h2>
-                <p class="helper-text">Upload the most recent PDF version of your TDA.</p>
+                        /* Each panel (upload, filters, etc.) */
+                        .card,
+                        #upload-panel,
+                        #filter-panel {
+                        flex: 1 1 320px;
+                        min-width: 280px;
+                        background-color: #ffffff;
+                        border-radius: 8px;
+                        border: 1px solid #ddd;
+                        padding: 16px;
+                        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                        }
 
-                <label for="tda-file">TDA PDF</label>
-                <input type="file" id="tda-file" accept=".pdf">
+                        .helper-text {
+                        font-size: 0.85rem;
+                        color: #666;
+                        }
 
-                <button id="generate-btn">Generate Schedule</button>
-                <span id="status-text"></span>
-        </div>
+                        /* Days checkboxes row */
+                        .days label {
+                        margin-right: 8px;
+                        display: inline-block;
+                        margin-bottom: 4px;
+                        }
 
-        <div id="filter-panel">
-                <h2>Filters and Prefrences</h2>
-                <p class="helper-text">These filters are optional</p>
-                
-                <label>Preferred Days</label>
-                <div class="days">
-                        <label><input type="checkbox" class="filter-day" value="M" checked> Mon</label>
-                        <label><input type="checkbox" class="filter-day" value="Tu" checked> Tue</label>
-                        <label><input type="checkbox" class="filter-day" value="W" checked> Wed</label>
-                        <label><input type="checkbox" class="filter-day" value="Th" checked> Thu</label>
-                        <label><input type="checkbox" class="filter-day" value="F" checked> Fri</label>
-                        <label><input type="checkbox" class="filter-day" value="S" checked> Sat</label>
+                        /* Results: open classes + schedule side by side */
+                        #results {
+                        max-width: 1000px;
+                        margin: 0 auto;
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 20px;
+                        }
+
+                        #open-classes-panel,
+                        #schedule-panel {
+                        flex: 1 1 320px;
+                        min-width: 280px;
+                        background-color: #ffffff;
+                        border-radius: 8px;
+                        border: 1px solid #ddd;
+                        padding: 16px;
+                        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                        }
+
+                        /* Search bar */
+                        .search-bar {
+                        margin-bottom: 10px;
+                        }
+
+                        .search-bar input {
+                        width: 100%;
+                        padding: 6px 8px;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                        }
+
+                        /* Drop areas & lists */
+                        #open-classes-list,
+                        #schedule-drop-area {
+                        min-height: 140px;
+                        border: 1px dashed #ccc;
+                        border-radius: 6px;
+                        padding: 8px;
+                        background-color: #fafafa;
+                        }
+
+                        /* Class cards for open classes & schedule */
+                        .class-card {
+                        border: 1px solid #ccc;
+                        border-radius: 6px;
+                        padding: 8px;
+                        margin-bottom: 6px;
+                        background-color: #fff;
+                        cursor: grab;
+                        user-select: none;
+                        font-size: 0.9rem;
+                        }
+
+                        .class-card strong {
+                        font-size: 0.95rem;
+                        }
+
+                        .class-card.dragging {
+                        opacity: 0.6;
+                        }
+
+                        /* Highlight drop target when dragging over */
+                        .drop-target.over {
+                        border-color: #007bff;
+                        background-color: #f0f8ff;
+                        }
+
+                        /* Buttons */
+                        button {
+                        padding: 6px 12px;
+                        border-radius: 4px;
+                        border: 1px solid #007bff;
+                        background-color: #007bff;
+                        color: #fff;
+                        cursor: pointer;
+                        }
+
+                        button:hover {
+                        background-color: #005fd1;
+                        }
+
+                        /* Status text */
+                        #status-text {
+                        margin-left: 10px;
+                        font-size: 0.9rem;
+                        }
+
+                        /* Loading overlay */
+                        .loading-screen {
+                        position: fixed;
+                        inset: 0;                 /* top:0, right:0, bottom:0, left:0 */
+                        background-color: rgba(0,0,0,0.4);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 999;             /* on top of everything */
+                        }
+
+                        .loading-ui {
+                        background-color: #fff;
+                        padding: 20px 30px;
+                        border-radius: 10px;
+                        text-align: center;
+                        box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+                        }
+
+                        /* Spinner circle */
+                        .spinner {
+                        width: 30px;
+                        height: 30px;
+                        border: 4px solid #ddd;
+                        border-top: 4px solid #007bff;
+                        border-radius: 50%;
+                        margin: 0 auto 10px auto;
+                        animation: spin 0.8s linear infinite;
+                        }
+
+                        .loading-text {
+                        font-size: 0.95rem;
+                        }
+
+                        @keyframes spin {
+                        to {
+                        transform: rotate(360deg);
+                        }
+                        }
+                </style>
+        </head>
+        <body>
+        <!--loading screen-->
+                <div class="loading-screen hidden" id="loading-screen">
+                        <div class="loading-ui">
+                                <div class="spinner"></div>
+                                <div class="Generating your schedule..."></div>
+                        </div>
                 </div>
-        </div>
-</section>
 
-<section id="results">
-    <!-- Open classes sub-panel -->
-        <div id="open-classes-panel">
-                <h2>Open Classes</h2>
-                <div class="search-bar">
-                        <input type="text" id="search-input" placeholder="Search by class code or class name">
-                </div>
-                <div id="open-classes-list">
-                        <em>No classes yet. Upload your TDA to generate options.</em>
-                </div>
-        </div>
 
-    <!-- Schedule sub-panel -->
-        <div id="schedule-panel">
-                <h2>Generated Schedule</h2>
-                <p id="schedule-note">
-                        We'll suggest a schedule that tries to match your preferred days, times, and units.
-                </p>
-                <div id="schedule-drop-area">
-                        <em>Your schedule will appear here after you generate it.</em>
-                </div>
-        </div>
-</section>
+                <section id= "intro">
+                        <h1>Titan Scheduler</h1>
+                        <p>Welcome! Begin by selecting your filters or uploading your Titan Degree Audit (TDA)!</p>
 
+                        <h2>Filters and Preferences (optional)</h2>
+                        <p>Choose which days and times you'd prefer to have your schedule, then we'll do our best to generate the best fit!</p>
+
+                        <h3>Disclaimer! Due to varying times and section availabilities we may not be able to create an exact match.</h3>
+                </section>
+
+                <!--Filter and Upload panel-->
+                <section id="controls">
+                        <div id="upload-panel" class="card">
+                                <h2>Submit your TDA</h2>
+                                <p class="helper-text">Upload the most recent PDF version of your TDA.</p>
+
+                                <label for="tda-file">TDA PDF</label>
+                                <input type="file" id="tda-file" accept=".pdf">
+
+                                <button id="generate-btn">Generate Schedule</button>
+                                <span id="status-text"></span>
+                        </div>
+
+                        <div id="filter-panel">
+                                <h2>Filters and Prefrences</h2>
+                                <p class="helper-text">These filters are optional</p>
+                                
+                                <label>Preferred Days</label>
+                                <div class="days">
+                                        <label><input type="checkbox" class="filter-day" value="M" checked> Mon</label>
+                                        <label><input type="checkbox" class="filter-day" value="Tu" checked> Tue</label>
+                                        <label><input type="checkbox" class="filter-day" value="W" checked> Wed</label>
+                                        <label><input type="checkbox" class="filter-day" value="Th" checked> Thu</label>
+                                        <label><input type="checkbox" class="filter-day" value="F" checked> Fri</label>
+                                        <label><input type="checkbox" class="filter-day" value="S" checked> Sat</label>
+                                </div>
+                        </div>
+                </section>
+
+                <section id="results">
+                <!-- Open classes sub-panel -->
+                        <div id="open-classes-panel">
+                                <h2>Open Classes</h2>
+                                <div class="search-bar">
+                                        <input type="text" id="search-input" placeholder="Search by class code or class name">
+                                </div>
+                                <div id="open-classes-list">
+                                        <em>No classes yet. Upload your TDA to generate options.</em>
+                                </div>
+                        </div>
+
+                <!-- Schedule sub-panel -->
+                        <div id="schedule-panel">
+                                <h2>Generated Schedule</h2>
+                                <p id="schedule-note">
+                                        We'll suggest a schedule that tries to match your preferred days, times, and units.
+                                </p>
+                                <div id="schedule-drop-area">
+                                        <em>Your schedule will appear here after you generate it.</em>
+                                </div>
+                        </div>
+                </section>
+        </body>
 </html>
