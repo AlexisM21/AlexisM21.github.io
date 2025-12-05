@@ -6,6 +6,7 @@ body {
   font-family: Arial, sans-serif;
   background: #f6f6f6;
 }
+
 .webborder {
   background:#00244E;
   display: flex;
@@ -57,6 +58,24 @@ body {
 
 #step-intro h3 {
     font-size: 12px
+}
+
+.get-started-btn {
+  background-color: #ff7900;      /* bright orange */
+  color: white;
+  font-size: 22px;
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.get-started-btn:hover {
+  background-color: #e56c00;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 
 /* ---------- CONTROL PANELS ---------- */

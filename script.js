@@ -1,5 +1,6 @@
 /* script.js */
 
+
 function showPage(pageId) {
   const pages = document.querySelectorAll(".page");
   pages.forEach(page => {
