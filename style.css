@@ -1,229 +1,156 @@
 /* style.css */
 
-.hidden {
-display: none !important;
-}
-
-/* Overall page feel */
+/* ---------- RESET ---------- */
 body {
-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-margin: 0;
-padding: 20px;
-background-color: #f5f5f5;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f6f6f6;
+}
+.webborder {
+  background:#00244E;
+  display: flex;
 }
 
-/* Intro section */
-#intro {
-max-width: 800px;
-margin: 0 auto 20px auto;
-text-align: center;
+.school-primary {
+  color: white;
+  word-spacing: 0.05;
+  padding-left: 5px;
+  padding-right: none;
+
 }
 
-#intro h2 {
-margin-top: 16px;
+.school-accent {
+  color: #FF7900
 }
-
-/* Controls section: upload + filters side by side */
-#controls {
-max-width: 1000px;
-margin: 0 auto 20px auto;
-display: flex;
-flex-wrap: wrap;
-gap: 20px;
-}
-
-/* Each panel (upload, filters, etc.) */
-.card,
-#upload-panel,
-#filter-panel {
-flex: 1 1 320px;
-min-width: 280px;
-background-color: #ffffff;
-border-radius: 8px;
-border: 1px solid #ddd;
-padding: 16px;
-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-.helper-text {
-font-size: 0.85rem;
-color: #666;
-}
-
-/* Days checkboxes row */
-.days label {
-margin-right: 8px;
-display: inline-block;
-margin-bottom: 4px;
-}
-
-/* Times scroll wheel */
-.time-picker {
-  position: relative;
-  width: 120px;
-  height: 150px;          /* Visible area: about 3–4 items tall */
-  margin: 1rem 0;
-  overflow: hidden;       /* Hide extra items outside the window */
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-family: sans-serif;
-}
-
-/* The actual scrollable list */
-.time-list {
-  height: 100%;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory; /* snap items into place */
-  padding: 50px 0;               /* top/bottom padding so center lines up */
+/* ---------- PAGE SYSTEM ---------- */
+.page {
+  display: none;
+  min-height: 92.9vh;
+  padding: 40px;
   box-sizing: border-box;
 }
 
-/* Each time option */
+.page.active {
+  display: flex;
+}
+
+/* ---------- INTRO ---------- */
+#step-intro {
+  background: #0054b5;
+  background: linear-gradient(0deg,rgba(0, 84, 181, 1) 0%, rgba(255, 139, 38, 1) 100%);
+  color: white;
+  text-align: center;
+  flex-direction: column;     /* stack text vertically */
+}
+
+#step-intro.page.active {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#step-intro h1 {
+  font-size: 36px;
+  font-weight: 300;
+  font-family: "Playfair Display", serif;
+}
+
+#step-intro h3 {
+    font-size: 12px
+}
+
+/* ---------- CONTROL PANELS ---------- */
+#controls {
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  border-radius: 10px;
+  padding: 15px;
+  background: #f3f3f3;
+  flex: 1;
+  cursor: pointer;
+}
+
+#filter-panel {
+  flex: 1;
+}
+
+/* ---------- RESULTS ---------- */
+#results {
+  display: flex;
+  gap: 20px;
+}
+
+#open-classes-panel,
+#schedule-panel {
+  flex: 1;
+  background: #f3f3f3;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* ---------- NAV BUTTONS ---------- */
+.nav-buttons {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.next-button {
+  background: #00274C;
+  color: white;
+  cursor: pointer;
+}
+
+.back-button {
+  background: #cfcfcf;
+}
+
+/* ---------- TIME PICKER ---------- */
+.time-picker {
+  position: relative;
+  width: 140px;
+  height: 160px;
+  margin-top: 10px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.time-list {
+  height: 100%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  padding: 60px 0;
+  box-sizing: border-box;
+}
+
 .time-item {
   scroll-snap-align: center;
   text-align: center;
-  padding: 8px 0;
-  font-size: 16px;
+  padding: 5px;
+  font-size: 14px;
 }
 
-/* Overlay that highlights the center item */
 .time-picker-overlay {
   pointer-events: none;
   position: absolute;
   top: 50%;
   left: 0;
   width: 100%;
-  height: 30px;                 /* height of “selected” row */
-  margin-top: -15px;            /* half of height to center it */
-  border-top: 1px solid #007bff;
-  border-bottom: 1px solid #007bff;
-  background: rgba(0, 123, 255, 0.05);
-}
-
-/* Results: open classes + schedule side by side */
-#results {
-max-width: 1000px;
-margin: 0 auto;
-display: flex;
-flex-wrap: wrap;
-gap: 20px;
-}
-
-#open-classes-panel,
-#schedule-panel {
-flex: 1 1 320px;
-min-width: 280px;
-background-color: #ffffff;
-border-radius: 8px;
-border: 1px solid #ddd;
-padding: 16px;
-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-/* Search bar */
-.search-bar {
-margin-bottom: 10px;
-}
-
-.search-bar input {
-width: 100%;
-padding: 6px 8px;
-border: 1px solid #ccc;
-border-radius: 4px;
-}
-
-/* Drop areas & lists */
-#open-classes-list,
-#schedule-drop-area {
-min-height: 140px;
-border: 1px dashed #ccc;
-border-radius: 6px;
-padding: 8px;
-background-color: #fafafa;
-}
-
-/* Class cards for open classes & schedule */
-.class-card {
-border: 1px solid #ccc;
-border-radius: 6px;
-padding: 8px;
-margin-bottom: 6px;
-background-color: #fff;
-cursor: grab;
-user-select: none;
-font-size: 0.9rem;
-}
-
-.class-card strong {
-font-size: 0.95rem;
-}
-
-.class-card.dragging {
-opacity: 0.6;
-}
-
-/* Highlight drop target when dragging over */
-.drop-target.over {
-border-color: #007bff;
-background-color: #f0f8ff;
-}
-
-/* Buttons */
-button {
-padding: 6px 12px;
-border-radius: 4px;
-border: 1px solid #007bff;
-background-color: #007bff;
-color: #fff;
-cursor: pointer;
-}
-
-button:hover {
-background-color: #005fd1;
-}
-
-/* Status text */
-#status-text {
-margin-left: 10px;
-font-size: 0.9rem;
-}
-
-/* Loading overlay */
-.loading-screen {
-position: fixed;
-inset: 0;                 /* top:0, right:0, bottom:0, left:0 */
-background-color: rgba(0,0,0,0.4);
-display: flex;
-align-items: center;
-justify-content: center;
-z-index: 999;             /* on top of everything */
-}
-
-.loading-ui {
-background-color: #fff;
-padding: 20px 30px;
-border-radius: 10px;
-text-align: center;
-box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-}
-
-/* Spinner circle */
-.spinner {
-width: 30px;
-height: 30px;
-border: 4px solid #ddd;
-border-top: 4px solid #007bff;
-border-radius: 50%;
-margin: 0 auto 10px auto;
-animation: spin 0.8s linear infinite;
-}
-
-.loading-text {
-font-size: 0.95rem;
-}
-
-@keyframes spin {
-to {
-transform: rotate(360deg);
-}
+  height: 30px;
+  margin-top: -15px;
+  border-top: 2px solid #00274C;
+  border-bottom: 2px solid #00274C;
+  background: rgba(0, 0, 0, 0.05);
 }
