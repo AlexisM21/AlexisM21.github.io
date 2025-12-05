@@ -7,6 +7,7 @@ from collections import OrderedDict
 from services import csv_scraper_service
 from crud import open_class_list_crud
 from db import get_conn
+from parser import PDF_parser
 
 router = APIRouter()
 
@@ -370,4 +371,22 @@ def openclasses_query(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
+@router.post("/tda/upload")
+async def prase_tda(file: UploadFile = File(...)):
+    if file.content_type not in ["application/pdf", "application/octet-stream"]:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid file type: {file.content_type}. Only PDF files are allowed!"
+        )
+    try:
+        contents = await file.read()
+        results = PDF_parser.parse_tda(contents, file.filename)
+        if results.get("status") == "error":
+            raise HTTPException(status_code=400, detail=results.get("errors", ["Unknown error"]))
+        return {
+            "parsed_data": results
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Upload failed: {e}")
