@@ -1,109 +1,109 @@
 <!DOCTYPE html>
 <html>
-        <head>
-                <link rel="stylesheet" href="style.css" />
-        </head>
-        <body>
-        <!--loading screen-->
-                <div class="loading-screen hidden" id="loading-screen">
-                        <div class="loading-ui">
-                                <div class="spinner"></div>
-                                <div class="loading-text">Generating your schedule....</div>
-                        </div>
-                </div>
+<head>
+  <meta charset="UTF-8" />
+  <title>Titan Scheduler</title>
+  <link rel="stylesheet" href="style.css">   <!-- CSS FILE LINK -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
 
+<body>
+<section class="webborder">
+  <div class="school-name">
+    <h2>
+      <span class="school-primary">CalState</span>
+      <span class="school-accent">Fullerton</span>
+    </h2>
+  </div>
+</section>   
+<!-- ================= STEP 1 ================= -->
+<section class="page active" id="step-intro">
+  <h1>Titan Scheduler</h1>
+  <p>Welcome! Begin by selecting your filters or uploading your Titan Degree Audit (TDA)!</p>
+  <p>Choose preferred days and times and we’ll generate a schedule for you.</p>
 
-                <section id= "intro">
-                        <h1>Titan Scheduler</h1>
-                        <p>Welcome! Begin by selecting your filters or uploading your Titan Degree Audit (TDA)!</p>
+  <h3>Disclaimer! Due varying times and class availabilities exact matches cannot be guaranteed.</h3>
 
-                        <p>Choose which days and times you'd prefer to have your schedule, then we'll do our best to generate the best fit!</p>
+  <div class="nav-buttons">
+    <div></div>
+    <button class="next-button" data-next="step-controls">Get Started</button>
+  </div>
+</section>
 
-                        <h3>Disclaimer! Due to varying times and section availabilities we may not be able to create an exact match.</h3>
-                </section>
+<!-- ================= STEP 2 ================= -->
+<section class="page" id="step-controls">
 
-                <!--Filter and Upload panel-->
-                <section id="controls">
-                        <div id="upload-panel" class="card">
-                                <h2>Submit your TDA</h2>
-                                <p class="helper-text">Upload the most recent PDF version of your TDA.</p>
+  <section id="controls">
+    <div id="upload-panel" class="card">
+      <h2>Submit your TDA</h2>
+      <p>Upload your Titan Degree Audit PDF.</p>
 
-                                <label for="tda-file">TDA PDF</label>
-                                <input type="file" id="tda-file" accept=".pdf">
+      <input type="file" id="tda-file" accept=".pdf">
+      <br><br>
+      <button>Generate Schedule (later)</button>
+    </div>
 
-                                <button id="generate-btn">Generate Schedule</button>
-                                <span id="status-text"></span>
-                        </div>
+    <div id="filter-panel" class="card">
+      <h2>Filters and Preferences</h2>
 
-                        <div id="filter-panel">
-                                <h2>Filters and Prefrences</h2>
-                                <p class="helper-text">These filters are optional</p>
-                                
-                                <label>Preferred Days</label>
-                                <div class="days">
-                                        <label><input type="checkbox" class="filter-day" value="M" checked> Mon</label>
-                                        <label><input type="checkbox" class="filter-day" value="Tu" checked> Tue</label>
-                                        <label><input type="checkbox" class="filter-day" value="W" checked> Wed</label>
-                                        <label><input type="checkbox" class="filter-day" value="Th" checked> Thu</label>
-                                        <label><input type="checkbox" class="filter-day" value="F" checked> Fri</label>
-                                        <label><input type="checkbox" class="filter-day" value="S" checked> Sat</label>
-                                </div>
-                                <label>Preferred start and end times</label>
-                                <div class="time-picker">
-                                        <div class="time-picker-overlay"></div>
-                                        <div class="time-list" id="timeList">
-                                                <div class="time-item">08:00</div>
-                                                <div class="time-item">08:30</div>
-                                                <div class="time-item">09:00</div>
-                                                <div class="time-item">09:30</div>
-                                                <div class="time-item">10:00</div>
-                                                <div class="time-item">10:30</div>
-                                                <div class="time-item">11:00</div>
-                                                <div class="time-item">11:30</div>
-                                                <div class="time-item">12:00</div>
-                                                <div class="time-item">12:30</div>
-                                                <div class="time-item">13:00</div>
-                                                <div class="time-item">13:30</div>
-                                                <div class="time-item">14:00</div>
-                                                <div class="time-item">14:30</div>
-                                                <div class="time-item">15:00</div>
-                                                <div class="time-item">15:30</div>
-                                                <div class="time-item">16:00</div>
-                                                <div class="time-item">16:30</div>
-                                                <div class="time-item">17:00</div>
-                                                <div class="time-item">17:30</div>
-                                                <div class="time-item">18:00</div>
-                                                <div class="time-item">18:30</div>
-                                                <div class="time-item">19:00</div>
-                                        </div>
-                                </div>
-                                <p>Selected time: <span id="selectedTime">08:00</span></p>
-                        </div>
-                </section>
+      <label>Preferred Days</label>
+      <div>
+        <input type="checkbox" checked> Mon
+        <input type="checkbox" checked> Tue
+        <input type="checkbox" checked> Wed
+        <input type="checkbox" checked> Thu
+        <input type="checkbox" checked> Fri
+        <input type="checkbox" checked> Sat
+      </div>
 
-                <section id="results">
-                <!-- Open classes sub-panel -->
-                        <div id="open-classes-panel">
-                                <h2>Open Classes</h2>
-                                <div class="search-bar">
-                                        <input type="text" id="search-input" placeholder="Search by class code or class name">
-                                </div>
-                                <div id="open-classes-list">
-                                        <em>No classes yet. Upload your TDA to generate options.</em>
-                                </div>
-                        </div>
+      <br>
 
-                <!-- Schedule sub-panel -->
-                        <div id="schedule-panel">
-                                <h2>Generated Schedule</h2>
-                                <p id="schedule-note">
-                                        We'll suggest a schedule that tries to match your preferred days, times, and units.
-                                </p>
-                                <div id="schedule-drop-area">
-                                        <em>Your schedule will appear here after you generate it.</em>
-                                </div>
-                        </div>
-                </section>
-                <script src="script.js" defer></script>
-        </body>
+      <label>Preferred Time</label>
+      <div class="time-picker">
+        <div class="time-picker-overlay"></div>
+        <div class="time-list">
+          <div class="time-item">08:00</div>
+          <div class="time-item">09:00</div>
+          <div class="time-item">10:00</div>
+          <div class="time-item">11:00</div>
+          <div class="time-item">12:00</div>
+          <div class="time-item">13:00</div>
+          <div class="time-item">14:00</div>
+          <div class="time-item">15:00</div>
+          <div class="time-item">16:00</div>
+          <div class="time-item">17:00</div>
+          <div class="time-item">18:00</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <button class="back-button" data-prev="step-intro">Back</button>
+    <button class="next-button" data-next="step-results">Next</button>
+  </div>
+</section>
+
+<!-- ================= STEP 3 ================= -->
+<section class="page" id="step-results">
+
+  <section id="results">
+    <div id="open-classes-panel">
+      <h2>Open Classes</h2>
+      <em>No classes loaded yet.</em>
+    </div>
+
+    <div id="schedule-panel">
+      <h2>Generated Schedule</h2>
+      <em>Your schedule will appear here.</em>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <button class="back-button" data-prev="step-controls">Back</button>
+  </div>
+</section>
+
+<script src="script.js"></script>   <!-- JS FILE LINK -->
+</body>
 </html>
