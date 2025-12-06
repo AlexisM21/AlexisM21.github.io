@@ -1,5 +1,6 @@
 from db import get_conn
 import pandas as pd
+import numpy as np
 import sqlite3
 
 def convert_days_of_week(df: list[dict]):
@@ -38,19 +39,50 @@ def min_to_hour(df: list[dict]):
 def group_meetings(df: list[dict]):
     df = pd.DataFrame(df)
 
-    # Build a list of meeting dicts directly from each row
-    df["meeting"] = df[["day_of_week", "start_min", "end_min", "room"]] \
-        .rename(columns={"day_of_week": "day", "start_min": "start", "end_min": "end"}) \
-        .to_dict(orient="records")
+    # FAST vectorized tuple creation
+    df["meeting"] = list(zip(
+        df["day_of_week"].to_numpy(),
+        df["start_min"].to_numpy(),
+        df["end_min"].to_numpy(),
+        df["room"].to_numpy()
+    ))
 
-    # Group and collect those meeting dicts into lists
+    # Group by schedule key
     grouped = (
-        df.groupby(["term","crn","course_id","section","professor","status"], as_index=False)
-          .agg(meetings=("meeting", list))
+        df.groupby(
+            ["term", "crn", "course_id", "section", "professor", "status"],
+            sort=False,
+            as_index=False
+        ).agg(meetings=("meeting", list))
     )
 
-    # Convert back to Python list of dicts
-    return grouped.to_dict(orient="records")
+    result = []
+    append = result.append
+
+    for row in grouped.itertuples(index=False):
+        # Convert meeting tuples → dicts
+        meeting_list = [
+            {
+                "day": int(d) if isinstance(d, (np.integer,)) else d,
+                "start": int(s) if isinstance(s, (np.integer,)) else s,
+                "end": int(e) if isinstance(e, (np.integer,)) else e,
+                "room": r
+            }
+            for (d, s, e, r) in row.meetings
+        ]
+
+        append({
+            "term": row.term,
+            "crn": int(row.crn) if isinstance(row.crn, (np.integer,)) else row.crn,
+            "course_id": row.course_id,
+            "section": row.section,
+            "professor": row.professor,
+            "status": row.status,
+            "meetings": meeting_list
+        })
+
+    return result
+
     # grouped = (
     #     df.groupby(["term","crn","course_id","section","professor","status","room"])
     #     .apply(lambda g:
@@ -70,7 +102,10 @@ def get_open_class_list():
         rows = c.execute("SELECT * FROM open_classes").fetchall()
         if not rows:
             return{"data": [], "message": "No open classes found."}
+
         rows = [dict(row) for row in rows]
         rows = convert_days_of_week(rows)
+
         rows = group_meetings(rows)
+
         return rows
