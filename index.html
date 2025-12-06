@@ -70,21 +70,95 @@
 
       <br>
 
-      <label>Preferred Time</label>
-      <div class="time-picker">
-        <div class="time-picker-overlay"></div>
-        <div class="time-list">
-          <div class="time-item">08:00</div>
-          <div class="time-item">09:00</div>
-          <div class="time-item">10:00</div>
-          <div class="time-item">11:00</div>
-          <div class="time-item">12:00</div>
-          <div class="time-item">13:00</div>
-          <div class="time-item">14:00</div>
-          <div class="time-item">15:00</div>
-          <div class="time-item">16:00</div>
-          <div class="time-item">17:00</div>
-          <div class="time-item">18:00</div>
+      <label>Preferred Time by Day</label>
+      <div class="calendar-time-picker">
+        <div class="day-tabs">
+          <button class="day-tab active" data-day="Mon">Mon</button>
+          <button class="day-tab" data-day="Tue">Tue</button>
+          <button class="day-tab" data-day="Wed">Wed</button>
+          <button class="day-tab" data-day="Thu">Thu</button>
+          <button class="day-tab" data-day="Fri">Fri</button>
+          <button class="day-tab" data-day="Sat">Sat</button>
+        </div>
+        <div class="time-slots-container">
+          <div class="time-slots" data-day="Mon">
+            <button class="time-slot-btn" data-time="08:00">8:00 AM</button>
+            <button class="time-slot-btn" data-time="09:00">9:00 AM</button>
+            <button class="time-slot-btn" data-time="10:00">10:00 AM</button>
+            <button class="time-slot-btn" data-time="11:00">11:00 AM</button>
+            <button class="time-slot-btn" data-time="12:00">12:00 PM</button>
+            <button class="time-slot-btn" data-time="13:00">1:00 PM</button>
+            <button class="time-slot-btn" data-time="14:00">2:00 PM</button>
+            <button class="time-slot-btn" data-time="15:00">3:00 PM</button>
+            <button class="time-slot-btn" data-time="16:00">4:00 PM</button>
+            <button class="time-slot-btn" data-time="17:00">5:00 PM</button>
+            <button class="time-slot-btn" data-time="18:00">6:00 PM</button>
+          </div>
+          <div class="time-slots" data-day="Tue" style="display: none;">
+            <button class="time-slot-btn" data-time="08:00">8:00 AM</button>
+            <button class="time-slot-btn" data-time="09:00">9:00 AM</button>
+            <button class="time-slot-btn" data-time="10:00">10:00 AM</button>
+            <button class="time-slot-btn" data-time="11:00">11:00 AM</button>
+            <button class="time-slot-btn" data-time="12:00">12:00 PM</button>
+            <button class="time-slot-btn" data-time="13:00">1:00 PM</button>
+            <button class="time-slot-btn" data-time="14:00">2:00 PM</button>
+            <button class="time-slot-btn" data-time="15:00">3:00 PM</button>
+            <button class="time-slot-btn" data-time="16:00">4:00 PM</button>
+            <button class="time-slot-btn" data-time="17:00">5:00 PM</button>
+            <button class="time-slot-btn" data-time="18:00">6:00 PM</button>
+          </div>
+          <div class="time-slots" data-day="Wed" style="display: none;">
+            <button class="time-slot-btn" data-time="08:00">8:00 AM</button>
+            <button class="time-slot-btn" data-time="09:00">9:00 AM</button>
+            <button class="time-slot-btn" data-time="10:00">10:00 AM</button>
+            <button class="time-slot-btn" data-time="11:00">11:00 AM</button>
+            <button class="time-slot-btn" data-time="12:00">12:00 PM</button>
+            <button class="time-slot-btn" data-time="13:00">1:00 PM</button>
+            <button class="time-slot-btn" data-time="14:00">2:00 PM</button>
+            <button class="time-slot-btn" data-time="15:00">3:00 PM</button>
+            <button class="time-slot-btn" data-time="16:00">4:00 PM</button>
+            <button class="time-slot-btn" data-time="17:00">5:00 PM</button>
+            <button class="time-slot-btn" data-time="18:00">6:00 PM</button>
+          </div>
+          <div class="time-slots" data-day="Thu" style="display: none;">
+            <button class="time-slot-btn" data-time="08:00">8:00 AM</button>
+            <button class="time-slot-btn" data-time="09:00">9:00 AM</button>
+            <button class="time-slot-btn" data-time="10:00">10:00 AM</button>
+            <button class="time-slot-btn" data-time="11:00">11:00 AM</button>
+            <button class="time-slot-btn" data-time="12:00">12:00 PM</button>
+            <button class="time-slot-btn" data-time="13:00">1:00 PM</button>
+            <button class="time-slot-btn" data-time="14:00">2:00 PM</button>
+            <button class="time-slot-btn" data-time="15:00">3:00 PM</button>
+            <button class="time-slot-btn" data-time="16:00">4:00 PM</button>
+            <button class="time-slot-btn" data-time="17:00">5:00 PM</button>
+            <button class="time-slot-btn" data-time="18:00">6:00 PM</button>
+          </div>
+          <div class="time-slots" data-day="Fri" style="display: none;">
+            <button class="time-slot-btn" data-time="08:00">8:00 AM</button>
+            <button class="time-slot-btn" data-time="09:00">9:00 AM</button>
+            <button class="time-slot-btn" data-time="10:00">10:00 AM</button>
+            <button class="time-slot-btn" data-time="11:00">11:00 AM</button>
+            <button class="time-slot-btn" data-time="12:00">12:00 PM</button>
+            <button class="time-slot-btn" data-time="13:00">1:00 PM</button>
+            <button class="time-slot-btn" data-time="14:00">2:00 PM</button>
+            <button class="time-slot-btn" data-time="15:00">3:00 PM</button>
+            <button class="time-slot-btn" data-time="16:00">4:00 PM</button>
+            <button class="time-slot-btn" data-time="17:00">5:00 PM</button>
+            <button class="time-slot-btn" data-time="18:00">6:00 PM</button>
+          </div>
+          <div class="time-slots" data-day="Sat" style="display: none;">
+            <button class="time-slot-btn" data-time="08:00">8:00 AM</button>
+            <button class="time-slot-btn" data-time="09:00">9:00 AM</button>
+            <button class="time-slot-btn" data-time="10:00">10:00 AM</button>
+            <button class="time-slot-btn" data-time="11:00">11:00 AM</button>
+            <button class="time-slot-btn" data-time="12:00">12:00 PM</button>
+            <button class="time-slot-btn" data-time="13:00">1:00 PM</button>
+            <button class="time-slot-btn" data-time="14:00">2:00 PM</button>
+            <button class="time-slot-btn" data-time="15:00">3:00 PM</button>
+            <button class="time-slot-btn" data-time="16:00">4:00 PM</button>
+            <button class="time-slot-btn" data-time="17:00">5:00 PM</button>
+            <button class="time-slot-btn" data-time="18:00">6:00 PM</button>
+          </div>
         </div>
       </div>
 
