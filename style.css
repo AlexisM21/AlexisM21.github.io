@@ -34,6 +34,11 @@ body {
   display: flex;
 }
 
+#step-controls.page.active,
+#step-results.page.active {
+  padding-top: 30px;
+}
+
 /* ---------- INTRO ---------- */
 #step-intro {
   background: #0054b5;
@@ -60,35 +65,122 @@ body {
 }
 
 /* ---------- CONTROL PANELS ---------- */
+#step-controls {
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
 #controls {
   display: flex;
-  gap: 20px;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 .card {
-  border-radius: 10px;
-  padding: 15px;
-  background: #f3f3f3;
+  border-radius: 12px;
+  padding: 25px;
+  background: #ffffff;
   flex: 1;
-  cursor: pointer;
+  min-width: 300px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #00274C;
+  font-size: 20px;
+}
+
+.card label {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.card p {
+  margin: 10px 0;
+  color: #666;
+  font-size: 14px;
 }
 
 #filter-panel {
   flex: 1;
 }
 
+#upload-panel {
+  flex: 1;
+}
+
+#upload-panel input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  border: 2px dashed #ccc;
+  border-radius: 6px;
+  background: #f9f9f9;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+#upload-panel input[type="file"]:hover {
+  border-color: #00274C;
+}
+
+#upload-panel button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: #00274C;
+  color: white;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+#upload-panel button:hover {
+  background: #003d7a;
+}
+
 /* ---------- RESULTS ---------- */
+#step-results {
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
 #results {
   display: flex;
-  gap: 20px;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 #open-classes-panel,
 #schedule-panel {
   flex: 1;
-  background: #f3f3f3;
-  padding: 15px;
-  border-radius: 10px;
+  min-width: 300px;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#open-classes-panel h2,
+#schedule-panel h2 {
+  margin-top: 0;
+  color: #00274C;
+  font-size: 20px;
 }
 
 /* ---------- NAV BUTTONS ---------- */
@@ -104,6 +196,11 @@ button {
   border: none;
   cursor: pointer;
   font-size: 14px;
+  font-family: inherit;
+}
+
+button:not(.unit-btn) {
+  border: none;
 }
 
 .next-button {
@@ -116,30 +213,99 @@ button {
   background: #cfcfcf;
 }
 
+/* ---------- DAYS CONTAINER ---------- */
+.days-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.day-checkbox-label {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  user-select: none;
+}
+
+.day-checkbox-label:hover {
+  background: #e8e8e8;
+}
+
+.day-checkbox-label input[type="checkbox"] {
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+.day-checkbox-label input[type="checkbox"]:checked + span,
+.day-checkbox-label:has(input[type="checkbox"]:checked) {
+  background: #e3f2fd;
+  color: #00274C;
+  font-weight: 600;
+}
+
 /* ---------- TIME PICKER ---------- */
 .time-picker {
   position: relative;
-  width: 140px;
-  height: 160px;
+  width: 100%;
+  max-width: 200px;
+  height: 200px;
   margin-top: 10px;
   overflow: hidden;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .time-list {
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   scroll-snap-type: y mandatory;
-  padding: 60px 0;
+  padding: 70px 0;
   box-sizing: border-box;
+}
+
+.time-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.time-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.time-list::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.time-list::-webkit-scrollbar-thumb:hover {
+  background: #999;
 }
 
 .time-item {
   scroll-snap-align: center;
   text-align: center;
-  padding: 5px;
-  font-size: 14px;
+  padding: 10px 15px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 6px;
+  margin: 2px 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.time-item.selected {
+  background: #00274C;
+  color: white;
+  font-weight: 600;
 }
 
 .time-picker-overlay {
@@ -148,9 +314,45 @@ button {
   top: 50%;
   left: 0;
   width: 100%;
-  height: 30px;
-  margin-top: -15px;
+  height: 40px;
+  margin-top: -20px;
   border-top: 2px solid #00274C;
   border-bottom: 2px solid #00274C;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 39, 76, 0.08);
+  z-index: 1;
+}
+
+/* ---------- UNITS SELECTOR ---------- */
+.units-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.unit-btn {
+  flex: 1;
+  min-width: 60px;
+  padding: 12px 16px;
+  background: #f5f5f5;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.unit-btn:hover {
+  background: #e8e8e8;
+  border-color: #00274C;
+  transform: translateY(-2px);
+}
+
+.unit-btn.selected {
+  background: #00274C;
+  color: white;
+  border-color: #00274C;
+  box-shadow: 0 2px 6px rgba(0, 39, 76, 0.3);
 }
