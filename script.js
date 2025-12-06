@@ -31,13 +31,14 @@ document.querySelectorAll(".back-button").forEach(button => {
 const preferences = {
   preferredDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   preferredTimes: [],
+  preferredUnits: 15, // Default to 15 units
   uploadedFile: null
 };
 
 // ================= DAY SELECTION =================
 function initializeDayCheckboxes() {
   const dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const checkboxes = document.querySelectorAll('#filter-panel input[type="checkbox"]');
+  const checkboxes = document.querySelectorAll('#filter-panel .days-container input[type="checkbox"]');
   
   checkboxes.forEach((checkbox, index) => {
     // Add data attribute for day identification
@@ -63,6 +64,31 @@ function initializeDayCheckboxes() {
         preferences.preferredDays.push(day);
       }
     }
+  });
+}
+
+// ================= UNITS SELECTOR =================
+function initializeUnitsSelector() {
+  const unitButtons = document.querySelectorAll('.unit-btn');
+  
+  // Set default selection (15 units)
+  unitButtons.forEach(btn => {
+    const units = parseInt(btn.getAttribute('data-units'));
+    if (units === preferences.preferredUnits) {
+      btn.classList.add('selected');
+    }
+    
+    btn.addEventListener('click', function() {
+      // Remove selected class from all buttons
+      unitButtons.forEach(b => b.classList.remove('selected'));
+      
+      // Add selected class to clicked button
+      this.classList.add('selected');
+      
+      // Update preferences
+      preferences.preferredUnits = parseInt(this.getAttribute('data-units'));
+      console.log('Preferred units:', preferences.preferredUnits);
+    });
   });
 }
 
@@ -178,7 +204,7 @@ function initializeGenerateButton() {
       
       // For now, just show a message (backend will be connected later)
       console.log('Generating schedule with preferences:', preferences);
-      alert('Schedule generation will be implemented once backend is connected.\n\nCurrent preferences:\n- Days: ' + preferences.preferredDays.join(', ') + '\n- Times: ' + (preferences.preferredTimes.length > 0 ? preferences.preferredTimes.join(', ') : 'Any time') + '\n- File: ' + preferences.uploadedFile.name);
+      alert('Schedule generation will be implemented once backend is connected.\n\nCurrent preferences:\n- Days: ' + preferences.preferredDays.join(', ') + '\n- Times: ' + (preferences.preferredTimes.length > 0 ? preferences.preferredTimes.join(', ') : 'Any time') + '\n- Units: ' + preferences.preferredUnits + '\n- File: ' + preferences.uploadedFile.name);
       
       // In the future, this will make an API call to generate the schedule
       // For now, we'll just navigate to results page
@@ -197,6 +223,7 @@ function initializeResultsPage() {
 document.addEventListener('DOMContentLoaded', function() {
   initializeDayCheckboxes();
   initializeTimePicker();
+  initializeUnitsSelector();
   initializeFileUpload();
   initializeGenerateButton();
   initializeResultsPage();
