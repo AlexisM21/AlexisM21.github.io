@@ -30,7 +30,14 @@ document.querySelectorAll(".back-button").forEach(button => {
 // ================= PREFERENCES DATA STORAGE =================
 const preferences = {
   preferredDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-  preferredTimes: [],
+  preferredTimesByDay: {
+    'Mon': [],
+    'Tue': [],
+    'Wed': [],
+    'Thu': [],
+    'Fri': [],
+    'Sat': []
+  },
   preferredUnits: 15, // Default to 15 units
   uploadedFile: null
 };
@@ -92,61 +99,55 @@ function initializeUnitsSelector() {
   });
 }
 
-// ================= TIME PICKER =================
-function initializeTimePicker() {
-  const timeItems = document.querySelectorAll('.time-item');
-  const timePicker = document.querySelector('.time-picker');
+// ================= CALENDAR TIME PICKER =================
+function initializeCalendarTimePicker() {
+  const dayTabs = document.querySelectorAll('.day-tab');
+  const timeSlotsContainers = document.querySelectorAll('.time-slots');
+  let currentDay = 'Mon';
   
-  // Make time items selectable
-  timeItems.forEach(item => {
-    item.style.cursor = 'pointer';
-    item.style.userSelect = 'none';
-    item.style.transition = 'background-color 0.2s';
-    
-    // Add click handler
-    item.addEventListener('click', function() {
-      const time = this.textContent.trim();
+  // Day tab switching
+  dayTabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      const day = this.getAttribute('data-day');
+      currentDay = day;
+      
+      // Update active tab
+      dayTabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Show/hide time slots
+      timeSlotsContainers.forEach(container => {
+        if (container.getAttribute('data-day') === day) {
+          container.style.display = 'grid';
+        } else {
+          container.style.display = 'none';
+        }
+      });
+    });
+  });
+  
+  // Time slot selection
+  const timeSlotButtons = document.querySelectorAll('.time-slot-btn');
+  timeSlotButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const time = this.getAttribute('data-time');
+      const container = this.closest('.time-slots');
+      const day = container.getAttribute('data-day');
       
       // Toggle selection
       if (this.classList.contains('selected')) {
         this.classList.remove('selected');
-        preferences.preferredTimes = preferences.preferredTimes.filter(t => t !== time);
-        this.style.backgroundColor = '';
-        this.style.color = '';
+        preferences.preferredTimesByDay[day] = preferences.preferredTimesByDay[day].filter(t => t !== time);
       } else {
         this.classList.add('selected');
-        if (!preferences.preferredTimes.includes(time)) {
-          preferences.preferredTimes.push(time);
+        if (!preferences.preferredTimesByDay[day].includes(time)) {
+          preferences.preferredTimesByDay[day].push(time);
         }
-        this.style.backgroundColor = '#00274C';
-        this.style.color = 'white';
       }
       
-      console.log('Preferred times:', preferences.preferredTimes);
-    });
-    
-    // Add hover effect
-    item.addEventListener('mouseenter', function() {
-      if (!this.classList.contains('selected')) {
-        this.style.backgroundColor = '#e0e0e0';
-      }
-    });
-    
-    item.addEventListener('mouseleave', function() {
-      if (!this.classList.contains('selected')) {
-        this.style.backgroundColor = '';
-      }
+      console.log('Preferred times by day:', preferences.preferredTimesByDay);
     });
   });
-  
-  // Add scroll snapping behavior for better UX
-  const timeList = document.querySelector('.time-list');
-  if (timeList) {
-    timeList.addEventListener('scroll', function() {
-      // Optional: Auto-select time on scroll (if desired)
-      // For now, we'll keep manual selection
-    });
-  }
 }
 
 // ================= FILE UPLOAD =================
@@ -202,9 +203,24 @@ function initializeGenerateButton() {
         return;
       }
       
+      // Build times summary
+      let timesSummary = '';
+      const daysWithTimes = Object.keys(preferences.preferredTimesByDay).filter(day => 
+        preferences.preferredTimesByDay[day].length > 0
+      );
+      
+      if (daysWithTimes.length > 0) {
+        timesSummary = daysWithTimes.map(day => {
+          const times = preferences.preferredTimesByDay[day].join(', ');
+          return `${day}: ${times}`;
+        }).join('\n');
+      } else {
+        timesSummary = 'Any time';
+      }
+      
       // For now, just show a message (backend will be connected later)
       console.log('Generating schedule with preferences:', preferences);
-      alert('Schedule generation will be implemented once backend is connected.\n\nCurrent preferences:\n- Days: ' + preferences.preferredDays.join(', ') + '\n- Times: ' + (preferences.preferredTimes.length > 0 ? preferences.preferredTimes.join(', ') : 'Any time') + '\n- Units: ' + preferences.preferredUnits + '\n- File: ' + preferences.uploadedFile.name);
+      alert('Schedule generation will be implemented once backend is connected.\n\nCurrent preferences:\n- Days: ' + preferences.preferredDays.join(', ') + '\n- Times:\n' + timesSummary + '\n- Units: ' + preferences.preferredUnits + '\n- File: ' + preferences.uploadedFile.name);
       
       // In the future, this will make an API call to generate the schedule
       // For now, we'll just navigate to results page
@@ -222,7 +238,7 @@ function initializeResultsPage() {
 // ================= INITIALIZE ON PAGE LOAD =================
 document.addEventListener('DOMContentLoaded', function() {
   initializeDayCheckboxes();
-  initializeTimePicker();
+  initializeCalendarTimePicker();
   initializeUnitsSelector();
   initializeFileUpload();
   initializeGenerateButton();
@@ -230,3 +246,4 @@ document.addEventListener('DOMContentLoaded', function() {
   
   console.log('Titan Scheduler initialized');
 });
+
