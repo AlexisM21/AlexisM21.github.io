@@ -47,13 +47,25 @@
       <h2>Filters and Preferences</h2>
 
       <label>Preferred Days</label>
-      <div>
-        <input type="checkbox" checked> Mon
-        <input type="checkbox" checked> Tue
-        <input type="checkbox" checked> Wed
-        <input type="checkbox" checked> Thu
-        <input type="checkbox" checked> Fri
-        <input type="checkbox" checked> Sat
+      <div class="days-container">
+        <label class="day-checkbox-label">
+          <input type="checkbox" checked> Mon
+        </label>
+        <label class="day-checkbox-label">
+          <input type="checkbox" checked> Tue
+        </label>
+        <label class="day-checkbox-label">
+          <input type="checkbox" checked> Wed
+        </label>
+        <label class="day-checkbox-label">
+          <input type="checkbox" checked> Thu
+        </label>
+        <label class="day-checkbox-label">
+          <input type="checkbox" checked> Fri
+        </label>
+        <label class="day-checkbox-label">
+          <input type="checkbox" checked> Sat
+        </label>
       </div>
 
       <br>
@@ -74,6 +86,19 @@
           <div class="time-item">17:00</div>
           <div class="time-item">18:00</div>
         </div>
+      </div>
+
+      <br>
+
+      <label>Number of Units</label>
+      <div class="units-selector">
+        <button class="unit-btn" data-units="12">12</button>
+        <button class="unit-btn" data-units="13">13</button>
+        <button class="unit-btn" data-units="14">14</button>
+        <button class="unit-btn" data-units="15">15</button>
+        <button class="unit-btn" data-units="16">16</button>
+        <button class="unit-btn" data-units="17">17</button>
+        <button class="unit-btn" data-units="18">18</button>
       </div>
     </div>
   </section>
