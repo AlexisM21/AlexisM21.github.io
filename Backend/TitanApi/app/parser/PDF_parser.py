@@ -64,7 +64,22 @@ def parse_tda(file_bytes: bytes, filename: str):
     - For "status" in completed_courses, use exactly "completed" or "in_progress".
     - For "type" in requirements, use one of: "GE", "Major", "Support", "Elective".
     - For "courses_allowed", each item should be a course code like "CPSC 131" or exactly as it appears in the document.
-    - Replace the example types (like number, string) with real JSON values in the final output.
+    - Replace any example types (like "string", "number") with actual JSON values in the final output.
+    - If the class is "in_progress" do not add it to the "courses_allowed" list.
+    - Do not invent or hallucinate courses, requirements, or values that are not supported by the text.
+
+    Additional parsing rules:
+    - This is a Titan Degree Audit (TDA) or similar university degree audit.
+    - IGNORE all requirement status labels such as "NO", "OK", "YES", and similar labels at the top of sections. These are NOT classes and should never appear in the JSON.
+    - IGNORE section headers, legends, comments, arrows, and hints such as:
+      - ">>>IMPORTANT INFORMATION<<<", "LEGEND", "GENERAL EDUCATION PROGRAM", etc.
+      - "TAKE==>", ">>", ">>> Waived for this major <<", and similar advisory lines.
+    - ONLY treat a line as a course when it has a recognizable pattern with:
+      - a term (e.g., "FA20", "SP25", "SS21"),
+      - a subject (e.g., "CPSC", "MATH", "PHYS", "ENGL"),
+      - a course identifier/number (e.g., "120A", "131", "225L"),
+      - and usually credits, grade, and title on the same or following text.
+    - Lines like "NO COMPUTER SCIENCE CORE COURSES", "OK GE UNITS", or "AMERICAN GOVERNMENT (3 UNITS
     '''
 
     response = client.responses.create(
