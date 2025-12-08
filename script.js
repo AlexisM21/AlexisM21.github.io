@@ -1,5 +1,9 @@
 // script.js
 
+// ================= API CONFIGURATION =================
+// Change this to match your backend server URL
+const API_BASE_URL = 'https://titanbackend.online/';
+
 // ================= PAGE NAVIGATION =================
 function showPage(pageId) {
   const pages = document.querySelectorAll(".page");
@@ -186,11 +190,11 @@ function initializeFileUpload() {
 }
 
 // ================= GENERATE SCHEDULE BUTTON =================
-function initializeGenerateButton() {
+async function initializeGenerateButton() {
   const generateButton = document.querySelector('#upload-panel button');
   
   if (generateButton) {
-    generateButton.addEventListener('click', function() {
+    generateButton.addEventListener('click', async function() {
       // Check if file is uploaded
       if (!preferences.uploadedFile) {
         alert('Please upload your Titan Degree Audit PDF first.');
@@ -203,33 +207,183 @@ function initializeGenerateButton() {
         return;
       }
       
-      // Build times summary
-      let timesSummary = '';
-      const daysWithTimes = Object.keys(preferences.preferredTimesByDay).filter(day => 
-        preferences.preferredTimesByDay[day].length > 0
-      );
+      // Disable button and show loading state
+      generateButton.disabled = true;
+      const originalText = generateButton.textContent;
+      generateButton.textContent = 'Generating Schedule...';
       
-      if (daysWithTimes.length > 0) {
-        timesSummary = daysWithTimes.map(day => {
-          const times = preferences.preferredTimesByDay[day].join(', ');
-          return `${day}: ${times}`;
-        }).join('\n');
-      } else {
-        timesSummary = 'Any time';
+      try {
+        // Step 1: Upload and parse the PDF
+        const formData = new FormData();
+        formData.append('file', preferences.uploadedFile);
+        
+        const uploadResponse = await fetch(`${API_BASE_URL}/tda/upload`, {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (!uploadResponse.ok) {
+          const errorData = await uploadResponse.json();
+          throw new Error(errorData.detail || 'Failed to upload and parse PDF');
+        }
+        
+        const uploadData = await uploadResponse.json();
+        const parsedData = uploadData.parsed_data;
+        
+        // Step 2: Extract completed courses from parsed data
+        // Format: course_id should be like "CPSC 131" (subject + number)
+        const completedCourses = [];
+        if (parsedData.completed_courses && Array.isArray(parsedData.completed_courses)) {
+          parsedData.completed_courses.forEach(course => {
+            if (course.status === 'completed' && course.subject && course.number) {
+              // Format as "SUBJECT NUMBER" (e.g., "CPSC 131")
+              const courseId = `${course.subject} ${course.number}`.trim();
+              completedCourses.push(courseId);
+            }
+          });
+        }
+        
+        console.log('Completed courses extracted:', completedCourses);
+        
+        // Step 3: Generate schedule with completed courses and preferences
+        const scheduleResponse = await fetch(`${API_BASE_URL}/schedule/next-semester`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            completed: completedCourses,
+            max_units: preferences.preferredUnits
+          })
+        });
+        
+        if (!scheduleResponse.ok) {
+          const errorData = await scheduleResponse.json();
+          throw new Error(errorData.detail || 'Failed to generate schedule');
+        }
+        
+        const scheduleData = await scheduleResponse.json();
+        const schedule = scheduleData.data;
+        
+        // Step 4: Display results
+        displayScheduleResults(schedule, parsedData);
+        
+        // Navigate to results page
+        showPage('step-results');
+        
+      } catch (error) {
+        console.error('Error generating schedule:', error);
+        alert('Error generating schedule: ' + error.message);
+      } finally {
+        // Re-enable button
+        generateButton.disabled = false;
+        generateButton.textContent = originalText;
       }
-      
-      // For now, just show a message (backend will be connected later)
-      console.log('Generating schedule with preferences:', preferences);
-      alert('Schedule generation will be implemented once backend is connected.\n\nCurrent preferences:\n- Days: ' + preferences.preferredDays.join(', ') + '\n- Times:\n' + timesSummary + '\n- Units: ' + preferences.preferredUnits + '\n- File: ' + preferences.uploadedFile.name);
-      
-      // In the future, this will make an API call to generate the schedule
-      // For now, we'll just navigate to results page
-      showPage('step-results');
     });
   }
 }
 
 // ================= RESULTS PAGE =================
+function displayScheduleResults(schedule, parsedData) {
+  const schedulePanel = document.getElementById('schedule-panel');
+  const openClassesPanel = document.getElementById('open-classes-panel');
+  
+  // Clear existing content
+  schedulePanel.innerHTML = '<h2>Generated Schedule</h2>';
+  openClassesPanel.innerHTML = '<h2>Open Classes</h2>';
+  
+  // Display generated schedule
+  if (schedule.planned_courses && schedule.planned_courses.length > 0) {
+    const scheduleList = document.createElement('div');
+    scheduleList.className = 'schedule-list';
+    
+    schedule.planned_courses.forEach(course => {
+      const courseItem = document.createElement('div');
+      courseItem.className = 'course-item';
+      courseItem.style.marginBottom = '15px';
+      courseItem.style.padding = '10px';
+      courseItem.style.border = '1px solid #ccc';
+      courseItem.style.borderRadius = '5px';
+      
+      const courseId = document.createElement('strong');
+      courseId.textContent = course.course_id;
+      courseId.style.display = 'block';
+      courseId.style.marginBottom = '5px';
+      
+      const courseTitle = document.createElement('span');
+      courseTitle.textContent = course.title || 'No title available';
+      courseTitle.style.display = 'block';
+      courseTitle.style.color = '#666';
+      courseTitle.style.marginBottom = '5px';
+      
+      const courseUnits = document.createElement('span');
+      courseUnits.textContent = `${course.units} units`;
+      courseUnits.style.display = 'block';
+      courseUnits.style.color = '#666';
+      courseUnits.style.marginBottom = '5px';
+      
+      if (course.meeting) {
+        const meetingInfo = document.createElement('span');
+        meetingInfo.textContent = `${course.meeting.days.join(', ')} ${course.meeting.time}`;
+        meetingInfo.style.display = 'block';
+        meetingInfo.style.color = '#00274C';
+        meetingInfo.style.fontWeight = 'bold';
+        courseItem.appendChild(meetingInfo);
+      }
+      
+      courseItem.appendChild(courseId);
+      courseItem.appendChild(courseTitle);
+      courseItem.appendChild(courseUnits);
+      scheduleList.appendChild(courseItem);
+    });
+    
+    const totalUnits = document.createElement('p');
+    totalUnits.style.marginTop = '15px';
+    totalUnits.style.fontWeight = 'bold';
+    totalUnits.textContent = `Total Units: ${schedule.planned_units || 0}`;
+    scheduleList.appendChild(totalUnits);
+    
+    schedulePanel.appendChild(scheduleList);
+  } else {
+    const noCourses = document.createElement('p');
+    noCourses.textContent = 'No courses scheduled. All requirements may be completed or no courses match your preferences.';
+    noCourses.style.color = '#666';
+    schedulePanel.appendChild(noCourses);
+  }
+  
+  // Display remaining needed courses if available
+  if (schedule.remaining_needed && schedule.remaining_needed.length > 0) {
+    const remainingDiv = document.createElement('div');
+    remainingDiv.style.marginTop = '20px';
+    remainingDiv.style.padding = '10px';
+    remainingDiv.style.backgroundColor = '#f5f5f5';
+    remainingDiv.style.borderRadius = '5px';
+    
+    const remainingTitle = document.createElement('h3');
+    remainingTitle.textContent = 'Remaining Courses Needed';
+    remainingTitle.style.marginTop = '0';
+    remainingDiv.appendChild(remainingTitle);
+    
+    const remainingList = document.createElement('ul');
+    schedule.remaining_needed.forEach(courseId => {
+      const listItem = document.createElement('li');
+      listItem.textContent = courseId;
+      remainingList.appendChild(listItem);
+    });
+    remainingDiv.appendChild(remainingList);
+    schedulePanel.appendChild(remainingDiv);
+  }
+  
+  // Display parsed TDA info in open classes panel
+  if (parsedData && parsedData.completed_courses) {
+    const completedCount = parsedData.completed_courses.filter(c => c.status === 'completed').length;
+    const infoText = document.createElement('p');
+    infoText.textContent = `Parsed ${completedCount} completed course(s) from your TDA.`;
+    infoText.style.color = '#666';
+    openClassesPanel.appendChild(infoText);
+  }
+}
+
 function initializeResultsPage() {
   // This will be populated when schedule is generated
   // For now, it's ready for backend integration

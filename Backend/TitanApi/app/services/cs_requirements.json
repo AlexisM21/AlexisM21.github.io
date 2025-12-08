@@ -1,0 +1,75 @@
+[
+  {
+    "course_id": "CPSC 120",
+    "title": "Programming Fundamentals I",
+    "units": 3,
+    "prereqs": []
+  },
+  {
+    "course_id": "CPSC 121",
+    "title": "Programming Fundamentals II",
+    "units": 3,
+    "prereqs": ["CPSC 120"]
+  },
+  {
+    "course_id": "CPSC 131",
+    "title": "Data Structures Concepts",
+    "units": 3,
+    "prereqs": ["CPSC 121"]
+  },
+  {
+    "course_id": "CPSC 240",
+    "title": "Computer Organization and Assembly Language",
+    "units": 3,
+    "prereqs": ["CPSC 131"]
+  },
+  {
+    "course_id": "CPSC 253",
+    "title": "Programming in C++",
+    "units": 3,
+    "prereqs": ["CPSC 131"]
+  },
+  {
+    "course_id": "CPSC 323",
+    "title": "Compilers and Languages",
+    "units": 3,
+    "prereqs": ["CPSC 131"]
+  },
+  {
+    "course_id": "CPSC 362",
+    "title": "Foundations of Software Engineering",
+    "units": 3,
+    "prereqs": ["CPSC 131"]
+  },
+  {
+    "course_id": "MATH 150A",
+    "title": "Calculus I",
+    "units": 4,
+    "prereqs": []
+  },
+  {
+    "course_id": "MATH 150B",
+    "title": "Calculus II",
+    "units": 4,
+    "prereqs": ["MATH 150A"]
+  },
+  {
+    "course_id": "MATH 170A",
+    "title": "Mathematical Structure I",
+    "units": 3,
+    "prereqs": []
+  },
+  {
+    "course_id": "MATH 170B",
+    "title": "Mathematical Structure II",
+    "units": 3,
+    "prereqs": ["MATH 170A"]
+  },
+  {
+    "course_id": "MATH 338",
+    "title": "Statistics Applied to Natural Sciences",
+    "units": 4,
+    "prereqs": ["MATH 150B"]
+  }
+]
+
