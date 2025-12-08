@@ -16,8 +16,15 @@ TIME_SLOTS = [
 ]
 
 def load_requirements() -> List[Dict]:
-    with open(REQ_FILE) as f:
-        return json.load(f)
+    try:
+        with open(REQ_FILE) as f:
+            return json.load(f)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Requirements file not found: {REQ_FILE}. Please create cs_requirements.json in the services directory.")
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON in requirements file {REQ_FILE}: {e}")
+    except Exception as e:
+        raise RuntimeError(f"Error loading requirements file {REQ_FILE}: {e}")
 
 def can_take(course: Dict, completed: List[str]) -> bool:
     """Return True if all prereqs for this course are in completed list."""

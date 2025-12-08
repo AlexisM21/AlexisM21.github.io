@@ -2,7 +2,7 @@
 
 // ================= API CONFIGURATION =================
 // Change this to match your backend server URL
-const API_BASE_URL = 'https://titanbackend.online/';
+const API_BASE_URL = 'https://titanbackend.online';
 
 // ================= PAGE NAVIGATION =================
 function showPage(pageId) {
@@ -213,7 +213,23 @@ async function initializeGenerateButton() {
       generateButton.textContent = 'Generating Schedule...';
       
       try {
+        console.log('Starting schedule generation...');
+        console.log('API Base URL:', API_BASE_URL);
+        console.log('File name:', preferences.uploadedFile.name);
+        console.log('File size:', preferences.uploadedFile.size, 'bytes');
+        console.log('Preferred units:', preferences.preferredUnits);
+        
+        // Test API connectivity first
+        try {
+          const testResponse = await fetch(`${API_BASE_URL}/`, { method: 'GET' });
+          console.log('API connectivity test:', testResponse.status);
+        } catch (testError) {
+          console.warn('API connectivity test failed:', testError);
+          throw new Error(`Cannot reach backend server at ${API_BASE_URL}. Please check if the server is running.`);
+        }
+        
         // Step 1: Upload and parse the PDF
+        console.log('Step 1: Uploading PDF...');
         const formData = new FormData();
         formData.append('file', preferences.uploadedFile);
         
@@ -222,16 +238,33 @@ async function initializeGenerateButton() {
           body: formData
         });
         
+        console.log('Upload response status:', uploadResponse.status);
+        
         if (!uploadResponse.ok) {
-          const errorData = await uploadResponse.json();
-          throw new Error(errorData.detail || 'Failed to upload and parse PDF');
+          let errorMessage = 'Failed to upload and parse PDF';
+          try {
+            const errorData = await uploadResponse.json();
+            errorMessage = errorData.detail || errorData.message || errorMessage;
+            console.error('Upload error details:', errorData);
+          } catch (e) {
+            const errorText = await uploadResponse.text();
+            console.error('Upload error text:', errorText);
+            errorMessage = `HTTP ${uploadResponse.status}: ${errorText}`;
+          }
+          throw new Error(errorMessage);
         }
         
         const uploadData = await uploadResponse.json();
+        console.log('Upload response data:', uploadData);
         const parsedData = uploadData.parsed_data;
+        
+        if (!parsedData) {
+          throw new Error('No parsed data received from server');
+        }
         
         // Step 2: Extract completed courses from parsed data
         // Format: course_id should be like "CPSC 131" (subject + number)
+        console.log('Step 2: Extracting completed courses...');
         const completedCourses = [];
         if (parsedData.completed_courses && Array.isArray(parsedData.completed_courses)) {
           parsedData.completed_courses.forEach(course => {
@@ -245,35 +278,62 @@ async function initializeGenerateButton() {
         
         console.log('Completed courses extracted:', completedCourses);
         
+        if (completedCourses.length === 0) {
+          console.warn('No completed courses found in parsed data');
+        }
+        
         // Step 3: Generate schedule with completed courses and preferences
+        console.log('Step 3: Generating schedule...');
+        const schedulePayload = {
+          completed: completedCourses,
+          max_units: preferences.preferredUnits
+        };
+        console.log('Schedule payload:', schedulePayload);
+        
         const scheduleResponse = await fetch(`${API_BASE_URL}/schedule/next-semester`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            completed: completedCourses,
-            max_units: preferences.preferredUnits
-          })
+          body: JSON.stringify(schedulePayload)
         });
         
+        console.log('Schedule response status:', scheduleResponse.status);
+        
         if (!scheduleResponse.ok) {
-          const errorData = await scheduleResponse.json();
-          throw new Error(errorData.detail || 'Failed to generate schedule');
+          let errorMessage = 'Failed to generate schedule';
+          try {
+            const errorData = await scheduleResponse.json();
+            errorMessage = errorData.detail || errorData.message || errorMessage;
+            console.error('Schedule error details:', errorData);
+          } catch (e) {
+            const errorText = await scheduleResponse.text();
+            console.error('Schedule error text:', errorText);
+            errorMessage = `HTTP ${scheduleResponse.status}: ${errorText}`;
+          }
+          throw new Error(errorMessage);
         }
         
         const scheduleData = await scheduleResponse.json();
+        console.log('Schedule response data:', scheduleData);
         const schedule = scheduleData.data;
         
+        if (!schedule) {
+          throw new Error('No schedule data received from server');
+        }
+        
         // Step 4: Display results
+        console.log('Step 4: Displaying results...');
         displayScheduleResults(schedule, parsedData);
         
         // Navigate to results page
         showPage('step-results');
+        console.log('Schedule generation completed successfully!');
         
       } catch (error) {
         console.error('Error generating schedule:', error);
-        alert('Error generating schedule: ' + error.message);
+        console.error('Error stack:', error.stack);
+        alert('Error generating schedule: ' + error.message + '\n\nCheck the browser console for more details.');
       } finally {
         // Re-enable button
         generateButton.disabled = false;
