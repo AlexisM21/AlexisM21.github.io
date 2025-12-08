@@ -183,6 +183,47 @@ body {
   font-size: 20px;
 }
 
+/* ---------- DRAG AND DROP STYLING ---------- */
+.open-class-item {
+  user-select: none;
+}
+
+.open-class-item:active {
+  cursor: grabbing;
+}
+
+#schedule-panel[droppable="true"] {
+  transition: all 0.2s ease;
+}
+
+#schedule-panel[droppable="true"]:hover {
+  border-color: #00274C;
+}
+
+.open-classes-list {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.open-classes-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.open-classes-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.open-classes-list::-webkit-scrollbar-thumb {
+  background: #00274C;
+  border-radius: 4px;
+}
+
+.open-classes-list::-webkit-scrollbar-thumb:hover {
+  background: #003d7a;
+}
+
 /* ---------- NAV BUTTONS ---------- */
 .nav-buttons {
   margin-top: 30px;
