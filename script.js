@@ -344,26 +344,63 @@ async function initializeGenerateButton() {
 }
 
 // ================= RESULTS PAGE =================
-function displayScheduleResults(schedule, parsedData) {
+// Store current schedule data for drag and drop
+let currentScheduleData = {
+  planned_courses: [],
+  planned_units: 0,
+  remaining_needed: []
+};
+
+async function displayScheduleResults(schedule, parsedData) {
   const schedulePanel = document.getElementById('schedule-panel');
   const openClassesPanel = document.getElementById('open-classes-panel');
+  
+  // Store schedule data
+  currentScheduleData = {
+    planned_courses: [...(schedule.planned_courses || [])],
+    planned_units: schedule.planned_units || 0,
+    remaining_needed: [...(schedule.remaining_needed || [])]
+  };
   
   // Clear existing content
   schedulePanel.innerHTML = '<h2>Generated Schedule</h2>';
   openClassesPanel.innerHTML = '<h2>Open Classes</h2>';
   
+  // Make schedule panel a drop zone
+  schedulePanel.setAttribute('droppable', 'true');
+  schedulePanel.addEventListener('dragover', handleDragOver);
+  schedulePanel.addEventListener('dragleave', handleDragLeave);
+  schedulePanel.addEventListener('drop', handleDrop);
+  
   // Display generated schedule
-  if (schedule.planned_courses && schedule.planned_courses.length > 0) {
+  renderSchedule();
+  
+  // Fetch and display open classes for remaining needed courses
+  if (schedule.remaining_needed && schedule.remaining_needed.length > 0) {
+    await fetchAndDisplayOpenClasses(schedule.remaining_needed, openClassesPanel);
+  } else {
+    const noClasses = document.createElement('p');
+    noClasses.textContent = 'No remaining courses needed.';
+    noClasses.style.color = '#666';
+    openClassesPanel.appendChild(noClasses);
+  }
+}
+
+function renderSchedule() {
+  const schedulePanel = document.getElementById('schedule-panel');
     const scheduleList = document.createElement('div');
     scheduleList.className = 'schedule-list';
+  scheduleList.id = 'schedule-list';
     
-    schedule.planned_courses.forEach(course => {
+  if (currentScheduleData.planned_courses && currentScheduleData.planned_courses.length > 0) {
+    currentScheduleData.planned_courses.forEach(course => {
       const courseItem = document.createElement('div');
       courseItem.className = 'course-item';
       courseItem.style.marginBottom = '15px';
       courseItem.style.padding = '10px';
       courseItem.style.border = '1px solid #ccc';
       courseItem.style.borderRadius = '5px';
+      courseItem.style.backgroundColor = '#ffffff';
       
       const courseId = document.createElement('strong');
       courseId.textContent = course.course_id;
@@ -398,50 +435,327 @@ function displayScheduleResults(schedule, parsedData) {
     });
     
     const totalUnits = document.createElement('p');
+    totalUnits.id = 'total-units';
     totalUnits.style.marginTop = '15px';
     totalUnits.style.fontWeight = 'bold';
-    totalUnits.textContent = `Total Units: ${schedule.planned_units || 0}`;
+    totalUnits.textContent = `Total Units: ${currentScheduleData.planned_units || 0}`;
     scheduleList.appendChild(totalUnits);
     
     schedulePanel.appendChild(scheduleList);
   } else {
     const noCourses = document.createElement('p');
-    noCourses.textContent = 'No courses scheduled. All requirements may be completed or no courses match your preferences.';
+    noCourses.textContent = 'No courses scheduled. Drag classes from the Open Classes list to add them.';
     noCourses.style.color = '#666';
-    schedulePanel.appendChild(noCourses);
+    scheduleList.appendChild(noCourses);
+    schedulePanel.appendChild(scheduleList);
   }
-  
-  // Display remaining needed courses if available
-  if (schedule.remaining_needed && schedule.remaining_needed.length > 0) {
-    const remainingDiv = document.createElement('div');
-    remainingDiv.style.marginTop = '20px';
-    remainingDiv.style.padding = '10px';
-    remainingDiv.style.backgroundColor = '#f5f5f5';
-    remainingDiv.style.borderRadius = '5px';
-    
-    const remainingTitle = document.createElement('h3');
-    remainingTitle.textContent = 'Remaining Courses Needed';
-    remainingTitle.style.marginTop = '0';
-    remainingDiv.appendChild(remainingTitle);
-    
-    const remainingList = document.createElement('ul');
-    schedule.remaining_needed.forEach(courseId => {
-      const listItem = document.createElement('li');
-      listItem.textContent = courseId;
-      remainingList.appendChild(listItem);
+}
+
+async function fetchAndDisplayOpenClasses(remainingNeeded, openClassesPanel) {
+  try {
+    // Fetch open classes for each remaining needed course
+    const openClassesPromises = remainingNeeded.map(async (courseId) => {
+      // Extract subject and number from courseId (e.g., "CPSC 131" -> subject="CPSC", course="131")
+      const parts = courseId.trim().split(/\s+/);
+      if (parts.length < 2) return [];
+      
+      const subject = parts[0];
+      const course = parts.slice(1).join(' ');
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/open/query?subject=${encodeURIComponent(subject)}&course=${encodeURIComponent(course)}&only_open=true`);
+        if (!response.ok) {
+          console.warn(`Failed to fetch open classes for ${courseId}`);
+          return [];
+        }
+        const data = await response.json();
+        return Array.isArray(data) ? data : [];
+      } catch (error) {
+        console.error(`Error fetching open classes for ${courseId}:`, error);
+        return [];
+      }
     });
-    remainingDiv.appendChild(remainingList);
-    schedulePanel.appendChild(remainingDiv);
+    
+    const allOpenClasses = await Promise.all(openClassesPromises);
+    const flattenedClasses = allOpenClasses.flat();
+    
+    if (flattenedClasses.length === 0) {
+      const noClasses = document.createElement('p');
+      noClasses.textContent = 'No open classes found for remaining needed courses.';
+      noClasses.style.color = '#666';
+      openClassesPanel.appendChild(noClasses);
+      return;
+    }
+    
+    // Group by course_id
+    const classesByCourse = {};
+    flattenedClasses.forEach(classItem => {
+      const courseId = classItem.course_id || `${classItem.subject} ${classItem.number}`;
+      if (!classesByCourse[courseId]) {
+        classesByCourse[courseId] = [];
+      }
+      classesByCourse[courseId].push(classItem);
+    });
+    
+    // Display open classes
+    const classesList = document.createElement('div');
+    classesList.className = 'open-classes-list';
+    
+    Object.keys(classesByCourse).forEach(courseId => {
+      const courseGroup = classesByCourse[courseId];
+      courseGroup.forEach(classItem => {
+        const classCard = document.createElement('div');
+        classCard.className = 'open-class-item';
+        classCard.draggable = true;
+        classCard.style.marginBottom = '10px';
+        classCard.style.padding = '12px';
+        classCard.style.border = '2px solid #00274C';
+        classCard.style.borderRadius = '8px';
+        classCard.style.backgroundColor = '#ffffff';
+        classCard.style.cursor = 'grab';
+        classCard.style.transition = 'all 0.2s ease';
+        
+        // Store course data for drag and drop
+        classCard.dataset.courseId = classItem.course_id || `${classItem.subject} ${classItem.number}`;
+        classCard.dataset.courseTitle = classItem.title || classItem.description || '';
+        classCard.dataset.courseUnits = classItem.units || 3;
+        classCard.dataset.crn = classItem.crn;
+        classCard.dataset.term = classItem.term;
+        
+        // Store meeting info as JSON string
+        if (classItem.meetings && classItem.meetings.length > 0) {
+          classCard.dataset.meetings = JSON.stringify(classItem.meetings);
+        }
+        
+        // Add hover effect
+        classCard.addEventListener('mouseenter', () => {
+          classCard.style.transform = 'translateY(-2px)';
+          classCard.style.boxShadow = '0 4px 8px rgba(0, 39, 76, 0.2)';
+        });
+        classCard.addEventListener('mouseleave', () => {
+          classCard.style.transform = 'translateY(0)';
+          classCard.style.boxShadow = 'none';
+        });
+        
+        // Course ID
+        const courseIdEl = document.createElement('strong');
+        courseIdEl.textContent = classCard.dataset.courseId;
+        courseIdEl.style.display = 'block';
+        courseIdEl.style.marginBottom = '5px';
+        courseIdEl.style.color = '#00274C';
+        
+        // Title
+        const titleEl = document.createElement('span');
+        titleEl.textContent = classItem.title || classItem.description || 'No title available';
+        titleEl.style.display = 'block';
+        titleEl.style.color = '#666';
+        titleEl.style.fontSize = '14px';
+        titleEl.style.marginBottom = '5px';
+        
+        // Units
+        const unitsEl = document.createElement('span');
+        unitsEl.textContent = `${classItem.units || 3} units`;
+        unitsEl.style.display = 'block';
+        unitsEl.style.color = '#666';
+        unitsEl.style.fontSize = '13px';
+        unitsEl.style.marginBottom = '5px';
+        
+        // Meeting info
+        if (classItem.meetings && classItem.meetings.length > 0) {
+          const meetingsInfo = classItem.meetings.map(meeting => {
+            const day = meeting.day || '';
+            let time = '';
+            
+            // Convert start/end from minutes to time format
+            if (meeting.start !== undefined && meeting.end !== undefined) {
+              const startHours = Math.floor(meeting.start / 60);
+              const startMins = meeting.start % 60;
+              const endHours = Math.floor(meeting.end / 60);
+              const endMins = meeting.end % 60;
+              
+              const formatTime = (hours, mins) => {
+                const period = hours >= 12 ? 'PM' : 'AM';
+                const displayHours = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);
+                return `${displayHours}:${mins.toString().padStart(2, '0')} ${period}`;
+              };
+              
+              time = `${formatTime(startHours, startMins)}-${formatTime(endHours, endMins)}`;
+            } else if (meeting.time) {
+              time = meeting.time;
+            }
+            
+            return `${day} ${time}`.trim();
+          }).filter(Boolean).join('; ');
+          
+          if (meetingsInfo) {
+            const meetingEl = document.createElement('span');
+            meetingEl.textContent = meetingsInfo;
+            meetingEl.style.display = 'block';
+            meetingEl.style.color = '#00274C';
+            meetingEl.style.fontSize = '12px';
+            meetingEl.style.fontWeight = 'bold';
+            meetingEl.style.marginTop = '5px';
+            classCard.appendChild(meetingEl);
+          }
+        }
+        
+        classCard.appendChild(courseIdEl);
+        classCard.appendChild(titleEl);
+        classCard.appendChild(unitsEl);
+        
+        // Drag event handlers
+        classCard.addEventListener('dragstart', handleDragStart);
+        classCard.addEventListener('dragend', handleDragEnd);
+        
+        classesList.appendChild(classCard);
+      });
+    });
+    
+    openClassesPanel.appendChild(classesList);
+    
+  } catch (error) {
+    console.error('Error fetching open classes:', error);
+    const errorMsg = document.createElement('p');
+    errorMsg.textContent = 'Error loading open classes. Please try again.';
+    errorMsg.style.color = '#d32f2f';
+    openClassesPanel.appendChild(errorMsg);
+  }
+}
+
+// Drag and drop handlers
+let draggedElement = null;
+
+function handleDragStart(e) {
+  draggedElement = e.target;
+  e.target.style.opacity = '0.5';
+  e.target.style.cursor = 'grabbing';
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', e.target.outerHTML);
+}
+
+function handleDragEnd(e) {
+  e.target.style.opacity = '1';
+  e.target.style.cursor = 'grab';
+  draggedElement = null;
+}
+
+function handleDragOver(e) {
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
+  e.dataTransfer.dropEffect = 'move';
+  const schedulePanel = e.currentTarget;
+  schedulePanel.style.border = '2px dashed #00274C';
+  schedulePanel.style.backgroundColor = '#f0f7ff';
+  return false;
+}
+
+function handleDragLeave(e) {
+  const schedulePanel = e.currentTarget;
+  // Only reset if we're actually leaving the panel (not just moving to a child)
+  if (!schedulePanel.contains(e.relatedTarget)) {
+    schedulePanel.style.border = 'none';
+    schedulePanel.style.backgroundColor = '#ffffff';
+  }
+}
+
+function handleDrop(e) {
+  if (e.stopPropagation) {
+    e.stopPropagation();
   }
   
-  // Display parsed TDA info in open classes panel
-  if (parsedData && parsedData.completed_courses) {
-    const completedCount = parsedData.completed_courses.filter(c => c.status === 'completed').length;
-    const infoText = document.createElement('p');
-    infoText.textContent = `Parsed ${completedCount} completed course(s) from your TDA.`;
-    infoText.style.color = '#666';
-    openClassesPanel.appendChild(infoText);
+  e.preventDefault();
+  const schedulePanel = e.currentTarget;
+  schedulePanel.style.border = 'none';
+  schedulePanel.style.backgroundColor = '#ffffff';
+  
+  if (!draggedElement) return;
+  
+  // Get course data from dragged element
+  const courseId = draggedElement.dataset.courseId;
+  const courseTitle = draggedElement.dataset.courseTitle;
+  const courseUnits = parseInt(draggedElement.dataset.courseUnits) || 3;
+  
+  // Check if course is already in schedule
+  const alreadyAdded = currentScheduleData.planned_courses.some(
+    c => c.course_id === courseId
+  );
+  
+  if (alreadyAdded) {
+    alert(`${courseId} is already in your schedule.`);
+    return;
   }
+  
+  // Add course to schedule
+  const newCourse = {
+    course_id: courseId,
+    title: courseTitle,
+    units: courseUnits,
+    meeting: {
+      days: [],
+      time: 'TBA'
+    }
+  };
+  
+  // Extract meeting info from stored dataset
+  if (draggedElement.dataset.meetings) {
+    try {
+      const meetings = JSON.parse(draggedElement.dataset.meetings);
+      if (meetings && meetings.length > 0) {
+        const firstMeeting = meetings[0];
+        
+        // Handle day - can be string or array
+        if (firstMeeting.day) {
+          newCourse.meeting.days = [firstMeeting.day];
+        } else if (firstMeeting.days && Array.isArray(firstMeeting.days)) {
+          newCourse.meeting.days = firstMeeting.days;
+        }
+        
+        // Handle time - convert from minutes if needed
+        if (firstMeeting.time) {
+          newCourse.meeting.time = firstMeeting.time;
+        } else if (firstMeeting.start !== undefined && firstMeeting.end !== undefined) {
+          const startHours = Math.floor(firstMeeting.start / 60);
+          const startMins = firstMeeting.start % 60;
+          const endHours = Math.floor(firstMeeting.end / 60);
+          const endMins = firstMeeting.end % 60;
+          
+          const formatTime = (hours, mins) => {
+            const period = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);
+            return `${displayHours}:${mins.toString().padStart(2, '0')} ${period}`;
+          };
+          
+          newCourse.meeting.time = `${formatTime(startHours, startMins)}-${formatTime(endHours, endMins)}`;
+        } else {
+          newCourse.meeting.time = 'TBA';
+        }
+      }
+    } catch (e) {
+      console.warn('Error parsing meeting data:', e);
+    }
+  }
+  
+  currentScheduleData.planned_courses.push(newCourse);
+  currentScheduleData.planned_units += courseUnits;
+  
+  // Remove from remaining needed if it's there
+  currentScheduleData.remaining_needed = currentScheduleData.remaining_needed.filter(
+    c => c !== courseId
+  );
+  
+  // Re-render schedule
+  const schedulePanel = document.getElementById('schedule-panel');
+  const scheduleList = document.getElementById('schedule-list');
+  if (scheduleList) {
+    scheduleList.remove();
+  }
+  renderSchedule();
+  
+  // Remove dragged element from open classes (optional - you might want to keep it)
+  // draggedElement.remove();
+  
+  return false;
 }
 
 function initializeResultsPage() {
