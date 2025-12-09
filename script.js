@@ -12,24 +12,26 @@ function showPage(pageId) {
   });
 }
 
-// Navigation button handlers
-document.querySelectorAll(".next-button").forEach(button => {
-  button.addEventListener("click", () => {
-    const nextPage = button.getAttribute("data-next");
-    if (nextPage) {
-      showPage(nextPage);
-    }
+function initializeNavigation() {
+  // Navigation button handlers
+  document.querySelectorAll(".next-button").forEach(button => {
+    button.addEventListener("click", () => {
+      const nextPage = button.getAttribute("data-next");
+      if (nextPage) {
+        showPage(nextPage);
+      }
+    });
   });
-});
 
-document.querySelectorAll(".back-button").forEach(button => {
-  button.addEventListener("click", () => {
-    const prevPage = button.getAttribute("data-prev");
-    if (prevPage) {
-      showPage(prevPage);
-    }
+  document.querySelectorAll(".back-button").forEach(button => {
+    button.addEventListener("click", () => {
+      const prevPage = button.getAttribute("data-prev");
+      if (prevPage) {
+        showPage(prevPage);
+      }
+    });
   });
-});
+}
 
 // ================= PREFERENCES DATA STORAGE =================
 const preferences = {
@@ -745,7 +747,6 @@ function handleDrop(e) {
   );
   
   // Re-render schedule
-  const schedulePanel = document.getElementById('schedule-panel');
   const scheduleList = document.getElementById('schedule-list');
   if (scheduleList) {
     scheduleList.remove();
@@ -765,6 +766,7 @@ function initializeResultsPage() {
 
 // ================= INITIALIZE ON PAGE LOAD =================
 document.addEventListener('DOMContentLoaded', function() {
+  initializeNavigation();
   initializeDayCheckboxes();
   initializeCalendarTimePicker();
   initializeUnitsSelector();
