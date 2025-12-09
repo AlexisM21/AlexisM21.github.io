@@ -547,6 +547,64 @@ function renderSchedule() {
   }
 }
 
+// ================= PROFESSOR RATING FETCH =================
+async function fetchProfessorRating(professorName, professorElement) {
+  if (!professorName || !professorName.trim()) {
+    return;
+  }
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/professor/rating?professor_name=${encodeURIComponent(professorName)}`);
+    
+    if (!response.ok) {
+      // Silently fail - don't show error if rating service is unavailable
+      if (response.status === 503) {
+        console.log(`Rate My Professor service unavailable for ${professorName}`);
+      }
+      return;
+    }
+    
+    const data = await response.json();
+    
+    if (data.found && data.overall_rating) {
+      const rating = parseFloat(data.overall_rating);
+      const numRatings = data.num_ratings || 0;
+      
+      // Determine rating color
+      let ratingColor = '#666';
+      if (rating >= 4.0) {
+        ratingColor = '#2e7d32'; // Green for good ratings
+      } else if (rating >= 3.0) {
+        ratingColor = '#f57c00'; // Orange for average ratings
+      } else if (rating > 0) {
+        ratingColor = '#d32f2f'; // Red for poor ratings
+      }
+      
+      // Update professor element with rating
+      const ratingText = numRatings > 0 
+        ? `Professor: ${professorName} | RMP Rating: ${rating.toFixed(1)}/5.0 (${numRatings} reviews)`
+        : `Professor: ${professorName} | RMP Rating: ${rating.toFixed(1)}/5.0`;
+      
+      professorElement.textContent = ratingText;
+      professorElement.style.color = ratingColor;
+      professorElement.style.fontWeight = '500';
+      
+      // Add a small star icon or emoji
+      const starSpan = document.createElement('span');
+      starSpan.textContent = ' ⭐';
+      starSpan.style.marginLeft = '3px';
+      professorElement.appendChild(starSpan);
+    } else {
+      // Professor not found on Rate My Professor
+      professorElement.textContent = `Professor: ${professorName} | RMP Rating: Not found`;
+      professorElement.style.color = '#999';
+    }
+  } catch (error) {
+    // Silently fail - don't disrupt the UI if rating fetch fails
+    console.log(`Error fetching rating for ${professorName}:`, error);
+  }
+}
+
 async function fetchAndDisplayOpenClasses(remainingNeeded, openClassesPanel) {
   try {
     // Fetch open classes for each remaining needed course
@@ -565,7 +623,17 @@ async function fetchAndDisplayOpenClasses(remainingNeeded, openClassesPanel) {
           return [];
         }
         const data = await response.json();
-        return Array.isArray(data) ? data : [];
+        
+        // Handle new API format: { "Open Classes:": { "eligible_classes": [...] } }
+        let classes = [];
+        if (data && data["Open Classes:"] && data["Open Classes:"].eligible_classes) {
+          classes = data["Open Classes:"].eligible_classes;
+        } else if (Array.isArray(data)) {
+          // Fallback to old format if needed
+          classes = data;
+        }
+        
+        return classes;
       } catch (error) {
         console.error(`Error fetching open classes for ${courseId}:`, error);
         return [];
@@ -617,6 +685,8 @@ async function fetchAndDisplayOpenClasses(remainingNeeded, openClassesPanel) {
         classCard.dataset.courseUnits = classItem.units || 3;
         classCard.dataset.crn = classItem.crn;
         classCard.dataset.term = classItem.term;
+        classCard.dataset.section = classItem.section || '';
+        classCard.dataset.professor = classItem.professor || '';
         
         // Store meeting info as JSON string
         if (classItem.meetings && classItem.meetings.length > 0) {
@@ -633,9 +703,10 @@ async function fetchAndDisplayOpenClasses(remainingNeeded, openClassesPanel) {
           classCard.style.boxShadow = 'none';
         });
         
-        // Course ID
+        // Course ID with section
         const courseIdEl = document.createElement('strong');
-        courseIdEl.textContent = classCard.dataset.courseId;
+        const sectionText = classItem.section ? ` - Section ${classItem.section}` : '';
+        courseIdEl.textContent = `${classCard.dataset.courseId}${sectionText}`;
         courseIdEl.style.display = 'block';
         courseIdEl.style.marginBottom = '5px';
         courseIdEl.style.color = '#00274C';
@@ -647,6 +718,21 @@ async function fetchAndDisplayOpenClasses(remainingNeeded, openClassesPanel) {
         titleEl.style.color = '#666';
         titleEl.style.fontSize = '14px';
         titleEl.style.marginBottom = '5px';
+        
+        // Professor with rating
+        if (classItem.professor) {
+          const professorEl = document.createElement('span');
+          professorEl.id = `professor-${classItem.crn}-${classItem.section}`;
+          professorEl.textContent = `Professor: ${classItem.professor}`;
+          professorEl.style.display = 'block';
+          professorEl.style.color = '#666';
+          professorEl.style.fontSize = '13px';
+          professorEl.style.marginBottom = '5px';
+          classCard.appendChild(professorEl);
+          
+          // Fetch and display professor rating asynchronously
+          fetchProfessorRating(classItem.professor, professorEl);
+        }
         
         // Units
         const unitsEl = document.createElement('span');
@@ -661,6 +747,7 @@ async function fetchAndDisplayOpenClasses(remainingNeeded, openClassesPanel) {
           const meetingsInfo = classItem.meetings.map(meeting => {
             const day = meeting.day || '';
             let time = '';
+            let room = meeting.room || '';
             
             // Convert start/end from minutes to time format
             if (meeting.start !== undefined && meeting.end !== undefined) {
@@ -680,7 +767,11 @@ async function fetchAndDisplayOpenClasses(remainingNeeded, openClassesPanel) {
               time = meeting.time;
             }
             
-            return `${day} ${time}`.trim();
+            let meetingStr = `${day} ${time}`.trim();
+            if (room) {
+              meetingStr += ` (${room})`;
+            }
+            return meetingStr;
           }).filter(Boolean).join('; ');
           
           if (meetingsInfo) {
