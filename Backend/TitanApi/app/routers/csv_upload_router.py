@@ -8,6 +8,7 @@ from services import csv_scraper_service
 from crud import open_class_list_crud
 from db import get_conn
 from parser import PDF_parser
+import cache
 
 router = APIRouter()
 
@@ -39,7 +40,8 @@ async def upload_csv(file: UploadFile = File(...)):
 
 @router.get("/open")
 def get_all_open_classes():
-    return {"data": open_class_list_crud.get_open_class_list()}
+    # print("Router sees:", len(OPEN_CACHE))
+    return cache.OPEN_CACHE
 
 
 # -----------------------
@@ -380,11 +382,11 @@ async def prase_tda(file: UploadFile = File(...)):
         )
     try:
         contents = await file.read()
-        results = PDF_parser.parse_tda(contents, file.filename)
+        results = PDF_parser.open_class_connection(contents, file.filename)
         if results.get("status") == "error":
             raise HTTPException(status_code=400, detail=results.get("errors", ["Unknown error"]))
         return {
-            "parsed_data": results
+            "Open Classes:": results
         }
     except HTTPException:
         raise

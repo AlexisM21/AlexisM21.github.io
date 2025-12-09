@@ -3,6 +3,10 @@ import os
 from openai import OpenAI
 import json
 import pandas as pd
+import requests
+from parser import match_open_classes
+from pypdf import PdfReader
+import time
 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
@@ -12,8 +16,11 @@ if not api_key:
 
 client = OpenAI(api_key=api_key)
 
+
 def parse_tda(file_bytes: bytes, filename: str):
   try: 
+
+    start = time.time()
 
     uploaded_file = client.files.create(
       file=(filename, file_bytes),
@@ -100,24 +107,111 @@ def parse_tda(file_bytes: bytes, filename: str):
             }
         ],
     )
-
+    print("SUCCESS RESPONSE CLINET")
     raw_text = response.output[0].content[0].text
 
     parsed_json = json.loads(raw_text)
 
+    end = time.time()
+    print(f"OpenAI response time: {end - start:.2f} seconds")
     return parsed_json
 
   except Exception as e:
     return {"status" : "error", "errors": [str(e)]}
+  
 
-  # try:
-  #     parsed_json = json.loads(raw_text)
-  # except json.JSONDecodeError:
-  #     print("ERROR: OpenAI did not return valid JSON")
-  #     print(raw_text)
-  #     raise
+  
+def open_class_connection(file_bytes: bytes, filename: str): 
+  audit = parse_tda(file_bytes, filename)
+  if "status" in audit and audit["status"] == "error":
+    return audit
+  open_list = match_open_classes.get_open_class_user(audit)
+  return open_list
 
-  # with open("parsed_credits.json", "w", encoding="utf-8") as f:
-  #     json.dump(parsed_json, f, indent=2, ensure_ascii=False)
 
-  # print("parsed_credits.json created successfully")
+
+
+
+# from dotenv import load_dotenv
+# import os
+# from openai import OpenAI
+# import json
+# import pandas as pd
+# import requests
+# from parser import match_open_classes
+# from pypdf import PdfReader
+# import io
+# import time
+
+# load_dotenv()
+# api_key = os.getenv("OPENAI_API_KEY")
+
+# if not api_key:
+#     raise RuntimeError("OPENAI_API_KEY not found in .env")
+
+# client = OpenAI(api_key=api_key)
+
+
+# def extract_pdf_text(file_bytes: bytes) -> str:
+#     """Extract text locally — much faster than uploading the whole PDF."""
+#     reader = PdfReader(io.BytesIO(file_bytes))
+#     text = ""
+#     for page in reader.pages:
+#         text += page.extract_text() or ""
+#     return text
+
+
+# def parse_tda(file_bytes: bytes, filename: str):
+#     try:
+#         print("IN TDA PARSER (FAST MODE)")
+#         start = time.time()
+#         # ⭐ FAST: Extract PDF text locally
+#         extracted_text = extract_pdf_text(file_bytes)
+
+#         # ⭐ Short + optimized prompt
+#         prompt = f"""
+#         You will parse a Titan Degree Audit.
+
+#         Extract JSON ONLY with:
+#         - student_info
+#         - completed_courses[]
+#         - requirements[]
+
+#         IMPORTANT:
+#         - No explanation, no markdown.
+#         - Null for unknown.
+#         - status = completed | in_progress
+#         - type = GE | Major | Support | Elective
+#         - Don’t hallucinate anything.
+        
+#         RAW TDA TEXT:
+#         {extracted_text}
+#         """
+
+#         # ⭐ Faster model
+#         response = client.responses.create(
+#             model="gpt-4.1",
+#             input=[{"role": "user", "content": [{"type": "input_text", "text": prompt}]}],
+#         )
+
+#         raw_text = response.output[0].content[0].text
+#         end = time.time()
+#         # ⭐ Parse JSON output
+#         print(f"OpenAI response time: {end - start:.2f} seconds")
+#         return json.loads(raw_text)
+
+#     except Exception as e:
+#         print("ERROR IN TDA PARSER:", e)
+#         return {"status": "error", "errors": [str(e)]}
+
+# def open_class_connection(file_bytes: bytes, filename: str): 
+#   audit = parse_tda(file_bytes, filename)
+#   if "status" in audit and audit["status"] == "error":
+#     return audit
+#   open_list = match_open_classes.get_open_class_user(audit)
+#   return open_list
+
+
+
+
+
