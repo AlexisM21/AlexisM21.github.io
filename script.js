@@ -311,75 +311,20 @@ async function initializeGenerateButton() {
         
         const uploadData = await uploadResponse.json();
         console.log('Upload response data:', uploadData);
-        const parsedData = uploadData.parsed_data;
         
-        if (!parsedData) {
-          throw new Error('No parsed data received from server');
+        // Backend returns only open classes in format: { "Open Classes:": { "eligible_classes": [...] } }
+        const openClassesData = uploadData["Open Classes:"];
+        
+        if (!openClassesData || !openClassesData.eligible_classes) {
+          throw new Error('No open classes received from server');
         }
         
-        // Step 2: Extract completed courses from parsed data
-        // Format: course_id should be like "CPSC 131" (subject + number)
-        console.log('Step 2: Extracting completed courses...');
-        const completedCourses = [];
-        if (parsedData.completed_courses && Array.isArray(parsedData.completed_courses)) {
-          parsedData.completed_courses.forEach(course => {
-            if (course.status === 'completed' && course.subject && course.number) {
-              // Format as "SUBJECT NUMBER" (e.g., "CPSC 131")
-              const courseId = `${course.subject} ${course.number}`.trim();
-              completedCourses.push(courseId);
-            }
-          });
-        }
+        const eligibleClasses = openClassesData.eligible_classes || [];
+        console.log(`Received ${eligibleClasses.length} eligible open classes`);
         
-        console.log('Completed courses extracted:', completedCourses);
-        
-        if (completedCourses.length === 0) {
-          console.warn('No completed courses found in parsed data');
-        }
-        
-        // Step 3: Generate schedule with completed courses and preferences
-        console.log('Step 3: Generating schedule...');
-        const schedulePayload = {
-          completed: completedCourses,
-          max_units: preferences.preferredUnits
-        };
-        console.log('Schedule payload:', schedulePayload);
-        
-        const scheduleResponse = await fetch(`${API_BASE_URL}/schedule/next-semester`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(schedulePayload)
-        });
-        
-        console.log('Schedule response status:', scheduleResponse.status);
-        
-        if (!scheduleResponse.ok) {
-          let errorMessage = 'Failed to generate schedule';
-          try {
-            const errorData = await scheduleResponse.json();
-            errorMessage = errorData.detail || errorData.message || errorMessage;
-            console.error('Schedule error details:', errorData);
-          } catch (e) {
-            const errorText = await scheduleResponse.text();
-            console.error('Schedule error text:', errorText);
-            errorMessage = `HTTP ${scheduleResponse.status}: ${errorText}`;
-          }
-          throw new Error(errorMessage);
-        }
-        
-        const scheduleData = await scheduleResponse.json();
-        console.log('Schedule response data:', scheduleData);
-        const schedule = scheduleData.data;
-        
-        if (!schedule) {
-          throw new Error('No schedule data received from server');
-        }
-        
-        // Step 4: Display results
-        console.log('Step 4: Displaying results...');
-        displayScheduleResults(schedule, parsedData);
+        // Step 2: Display the open classes directly
+        console.log('Step 2: Displaying open classes...');
+        displayOpenClassesFromUpload(eligibleClasses);
         
         // Navigate to results page
         showPage('step-results');
@@ -603,6 +548,208 @@ async function fetchProfessorRating(professorName, professorElement) {
     // Silently fail - don't disrupt the UI if rating fetch fails
     console.log(`Error fetching rating for ${professorName}:`, error);
   }
+}
+
+// ================= DISPLAY OPEN CLASSES FROM UPLOAD =================
+function displayOpenClassesFromUpload(eligibleClasses) {
+  const schedulePanel = document.getElementById('schedule-panel');
+  const openClassesPanel = document.getElementById('open-classes-panel');
+  
+  // Initialize empty schedule data
+  currentScheduleData = {
+    planned_courses: [],
+    planned_units: 0,
+    remaining_needed: []
+  };
+  
+  // Clear existing content
+  schedulePanel.innerHTML = '<h2>Generated Schedule</h2>';
+  openClassesPanel.innerHTML = '<h2>Open Classes</h2>';
+  
+  // Make schedule panel a drop zone
+  schedulePanel.setAttribute('droppable', 'true');
+  schedulePanel.addEventListener('dragover', handleDragOver);
+  schedulePanel.addEventListener('dragleave', handleDragLeave);
+  schedulePanel.addEventListener('drop', handleDrop);
+  
+  // Make open classes panel a drop zone for removing schedule items
+  openClassesPanel.setAttribute('droppable', 'true');
+  openClassesPanel.addEventListener('dragover', (e) => {
+    if (draggedFromSchedule) {
+      handleDragOver(e);
+    }
+  });
+  openClassesPanel.addEventListener('dragleave', handleDragLeave);
+  openClassesPanel.addEventListener('drop', handleScheduleDrop);
+  
+  // Display empty schedule
+  renderSchedule();
+  
+  // Display open classes directly
+  if (eligibleClasses && eligibleClasses.length > 0) {
+    displayOpenClassesList(eligibleClasses, openClassesPanel);
+  } else {
+    const noClasses = document.createElement('p');
+    noClasses.textContent = 'No open classes found for courses you need to take.';
+    noClasses.style.color = '#666';
+    openClassesPanel.appendChild(noClasses);
+  }
+}
+
+function displayOpenClassesList(classItems, openClassesPanel) {
+  // Group by course_id
+  const classesByCourse = {};
+  classItems.forEach(classItem => {
+    const courseId = classItem.course_id || `${classItem.subject} ${classItem.number}`;
+    if (!classesByCourse[courseId]) {
+      classesByCourse[courseId] = [];
+    }
+    classesByCourse[courseId].push(classItem);
+  });
+  
+  // Display open classes
+  const classesList = document.createElement('div');
+  classesList.className = 'open-classes-list';
+  
+  Object.keys(classesByCourse).forEach(courseId => {
+    const courseGroup = classesByCourse[courseId];
+    courseGroup.forEach(classItem => {
+      const classCard = createClassCard(classItem);
+      classesList.appendChild(classCard);
+    });
+  });
+  
+  openClassesPanel.appendChild(classesList);
+}
+
+function createClassCard(classItem) {
+  const classCard = document.createElement('div');
+  classCard.className = 'open-class-item';
+  classCard.draggable = true;
+  classCard.style.marginBottom = '10px';
+  classCard.style.padding = '12px';
+  classCard.style.border = '2px solid #00274C';
+  classCard.style.borderRadius = '8px';
+  classCard.style.backgroundColor = '#ffffff';
+  classCard.style.cursor = 'grab';
+  classCard.style.transition = 'all 0.2s ease';
+  
+  // Store course data for drag and drop
+  classCard.dataset.courseId = classItem.course_id || `${classItem.subject} ${classItem.number}`;
+  classCard.dataset.courseTitle = classItem.title || classItem.description || '';
+  classCard.dataset.courseUnits = classItem.units || 3;
+  classCard.dataset.crn = classItem.crn;
+  classCard.dataset.term = classItem.term;
+  classCard.dataset.section = classItem.section || '';
+  classCard.dataset.professor = classItem.professor || '';
+  
+  // Store meeting info as JSON string
+  if (classItem.meetings && classItem.meetings.length > 0) {
+    classCard.dataset.meetings = JSON.stringify(classItem.meetings);
+  }
+  
+  // Add hover effect
+  classCard.addEventListener('mouseenter', () => {
+    classCard.style.transform = 'translateY(-2px)';
+    classCard.style.boxShadow = '0 4px 8px rgba(0, 39, 76, 0.2)';
+  });
+  classCard.addEventListener('mouseleave', () => {
+    classCard.style.transform = 'translateY(0)';
+    classCard.style.boxShadow = 'none';
+  });
+  
+  // Course ID with section
+  const courseIdEl = document.createElement('strong');
+  const sectionText = classItem.section ? ` - Section ${classItem.section}` : '';
+  courseIdEl.textContent = `${classCard.dataset.courseId}${sectionText}`;
+  courseIdEl.style.display = 'block';
+  courseIdEl.style.marginBottom = '5px';
+  courseIdEl.style.color = '#00274C';
+  
+  // Title
+  const titleEl = document.createElement('span');
+  titleEl.textContent = classItem.title || classItem.description || 'No title available';
+  titleEl.style.display = 'block';
+  titleEl.style.color = '#666';
+  titleEl.style.fontSize = '14px';
+  titleEl.style.marginBottom = '5px';
+  
+  // Professor with rating
+  if (classItem.professor) {
+    const professorEl = document.createElement('span');
+    professorEl.id = `professor-${classItem.crn}-${classItem.section}`;
+    professorEl.textContent = `Professor: ${classItem.professor}`;
+    professorEl.style.display = 'block';
+    professorEl.style.color = '#666';
+    professorEl.style.fontSize = '13px';
+    professorEl.style.marginBottom = '5px';
+    classCard.appendChild(professorEl);
+    
+    // Fetch and display professor rating asynchronously
+    fetchProfessorRating(classItem.professor, professorEl);
+  }
+  
+  // Units
+  const unitsEl = document.createElement('span');
+  unitsEl.textContent = `${classItem.units || 3} units`;
+  unitsEl.style.display = 'block';
+  unitsEl.style.color = '#666';
+  unitsEl.style.fontSize = '13px';
+  unitsEl.style.marginBottom = '5px';
+  
+  // Meeting info
+  if (classItem.meetings && classItem.meetings.length > 0) {
+    const meetingsInfo = classItem.meetings.map(meeting => {
+      const day = meeting.day || '';
+      let time = '';
+      let room = meeting.room || '';
+      
+      // Convert start/end from minutes to time format
+      if (meeting.start !== undefined && meeting.end !== undefined) {
+        const startHours = Math.floor(meeting.start / 60);
+        const startMins = meeting.start % 60;
+        const endHours = Math.floor(meeting.end / 60);
+        const endMins = meeting.end % 60;
+        
+        const formatTime = (hours, mins) => {
+          const period = hours >= 12 ? 'PM' : 'AM';
+          const displayHours = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);
+          return `${displayHours}:${mins.toString().padStart(2, '0')} ${period}`;
+        };
+        
+        time = `${formatTime(startHours, startMins)}-${formatTime(endHours, endMins)}`;
+      } else if (meeting.time) {
+        time = meeting.time;
+      }
+      
+      let meetingStr = `${day} ${time}`.trim();
+      if (room) {
+        meetingStr += ` (${room})`;
+      }
+      return meetingStr;
+    }).filter(Boolean).join('; ');
+    
+    if (meetingsInfo) {
+      const meetingEl = document.createElement('span');
+      meetingEl.textContent = meetingsInfo;
+      meetingEl.style.display = 'block';
+      meetingEl.style.color = '#00274C';
+      meetingEl.style.fontSize = '12px';
+      meetingEl.style.fontWeight = 'bold';
+      meetingEl.style.marginTop = '5px';
+      classCard.appendChild(meetingEl);
+    }
+  }
+  
+  classCard.appendChild(courseIdEl);
+  classCard.appendChild(titleEl);
+  classCard.appendChild(unitsEl);
+  
+  // Drag event handlers
+  classCard.addEventListener('dragstart', handleDragStart);
+  classCard.addEventListener('dragend', handleDragEnd);
+  
+  return classCard;
 }
 
 async function fetchAndDisplayOpenClasses(remainingNeeded, openClassesPanel) {

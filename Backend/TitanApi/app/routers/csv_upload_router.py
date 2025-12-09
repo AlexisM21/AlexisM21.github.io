@@ -382,11 +382,18 @@ async def prase_tda(file: UploadFile = File(...)):
         )
     try:
         contents = await file.read()
-        results = PDF_parser.open_class_connection(contents, file.filename)
-        if results.get("status") == "error":
-            raise HTTPException(status_code=400, detail=results.get("errors", ["Unknown error"]))
+        
+        # Parse the TDA to get courses the student is allowed to take
+        audit_data = PDF_parser.parse_tda(contents, file.filename)
+        if audit_data.get("status") == "error":
+            raise HTTPException(status_code=400, detail=audit_data.get("errors", ["Unknown error"]))
+        
+        # Get eligible open classes - only return open classes the student needs
+        eligible_classes = PDF_parser.match_open_classes(audit_data.get("courses_allowed", []))
+        
+        # Return only the open classes
         return {
-            "Open Classes:": results
+            "Open Classes:": eligible_classes
         }
     except HTTPException:
         raise
