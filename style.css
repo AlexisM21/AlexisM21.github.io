@@ -224,6 +224,16 @@ body {
   background: #003d7a;
 }
 
+/* ---------- LOADING SPINNER ANIMATION ---------- */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.course-item:active {
+  cursor: grabbing;
+}
+
 /* ---------- NAV BUTTONS ---------- */
 .nav-buttons {
   margin-top: 30px;
