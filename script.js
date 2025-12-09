@@ -765,13 +765,91 @@ function generateScheduleFromClasses(eligibleClasses, preferences) {
     classesByCourse[courseId].push(classItem);
   });
   
+  // Helper to extract subject and number from course ID
+  function parseCourseId(courseId) {
+    // Match patterns like "CPSC 131", "CHEM 122", "MATH 150A", etc.
+    const match = courseId.match(/^([A-Z]+)\s+(\d+)([A-Z]*)$/);
+    if (match) {
+      return {
+        subject: match[1],
+        number: parseInt(match[2]),
+        suffix: match[3] || ''
+      };
+    }
+    return { subject: '', number: 0, suffix: '' };
+  }
+  
+  // Helper to check if two courses are in a sequence (e.g., CHEM 122 and 123)
+  // This prevents scheduling courses that are typically prerequisites/corequisites
+  function areInSequence(courseId1, courseId2) {
+    const course1 = parseCourseId(courseId1);
+    const course2 = parseCourseId(courseId2);
+    
+    // Same subject
+    if (course1.subject !== course2.subject) return false;
+    
+    // If they have the same base number but different suffixes (e.g., 122A and 122B), they're related
+    if (course1.number === course2.number && course1.suffix !== course2.suffix && 
+        course1.suffix !== '' && course2.suffix !== '') {
+      return true;
+    }
+    
+    // Check if numbers are consecutive (e.g., 122/123, 1/2, 10/11)
+    // This catches cases like CHEM 122 and CHEM 123
+    const numDiff = Math.abs(course1.number - course2.number);
+    if (numDiff === 1 && course1.suffix === '' && course2.suffix === '') {
+      return true;
+    }
+    
+    // Also check for common sequence patterns (e.g., 1/2, 10/11, 100/101, 120/121, 122/123)
+    // where the first digit(s) are the same and last digit differs by 1
+    if (course1.number >= 100 && course2.number >= 100) {
+      const num1Str = course1.number.toString();
+      const num2Str = course2.number.toString();
+      // Check if they're like 122/123 (same first digits, last digit differs by 1)
+      if (num1Str.length === num2Str.length && num1Str.length >= 3) {
+        const prefix1 = num1Str.slice(0, -1);
+        const prefix2 = num2Str.slice(0, -1);
+        const last1 = parseInt(num1Str.slice(-1));
+        const last2 = parseInt(num2Str.slice(-1));
+        if (prefix1 === prefix2 && Math.abs(last1 - last2) === 1) {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  }
+  
+  // Helper to check if a course conflicts with already scheduled courses (sequence conflicts)
+  function hasSequenceConflict(newCourseId, existingCourses) {
+    return existingCourses.some(existing => {
+      const existingCourseId = existing.course_id;
+      return areInSequence(newCourseId, existingCourseId);
+    });
+  }
+  
+  // Helper to check if course is CS/CPSC
+  function isComputerScience(courseId) {
+    const parsed = parseCourseId(courseId);
+    return parsed.subject === 'CPSC' || parsed.subject === 'CS';
+  }
+  
   // Generate schedule: select one section per course, avoiding conflicts
   const plannedCourses = [];
   let totalUnits = 0;
   const usedCourseIds = new Set();
   
-  // Sort courses by units (prefer smaller units to fit more courses)
+  // Sort courses: prioritize CS/CPSC classes, then by units
   const sortedCourses = Object.keys(classesByCourse).sort((a, b) => {
+    const aIsCS = isComputerScience(a);
+    const bIsCS = isComputerScience(b);
+    
+    // CS classes first
+    if (aIsCS && !bIsCS) return -1;
+    if (!aIsCS && bIsCS) return 1;
+    
+    // Then sort by units (prefer smaller units to fit more courses)
     const aUnits = classesByCourse[a][0].units || 3;
     const bUnits = classesByCourse[b][0].units || 3;
     return aUnits - bUnits;
@@ -795,6 +873,9 @@ function generateScheduleFromClasses(eligibleClasses, preferences) {
       };
       
       if (hasTimeConflict(courseForConflict, plannedCourses)) continue;
+      
+      // Check for sequence conflicts (e.g., CHEM 122 and 123)
+      if (hasSequenceConflict(courseId, plannedCourses)) continue;
       
       // Add to schedule
       const meeting = section.meetings && section.meetings.length > 0 
