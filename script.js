@@ -322,9 +322,14 @@ async function initializeGenerateButton() {
         const eligibleClasses = openClassesData.eligible_classes || [];
         console.log(`Received ${eligibleClasses.length} eligible open classes`);
         
-        // Step 2: Display the open classes directly
-        console.log('Step 2: Displaying open classes...');
-        displayOpenClassesFromUpload(eligibleClasses);
+        // Step 2: Generate schedule from eligible classes with filters
+        console.log('Step 2: Generating schedule with filters...');
+        const generatedSchedule = generateScheduleFromClasses(eligibleClasses, preferences);
+        console.log('Generated schedule:', generatedSchedule);
+        
+        // Step 3: Display the generated schedule and remaining open classes
+        console.log('Step 3: Displaying schedule and open classes...');
+        displayScheduleFromUpload(eligibleClasses, generatedSchedule);
         
         // Navigate to results page
         showPage('step-results');
@@ -401,8 +406,15 @@ async function displayScheduleResults(schedule, parsedData) {
 
 function renderSchedule() {
   const schedulePanel = document.getElementById('schedule-panel');
-    const scheduleList = document.createElement('div');
-    scheduleList.className = 'schedule-list';
+  
+  // Remove existing schedule list if it exists
+  const existingList = document.getElementById('schedule-list');
+  if (existingList) {
+    existingList.remove();
+  }
+  
+  const scheduleList = document.createElement('div');
+  scheduleList.className = 'schedule-list';
   scheduleList.id = 'schedule-list';
     
   if (currentScheduleData.planned_courses && currentScheduleData.planned_courses.length > 0) {
@@ -439,28 +451,59 @@ function renderSchedule() {
       });
       
       const courseId = document.createElement('strong');
-      courseId.textContent = course.course_id;
+      const sectionText = course.section ? ` - Section ${course.section}` : '';
+      courseId.textContent = `${course.course_id}${sectionText}`;
       courseId.style.display = 'block';
       courseId.style.marginBottom = '5px';
+      courseId.style.color = '#00274C';
       
       const courseTitle = document.createElement('span');
       courseTitle.textContent = course.title || 'No title available';
       courseTitle.style.display = 'block';
       courseTitle.style.color = '#666';
       courseTitle.style.marginBottom = '5px';
+      courseTitle.style.fontSize = '14px';
+      
+      // Professor info
+      if (course.professor) {
+        const professorEl = document.createElement('span');
+        professorEl.textContent = `Professor: ${course.professor}`;
+        professorEl.style.display = 'block';
+        professorEl.style.color = '#666';
+        professorEl.style.fontSize = '13px';
+        professorEl.style.marginBottom = '5px';
+        courseItem.appendChild(professorEl);
+      }
       
       const courseUnits = document.createElement('span');
       courseUnits.textContent = `${course.units} units`;
       courseUnits.style.display = 'block';
       courseUnits.style.color = '#666';
+      courseUnits.style.fontSize = '13px';
       courseUnits.style.marginBottom = '5px';
+      
+      // CRN if available
+      if (course.crn) {
+        const crnEl = document.createElement('span');
+        crnEl.textContent = `CRN: ${course.crn}`;
+        crnEl.style.display = 'block';
+        crnEl.style.color = '#666';
+        crnEl.style.fontSize = '12px';
+        crnEl.style.marginBottom = '5px';
+        courseItem.appendChild(crnEl);
+      }
       
       if (course.meeting) {
         const meetingInfo = document.createElement('span');
-        meetingInfo.textContent = `${course.meeting.days.join(', ')} ${course.meeting.time}`;
+        const daysText = course.meeting.days && course.meeting.days.length > 0
+          ? course.meeting.days.join(', ')
+          : 'TBA';
+        meetingInfo.textContent = `${daysText} ${course.meeting.time || 'TBA'}`;
         meetingInfo.style.display = 'block';
         meetingInfo.style.color = '#00274C';
         meetingInfo.style.fontWeight = 'bold';
+        meetingInfo.style.fontSize = '13px';
+        meetingInfo.style.marginTop = '5px';
         courseItem.appendChild(meetingInfo);
       }
       
@@ -547,6 +590,344 @@ async function fetchProfessorRating(professorName, professorElement) {
   } catch (error) {
     // Silently fail - don't disrupt the UI if rating fetch fails
     console.log(`Error fetching rating for ${professorName}:`, error);
+  }
+}
+
+// ================= SCHEDULE GENERATION =================
+function generateScheduleFromClasses(eligibleClasses, preferences) {
+  const maxUnits = preferences.preferredUnits || 15;
+  const preferredDays = preferences.preferredDays || [];
+  const preferredTimesByDay = preferences.preferredTimesByDay || {};
+  
+  // Helper to normalize day names
+  function normalizeDay(day) {
+    if (typeof day === 'number') {
+      const dayMap = { 1: 'Mon', 2: 'Tue', 3: 'Wed', 4: 'Thu', 5: 'Fri', 6: 'Sat', 7: 'Sun' };
+      return dayMap[day] || day.toString();
+    }
+    if (typeof day === 'string') {
+      const dayLower = day.toLowerCase();
+      const dayMap = {
+        'monday': 'Mon', 'mon': 'Mon',
+        'tuesday': 'Tue', 'tue': 'Tue',
+        'wednesday': 'Wed', 'wed': 'Wed',
+        'thursday': 'Thu', 'thu': 'Thu',
+        'friday': 'Fri', 'fri': 'Fri',
+        'saturday': 'Sat', 'sat': 'Sat',
+        'sunday': 'Sun', 'sun': 'Sun'
+      };
+      return dayMap[dayLower] || day;
+    }
+    return day;
+  }
+  
+  // Helper to check if a meeting matches preferred days
+  function matchesPreferredDays(meetings) {
+    if (!meetings || meetings.length === 0) return true; // TBA classes are allowed
+    if (preferredDays.length === 0) return true; // No day filter
+    
+    const meetingDays = new Set();
+    meetings.forEach(meeting => {
+      if (meeting.day) {
+        meetingDays.add(normalizeDay(meeting.day));
+      } else if (meeting.days && Array.isArray(meeting.days)) {
+        meeting.days.forEach(d => meetingDays.add(normalizeDay(d)));
+      } else if (meeting.day_of_week) {
+        meetingDays.add(normalizeDay(meeting.day_of_week));
+      }
+    });
+    
+    // Normalize preferred days
+    const normalizedPreferred = preferredDays.map(d => normalizeDay(d));
+    
+    // Check if any meeting day is in preferred days
+    return Array.from(meetingDays).some(day => normalizedPreferred.includes(day));
+  }
+  
+  // Helper to check if a meeting matches preferred times
+  function matchesPreferredTimes(meetings) {
+    if (!meetings || meetings.length === 0) return true; // TBA classes are allowed
+    
+    // If no time preferences set for any day, allow all times
+    const hasTimePreferences = Object.values(preferredTimesByDay).some(times => times.length > 0);
+    if (!hasTimePreferences) return true;
+    
+    return meetings.some(meeting => {
+      const meetingDay = meeting.day || (meeting.days && meeting.days[0]);
+      if (!meetingDay) return true; // TBA
+      
+      const preferredTimes = preferredTimesByDay[meetingDay] || [];
+      if (preferredTimes.length === 0) return true; // No time filter for this day
+      
+      // Check if meeting time overlaps with preferred times
+      let meetingStart = null;
+      let meetingEnd = null;
+      
+      if (meeting.start !== undefined && meeting.end !== undefined) {
+        meetingStart = meeting.start;
+        meetingEnd = meeting.end;
+      } else if (meeting.time) {
+        // Parse time string like "8:00 AM-9:00 AM" or "08:00-09:00"
+        const timeMatch = meeting.time.match(/(\d{1,2}):(\d{2})\s*(AM|PM)?/);
+        if (timeMatch) {
+          let hours = parseInt(timeMatch[1]);
+          const mins = parseInt(timeMatch[2]);
+          const period = timeMatch[3];
+          if (period === 'PM' && hours !== 12) hours += 12;
+          if (period === 'AM' && hours === 12) hours = 0;
+          meetingStart = hours * 60 + mins;
+          meetingEnd = meetingStart + 60; // Assume 1 hour if end not specified
+        }
+      }
+      
+      if (meetingStart === null) return true; // Can't parse time, allow it
+      
+      // Check if any preferred time overlaps with meeting time
+      return preferredTimes.some(prefTime => {
+        const [prefHour, prefMin] = prefTime.split(':').map(Number);
+        const prefStart = prefHour * 60 + prefMin;
+        const prefEnd = prefStart + 60; // Assume 1 hour slots
+        
+        // Check for overlap
+        return !(meetingEnd <= prefStart || meetingStart >= prefEnd);
+      });
+    });
+  }
+  
+  // Helper to check for time conflicts between courses
+  function hasTimeConflict(newCourse, existingCourses) {
+    const newMeetings = newCourse.meetings || [];
+    if (newMeetings.length === 0) return false; // TBA classes don't conflict
+    
+    return existingCourses.some(existing => {
+      const existingMeetings = existing.meetings || [];
+      if (existingMeetings.length === 0) return false;
+      
+      // Check if any meetings overlap
+      return newMeetings.some(newMeeting => {
+        const newDay = normalizeDay(newMeeting.day || (newMeeting.days && newMeeting.days[0]) || newMeeting.day_of_week);
+        let newStart = newMeeting.start;
+        let newEnd = newMeeting.end;
+        
+        // Handle start_min/end_min format
+        if (newStart === undefined && newMeeting.start_min !== undefined) {
+          newStart = newMeeting.start_min;
+        }
+        if (newEnd === undefined && newMeeting.end_min !== undefined) {
+          newEnd = newMeeting.end_min;
+        }
+        
+        if (!newDay || newStart === undefined || newEnd === undefined) return false;
+        
+        return existingMeetings.some(existingMeeting => {
+          const existingDay = normalizeDay(existingMeeting.day || (existingMeeting.days && existingMeeting.days[0]) || existingMeeting.day_of_week);
+          let existingStart = existingMeeting.start;
+          let existingEnd = existingMeeting.end;
+          
+          // Handle start_min/end_min format
+          if (existingStart === undefined && existingMeeting.start_min !== undefined) {
+            existingStart = existingMeeting.start_min;
+          }
+          if (existingEnd === undefined && existingMeeting.end_min !== undefined) {
+            existingEnd = existingMeeting.end_min;
+          }
+          
+          if (!existingDay || existingStart === undefined || existingEnd === undefined) return false;
+          
+          // Same day and overlapping times
+          return newDay === existingDay && 
+                 !(newEnd <= existingStart || newStart >= existingEnd);
+        });
+      });
+    });
+  }
+  
+  // Filter classes by preferences
+  const filteredClasses = eligibleClasses.filter(classItem => {
+    const meetings = classItem.meetings || [];
+    
+    // Check day preference
+    if (!matchesPreferredDays(meetings)) return false;
+    
+    // Check time preference
+    if (!matchesPreferredTimes(meetings)) return false;
+    
+    return true;
+  });
+  
+  // Group by course_id to avoid duplicates
+  const classesByCourse = {};
+  filteredClasses.forEach(classItem => {
+    const courseId = classItem.course_id || `${classItem.subject} ${classItem.number}`;
+    if (!classesByCourse[courseId]) {
+      classesByCourse[courseId] = [];
+    }
+    classesByCourse[courseId].push(classItem);
+  });
+  
+  // Generate schedule: select one section per course, avoiding conflicts
+  const plannedCourses = [];
+  let totalUnits = 0;
+  const usedCourseIds = new Set();
+  
+  // Sort courses by units (prefer smaller units to fit more courses)
+  const sortedCourses = Object.keys(classesByCourse).sort((a, b) => {
+    const aUnits = classesByCourse[a][0].units || 3;
+    const bUnits = classesByCourse[b][0].units || 3;
+    return aUnits - bUnits;
+  });
+  
+  for (const courseId of sortedCourses) {
+    if (totalUnits >= maxUnits) break;
+    if (usedCourseIds.has(courseId)) continue;
+    
+    const sections = classesByCourse[courseId];
+    
+    // Try each section until we find one without conflicts
+    for (const section of sections) {
+      const courseUnits = section.units || 3;
+      
+      if (totalUnits + courseUnits > maxUnits) continue;
+      
+      // Check for time conflicts
+      const courseForConflict = {
+        meetings: section.meetings || []
+      };
+      
+      if (hasTimeConflict(courseForConflict, plannedCourses)) continue;
+      
+      // Add to schedule
+      const meeting = section.meetings && section.meetings.length > 0 
+        ? section.meetings[0] 
+        : null;
+      
+      let meetingDays = [];
+      let meetingTime = 'TBA';
+      
+      if (meeting) {
+        // Extract days
+        if (meeting.days && Array.isArray(meeting.days)) {
+          meetingDays = meeting.days.map(d => normalizeDay(d));
+        } else if (meeting.day) {
+          meetingDays = [normalizeDay(meeting.day)];
+        } else if (meeting.day_of_week) {
+          meetingDays = [normalizeDay(meeting.day_of_week)];
+        }
+        
+        // Extract time
+        if (meeting.time) {
+          meetingTime = meeting.time;
+        } else {
+          let start = meeting.start;
+          let end = meeting.end;
+          
+          // Handle start_min/end_min format
+          if (start === undefined && meeting.start_min !== undefined) {
+            start = meeting.start_min;
+          }
+          if (end === undefined && meeting.end_min !== undefined) {
+            end = meeting.end_min;
+          }
+          
+          if (start !== undefined && end !== undefined) {
+            meetingTime = formatMeetingTime(start, end);
+          }
+        }
+      }
+      
+      const plannedCourse = {
+        course_id: courseId,
+        title: section.title || section.description || '',
+        units: courseUnits,
+        meeting: {
+          days: meetingDays,
+          time: meetingTime
+        },
+        crn: section.crn,
+        section: section.section,
+        professor: section.professor,
+        meetings: section.meetings // Keep full meetings data for conflict checking
+      };
+      
+      plannedCourses.push(plannedCourse);
+      totalUnits += courseUnits;
+      usedCourseIds.add(courseId);
+      break; // Found a section, move to next course
+    }
+  }
+  
+  // Get remaining needed courses (courses not in schedule)
+  const remainingNeeded = Object.keys(classesByCourse)
+    .filter(courseId => !usedCourseIds.has(courseId));
+  
+  return {
+    planned_courses: plannedCourses,
+    planned_units: totalUnits,
+    remaining_needed: remainingNeeded
+  };
+}
+
+function formatMeetingTime(startMinutes, endMinutes) {
+  const formatTime = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);
+    return `${displayHours}:${mins.toString().padStart(2, '0')} ${period}`;
+  };
+  return `${formatTime(startMinutes)}-${formatTime(endMinutes)}`;
+}
+
+// ================= DISPLAY SCHEDULE FROM UPLOAD =================
+function displayScheduleFromUpload(eligibleClasses, generatedSchedule) {
+  const schedulePanel = document.getElementById('schedule-panel');
+  const openClassesPanel = document.getElementById('open-classes-panel');
+  
+  // Store schedule data
+  currentScheduleData = {
+    planned_courses: [...(generatedSchedule.planned_courses || [])],
+    planned_units: generatedSchedule.planned_units || 0,
+    remaining_needed: [...(generatedSchedule.remaining_needed || [])]
+  };
+  
+  // Clear existing content
+  schedulePanel.innerHTML = '<h2>Generated Schedule</h2>';
+  openClassesPanel.innerHTML = '<h2>Open Classes</h2>';
+  
+  // Make schedule panel a drop zone
+  schedulePanel.setAttribute('droppable', 'true');
+  schedulePanel.addEventListener('dragover', handleDragOver);
+  schedulePanel.addEventListener('dragleave', handleDragLeave);
+  schedulePanel.addEventListener('drop', handleDrop);
+  
+  // Make open classes panel a drop zone for removing schedule items
+  openClassesPanel.setAttribute('droppable', 'true');
+  openClassesPanel.addEventListener('dragover', (e) => {
+    if (draggedFromSchedule) {
+      handleDragOver(e);
+    }
+  });
+  openClassesPanel.addEventListener('dragleave', handleDragLeave);
+  openClassesPanel.addEventListener('drop', handleScheduleDrop);
+  
+  // Display generated schedule
+  renderSchedule();
+  
+  // Filter out classes that are already in the schedule
+  const scheduledCourseIds = new Set(generatedSchedule.planned_courses.map(c => c.course_id));
+  const remainingClasses = eligibleClasses.filter(classItem => {
+    const courseId = classItem.course_id || `${classItem.subject} ${classItem.number}`;
+    return !scheduledCourseIds.has(courseId);
+  });
+  
+  // Display remaining open classes
+  if (remainingClasses && remainingClasses.length > 0) {
+    displayOpenClassesList(remainingClasses, openClassesPanel);
+  } else {
+    const noClasses = document.createElement('p');
+    noClasses.textContent = 'No additional open classes available.';
+    noClasses.style.color = '#666';
+    openClassesPanel.appendChild(noClasses);
   }
 }
 
