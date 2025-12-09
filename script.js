@@ -928,4 +928,3 @@ document.addEventListener('DOMContentLoaded', function() {
   
   console.log('Titan Scheduler initialized');
 });
-
