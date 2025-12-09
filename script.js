@@ -13,24 +13,74 @@ function showPage(pageId) {
 }
 
 function initializeNavigation() {
-  // Navigation button handlers
-  document.querySelectorAll(".next-button").forEach(button => {
-    button.addEventListener("click", () => {
-      const nextPage = button.getAttribute("data-next");
-      if (nextPage) {
-        showPage(nextPage);
-      }
-    });
+// Navigation button handlers
+document.querySelectorAll(".next-button").forEach(button => {
+  button.addEventListener("click", () => {
+    const nextPage = button.getAttribute("data-next");
+    if (nextPage) {
+      showPage(nextPage);
+    }
   });
+});
 
-  document.querySelectorAll(".back-button").forEach(button => {
-    button.addEventListener("click", () => {
-      const prevPage = button.getAttribute("data-prev");
-      if (prevPage) {
-        showPage(prevPage);
-      }
-    });
+document.querySelectorAll(".back-button").forEach(button => {
+  button.addEventListener("click", () => {
+    const prevPage = button.getAttribute("data-prev");
+    if (prevPage) {
+      showPage(prevPage);
+    }
   });
+});
+}
+
+// ================= LOADING OVERLAY =================
+function showLoadingOverlay() {
+  // Remove existing overlay if any
+  const existing = document.getElementById('loading-overlay');
+  if (existing) {
+    existing.remove();
+  }
+  
+  const overlay = document.createElement('div');
+  overlay.id = 'loading-overlay';
+  overlay.style.position = 'fixed';
+  overlay.style.top = '0';
+  overlay.style.left = '0';
+  overlay.style.width = '100%';
+  overlay.style.height = '100%';
+  overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+  overlay.style.display = 'flex';
+  overlay.style.justifyContent = 'center';
+  overlay.style.alignItems = 'center';
+  overlay.style.zIndex = '9999';
+  overlay.style.flexDirection = 'column';
+  
+  const spinner = document.createElement('div');
+  spinner.className = 'loading-spinner';
+  spinner.style.width = '50px';
+  spinner.style.height = '50px';
+  spinner.style.border = '5px solid #f3f3f3';
+  spinner.style.borderTop = '5px solid #00274C';
+  spinner.style.borderRadius = '50%';
+  spinner.style.animation = 'spin 1s linear infinite';
+  
+  const text = document.createElement('p');
+  text.textContent = 'Generating your schedule...';
+  text.style.color = 'white';
+  text.style.fontSize = '18px';
+  text.style.marginTop = '20px';
+  text.style.fontWeight = '600';
+  
+  overlay.appendChild(spinner);
+  overlay.appendChild(text);
+  document.body.appendChild(overlay);
+}
+
+function hideLoadingOverlay() {
+  const overlay = document.getElementById('loading-overlay');
+  if (overlay) {
+    overlay.remove();
+  }
 }
 
 // ================= PREFERENCES DATA STORAGE =================
@@ -214,6 +264,9 @@ async function initializeGenerateButton() {
       const originalText = generateButton.textContent;
       generateButton.textContent = 'Generating Schedule...';
       
+      // Show loading overlay
+      showLoadingOverlay();
+      
       try {
         console.log('Starting schedule generation...');
         console.log('API Base URL:', API_BASE_URL);
@@ -337,6 +390,8 @@ async function initializeGenerateButton() {
         console.error('Error stack:', error.stack);
         alert('Error generating schedule: ' + error.message + '\n\nCheck the browser console for more details.');
       } finally {
+        // Hide loading overlay
+        hideLoadingOverlay();
         // Re-enable button
         generateButton.disabled = false;
         generateButton.textContent = originalText;
@@ -374,6 +429,17 @@ async function displayScheduleResults(schedule, parsedData) {
   schedulePanel.addEventListener('dragleave', handleDragLeave);
   schedulePanel.addEventListener('drop', handleDrop);
   
+  // Make open classes panel a drop zone for removing schedule items
+  openClassesPanel.setAttribute('droppable', 'true');
+  openClassesPanel.addEventListener('dragover', (e) => {
+    // Only show drop zone if dragging from schedule
+    if (draggedFromSchedule) {
+      handleDragOver(e);
+    }
+  });
+  openClassesPanel.addEventListener('dragleave', handleDragLeave);
+  openClassesPanel.addEventListener('drop', handleScheduleDrop);
+  
   // Display generated schedule
   renderSchedule();
   
@@ -395,14 +461,37 @@ function renderSchedule() {
   scheduleList.id = 'schedule-list';
     
   if (currentScheduleData.planned_courses && currentScheduleData.planned_courses.length > 0) {
-    currentScheduleData.planned_courses.forEach(course => {
+    currentScheduleData.planned_courses.forEach((course, index) => {
       const courseItem = document.createElement('div');
       courseItem.className = 'course-item';
+      courseItem.draggable = true;
       courseItem.style.marginBottom = '15px';
       courseItem.style.padding = '10px';
       courseItem.style.border = '1px solid #ccc';
       courseItem.style.borderRadius = '5px';
       courseItem.style.backgroundColor = '#ffffff';
+      courseItem.style.cursor = 'grab';
+      courseItem.style.transition = 'all 0.2s ease';
+      
+      // Store course data for drag and drop
+      courseItem.dataset.courseIndex = index;
+      courseItem.dataset.courseId = course.course_id;
+      courseItem.dataset.courseTitle = course.title || '';
+      courseItem.dataset.courseUnits = course.units || 3;
+      if (course.meeting) {
+        courseItem.dataset.meetingDays = JSON.stringify(course.meeting.days || []);
+        courseItem.dataset.meetingTime = course.meeting.time || 'TBA';
+      }
+      
+      // Add hover effect
+      courseItem.addEventListener('mouseenter', () => {
+        courseItem.style.transform = 'translateY(-2px)';
+        courseItem.style.boxShadow = '0 4px 8px rgba(0, 39, 76, 0.2)';
+      });
+      courseItem.addEventListener('mouseleave', () => {
+        courseItem.style.transform = 'translateY(0)';
+        courseItem.style.boxShadow = 'none';
+      });
       
       const courseId = document.createElement('strong');
       courseId.textContent = course.course_id;
@@ -433,6 +522,11 @@ function renderSchedule() {
       courseItem.appendChild(courseId);
       courseItem.appendChild(courseTitle);
       courseItem.appendChild(courseUnits);
+      
+      // Add drag event handlers
+      courseItem.addEventListener('dragstart', handleScheduleDragStart);
+      courseItem.addEventListener('dragend', handleScheduleDragEnd);
+      
       scheduleList.appendChild(courseItem);
     });
     
@@ -626,9 +720,11 @@ async function fetchAndDisplayOpenClasses(remainingNeeded, openClassesPanel) {
 
 // Drag and drop handlers
 let draggedElement = null;
+let draggedFromSchedule = false;
 
 function handleDragStart(e) {
   draggedElement = e.target;
+  draggedFromSchedule = false;
   e.target.style.opacity = '0.5';
   e.target.style.cursor = 'grabbing';
   e.dataTransfer.effectAllowed = 'move';
@@ -639,6 +735,22 @@ function handleDragEnd(e) {
   e.target.style.opacity = '1';
   e.target.style.cursor = 'grab';
   draggedElement = null;
+  draggedFromSchedule = false;
+}
+
+function handleScheduleDragStart(e) {
+  draggedElement = e.target;
+  draggedFromSchedule = true;
+  e.target.style.opacity = '0.5';
+  e.target.style.cursor = 'grabbing';
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', e.target.outerHTML);
+}
+
+function handleScheduleDragEnd(e) {
+  e.target.style.opacity = '1';
+  e.target.style.cursor = 'grab';
+  // Don't reset draggedElement here - let the drop handler use it
 }
 
 function handleDragOver(e) {
@@ -646,18 +758,18 @@ function handleDragOver(e) {
     e.preventDefault();
   }
   e.dataTransfer.dropEffect = 'move';
-  const schedulePanel = e.currentTarget;
-  schedulePanel.style.border = '2px dashed #00274C';
-  schedulePanel.style.backgroundColor = '#f0f7ff';
+  const dropZone = e.currentTarget;
+  dropZone.style.border = '2px dashed #00274C';
+  dropZone.style.backgroundColor = '#f0f7ff';
   return false;
 }
 
 function handleDragLeave(e) {
-  const schedulePanel = e.currentTarget;
+  const dropZone = e.currentTarget;
   // Only reset if we're actually leaving the panel (not just moving to a child)
-  if (!schedulePanel.contains(e.relatedTarget)) {
-    schedulePanel.style.border = 'none';
-    schedulePanel.style.backgroundColor = '#ffffff';
+  if (!dropZone.contains(e.relatedTarget)) {
+    dropZone.style.border = 'none';
+    dropZone.style.backgroundColor = '#ffffff';
   }
 }
 
@@ -672,6 +784,9 @@ function handleDrop(e) {
   schedulePanel.style.backgroundColor = '#ffffff';
   
   if (!draggedElement) return;
+  
+  // Don't handle drops from schedule items here (they're handled by handleScheduleDrop)
+  if (draggedFromSchedule) return;
   
   // Get course data from dragged element
   const courseId = draggedElement.dataset.courseId;
@@ -755,6 +870,43 @@ function handleDrop(e) {
   
   // Remove dragged element from open classes (optional - you might want to keep it)
   // draggedElement.remove();
+  
+  return false;
+}
+
+function handleScheduleDrop(e) {
+  if (e.stopPropagation) {
+    e.stopPropagation();
+  }
+  
+  e.preventDefault();
+  const dropZone = e.currentTarget;
+  dropZone.style.border = 'none';
+  dropZone.style.backgroundColor = '#ffffff';
+  
+  if (!draggedElement || !draggedFromSchedule) return;
+  
+  // Get course index from dragged element
+  const courseIndex = parseInt(draggedElement.dataset.courseIndex);
+  if (isNaN(courseIndex)) return;
+  
+  // Remove course from schedule
+  const removedCourse = currentScheduleData.planned_courses[courseIndex];
+  if (removedCourse) {
+    currentScheduleData.planned_courses.splice(courseIndex, 1);
+    currentScheduleData.planned_units -= (removedCourse.units || 3);
+    
+    // Re-render schedule
+    const scheduleList = document.getElementById('schedule-list');
+    if (scheduleList) {
+      scheduleList.remove();
+    }
+    renderSchedule();
+    
+    // Reset drag state
+    draggedElement = null;
+    draggedFromSchedule = false;
+  }
   
   return false;
 }
