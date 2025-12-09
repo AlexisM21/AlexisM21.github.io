@@ -2,7 +2,7 @@ import sqlite3
 from fastapi import FastAPI, APIRouter, HTTPException
 from routers import terms_router, courses_router, sections_router, meetings_router, csv_upload_router, scheduler_router
 from fastapi.middleware.cors import CORSMiddleware
-from crud import open_class_list_crud
+from crud import open_class_list_crud, courses_crud
 import cache
 
 
@@ -21,8 +21,11 @@ def load_open_cache():
     cache.OPEN_CACHE.update({
         "data" : open_class_list_crud.get_open_class_list()
     })
+    cache.COURSE_CACHE.clear()
+    cache.COURSE_CACHE.update({"data" : courses_crud.get_all_courses()})
 
     print(f"Loaded {len(cache.OPEN_CACHE)} open class rows into memory.")
+    print(f"Loaded {len(cache.COURSE_CACHE)} course rows into memory.")
 
 
 

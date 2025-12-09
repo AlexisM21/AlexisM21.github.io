@@ -7,6 +7,8 @@ import requests
 from parser import match_open_classes
 from pypdf import PdfReader
 import time
+from pathlib import Path
+import cache
 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
@@ -29,65 +31,116 @@ def parse_tda(file_bytes: bytes, filename: str):
 
     file_id = uploaded_file.id    
 
-    prompt_text= '''
-    You are parsing through a university degree audit / credit report.
+    prompt_text = """
+    You are parsing a Titan Degree Audit (TDA).
 
-    Extract the information into STRICT JSON following this schema:
+    Your ONLY task is to extract a STRICT JSON list of all courses the student is allowed to take next.
+
+    ===========================================================
+    EXPECTED OUTPUT FORMAT (STRICT JSON ONLY)
+    ===========================================================
 
     {
-      "student_info": {
-        "name": "string or null",
-        "id": "string or null",
-        "catalog_year": "string or null"
-      },
-      "completed_courses": [
-        {
-          "term": "string or null",
-          "subject": "string",
-          "number": "string",
-          "title": "string or null",
-          "units": number,
-          "grade": "string or null",
-          "status": "string"
-        }
-      ],
-      "requirements": [
-        {
-          "requirement_id": "string",
-          "name": "string",
-          "type": "string",
-          "total_units_required": number,
-          "total_units_completed": number,
-          "courses_allowed": ["string", "string"]
-          "in_progress": "string"
-        }
+      "courses_allowed": [
+        "SUBJECT NUMBER",
+        "SUBJECT NUMBER"
       ]
     }
 
-    Rules:
-    - ONLY output valid JSON, no explanation, no markdown.
-    - Always include all top-level keys: "student_info", "completed_courses", "requirements".
-    - Use null for unknown values instead of removing keys.
-    - For "status" in completed_courses, use exactly "completed" or "in_progress".
-    - For "type" in requirements, use one of: "GE", "Major", "Support", "Elective".
-    - For "courses_allowed", each item should be a course code like "CPSC 131" or exactly as it appears in the document.
-    - Replace any example types (like "string", "number") with actual JSON values in the final output.
-    - If the class is "in_progress" do not add it to the "courses_allowed" list.
-    - Do not invent or hallucinate courses, requirements, or values that are not supported by the text.
+    No text, no explanation, no markdown.
 
-    Additional parsing rules:
-    - This is a Titan Degree Audit (TDA) or similar university degree audit.
-    - IGNORE all requirement status labels such as "NO", "OK", "YES", and similar labels at the top of sections. These are NOT classes and should never appear in the JSON.
-    - IGNORE section headers, legends, comments, arrows, and hints such as:
-      - ">>>IMPORTANT INFORMATION<<<", "LEGEND", "GENERAL EDUCATION PROGRAM", etc.
-      - "TAKE==>", ">>", ">>> Waived for this major <<", and similar advisory lines.
-    - ONLY treat a line as a course when it has a recognizable pattern with:
-      - a term (e.g., "FA20", "SP25", "SS21"),
-      - a subject (e.g., "CPSC", "MATH", "PHYS", "ENGL"),
-      - a course identifier/number (e.g., "120A", "131", "225L"),
-      - and usually credits, grade, and title on the same or following text.
-    - Lines like "NO COMPUTER SCIENCE CORE COURSES", "OK GE UNITS", or "AMERICAN GOVERNMENT (3 UNITS
-    '''
+    ===========================================================
+    RULES FOR EXTRACTING COURSES_ALLOWED
+    ===========================================================
+
+    1. Extract ONLY courses the student is eligible to take next.
+      These appear inside requirement blocks as needed or optional courses.
+
+    2. You MUST exclude:
+      - completed courses,
+      - in-progress courses,
+      - courses belonging to requirement blocks that are already satisfied.
+
+    ===========================================================
+    HOW TO IDENTIFY COMPLETED COURSES
+    ===========================================================
+
+    A course is COMPLETED if:
+    - It appears with a term (FA20, SP23, SS21, etc.),
+    AND
+    - It displays a final grade (A, A-, B, B+, C, CR, P, etc.).
+
+    Exclude ALL completed courses.
+
+    ===========================================================
+    HOW TO IDENTIFY IN-PROGRESS COURSES (IMPORTANT)
+    ===========================================================
+
+    A course is IN-PROGRESS if ANY of the following are true:
+
+    1. It appears with a term but **no final grade**.
+    2. It is listed under an “In Progress” section of the audit.
+    3. It has units assigned but the grade field is blank.
+    4. It shows an “IP” label or equivalent.
+    5. It appears anywhere else in the audit without a grade, 
+      even if the requirement block still lists it as “TAKE ⇒ COURSE”.
+
+    If ANY appearance of a course indicates in-progress status,
+    you MUST exclude it from courses_allowed.
+
+    ===========================================================
+    HOW TO IDENTIFY SATISFIED REQUIREMENTS
+    ===========================================================
+
+    A requirement block is considered SATISFIED if ANY of the following are true:
+
+    1. The block is marked "OK", "MET", or similar.
+    2. The student has already completed a course that fulfills that requirement.
+    3. The audit shows the requirement as fulfilled using a different course.
+    4. A course inside the block appears with a completed grade.
+
+    If a requirement block is satisfied, do NOT include ANY of the courses listed in that block.
+
+    ===========================================================
+    HOW TO IDENTIFY VALID COURSE CODES
+    ===========================================================
+
+    A course code must follow this format exactly:
+
+        SUBJECT NUMBER
+
+    Examples:
+        CPSC 335
+        ENGL 103
+        MATH 150A
+
+    Include ALL explicit course codes listed under unsatisfied requirement blocks, including:
+    - “TAKE ⇒ …”
+    - “Course A or Course B”  → include BOTH
+    - Lists of electives, major courses, GE courses, etc.
+
+    ===========================================================
+    STRICT CONSTRAINTS
+    ===========================================================
+
+    - Do NOT include completed courses.
+    - Do NOT include in-progress courses.
+    - Do NOT include courses from satisfied requirement blocks.
+    - Do NOT hallucinate or invent any course codes.
+    - Remove duplicates.
+    - Output ONLY the JSON object defined above.
+
+    ===========================================================
+    YOUR FINAL OUTPUT MUST BE EXACTLY:
+
+    {
+      "courses_allowed": [...]
+    }
+
+    NO other text is permitted.
+    ===========================================================
+
+    """
 
     response = client.responses.create(
         model="gpt-4.1-mini",
@@ -111,7 +164,8 @@ def parse_tda(file_bytes: bytes, filename: str):
     raw_text = response.output[0].content[0].text
 
     parsed_json = json.loads(raw_text)
-
+    output_path = Path(__file__).parent / "debug_output.json"
+    
     end = time.time()
     print(f"OpenAI response time: {end - start:.2f} seconds")
     return parsed_json
@@ -120,13 +174,40 @@ def parse_tda(file_bytes: bytes, filename: str):
     return {"status" : "error", "errors": [str(e)]}
   
 
+
+def match_open_classes(courses_allowed):
+    """
+    Compare courses_allowed[] against OPEN_CACHE and return
+    all open sections the student is eligible to take.
+    """
+
+    open_data = cache.OPEN_CACHE["data"]  # list of open class dicts
+    eligible = []
+
+    allowed_set = set(courses_allowed or [])
+
+    for section in open_data:
+        if not isinstance(section, dict):
+            continue
+
+        course_id = section.get("course_id", "").strip()
+
+        if course_id in allowed_set:
+            eligible.append(section)
+
+    return {
+        "eligible_classes": eligible,
+        "total_classes": len(eligible)
+    }
+
+
   
 def open_class_connection(file_bytes: bytes, filename: str): 
   audit = parse_tda(file_bytes, filename)
   if "status" in audit and audit["status"] == "error":
     return audit
-  open_list = match_open_classes.get_open_class_user(audit)
-  return open_list
+  courses_allowed = match_open_classes(audit.get("courses_allowed", []))
+  return courses_allowed
 
 
 
