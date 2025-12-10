@@ -63,6 +63,7 @@ SELECT
   s.course_id,
   c.subject,
   c.number,
+  c.description AS title,
   c.units,
   c.prereq,
   c.coreq,
@@ -76,8 +77,9 @@ SELECT
 FROM section AS s
 JOIN term    AS t ON t.term_id   = s.term_id
 JOIN course  AS c ON c.course_id = s.course_id
-JOIN meeting AS m ON m.term_id   = s.term_id  -- safer if CRNs can repeat across terms
+JOIN meeting AS m ON m.term_id   = s.term_id
                  AND m.crn       = s.crn;
+
 
 -- DROP VIEW IF EXISTS open_classes;
 

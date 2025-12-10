@@ -50,7 +50,7 @@ def group_meetings(df: list[dict]):
     # Group by schedule key
     grouped = (
         df.groupby(
-            ["term", "crn", "course_id", "section", "professor", "status"],
+            ["term", "crn", "course_id", "title","section", "professor", "status"],
             sort=False,
             as_index=False
         ).agg(meetings=("meeting", list))
@@ -75,6 +75,7 @@ def group_meetings(df: list[dict]):
             "term": row.term,
             "crn": int(row.crn) if isinstance(row.crn, (np.integer,)) else row.crn,
             "course_id": row.course_id,
+            "title" : row.title,
             "section": row.section,
             "professor": row.professor,
             "status": row.status,
