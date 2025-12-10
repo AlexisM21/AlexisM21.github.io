@@ -2,7 +2,7 @@
 
 // ================= API CONFIGURATION =================
 // Change this to match your backend server URL
-const API_BASE_URL = 'https://titanbackend.online';
+const API_BASE_URL = 'http://titanbackend.online';
 
 // ================= PAGE NAVIGATION =================
 function showPage(pageId) {
@@ -1085,134 +1085,144 @@ function displayOpenClassesList(classItems, openClassesPanel) {
 }
 
 function createClassCard(classItem) {
-  const classCard = document.createElement('div');
-  classCard.className = 'open-class-item';
+  const classCard = document.createElement("div");
+  classCard.className = "open-class-item";
   classCard.draggable = true;
-  classCard.style.marginBottom = '10px';
-  classCard.style.padding = '12px';
-  classCard.style.border = '2px solid #00274C';
-  classCard.style.borderRadius = '8px';
-  classCard.style.backgroundColor = '#ffffff';
-  classCard.style.cursor = 'grab';
-  classCard.style.transition = 'all 0.2s ease';
-  
-  // Store course data for drag and drop
+  classCard.style.marginBottom = "10px";
+  classCard.style.padding = "12px";
+  classCard.style.border = "2px solid #00274C";
+  classCard.style.borderRadius = "8px";
+  classCard.style.backgroundColor = "#ffffff";
+  classCard.style.cursor = "grab";
+  classCard.style.transition = "all 0.2s ease";
+
+  // Store course data for drag/drop
   classCard.dataset.courseId = classItem.course_id || `${classItem.subject} ${classItem.number}`;
-  classCard.dataset.courseTitle = classItem.title || classItem.description || '';
+  classCard.dataset.courseTitle = classItem.title || classItem.description || "";
   classCard.dataset.courseUnits = classItem.units || 3;
-  classCard.dataset.crn = classItem.crn;
+  classCard.dataset.crn = classItem.crn || "";
   classCard.dataset.term = classItem.term;
-  classCard.dataset.section = classItem.section || '';
-  classCard.dataset.professor = classItem.professor || '';
-  
-  // Store meeting info as JSON string
+  classCard.dataset.section = classItem.section || "";
+  classCard.dataset.professor = classItem.professor || "";
+
   if (classItem.meetings && classItem.meetings.length > 0) {
     classCard.dataset.meetings = JSON.stringify(classItem.meetings);
   }
-  
-  // Add hover effect
-  classCard.addEventListener('mouseenter', () => {
-    classCard.style.transform = 'translateY(-2px)';
-    classCard.style.boxShadow = '0 4px 8px rgba(0, 39, 76, 0.2)';
+
+  // Hover animation
+  classCard.addEventListener("mouseenter", () => {
+    classCard.style.transform = "translateY(-2px)";
+    classCard.style.boxShadow = "0 4px 8px rgba(0, 39, 76, 0.2)";
   });
-  classCard.addEventListener('mouseleave', () => {
-    classCard.style.transform = 'translateY(0)';
-    classCard.style.boxShadow = 'none';
+  classCard.addEventListener("mouseleave", () => {
+    classCard.style.transform = "translateY(0)";
+    classCard.style.boxShadow = "none";
   });
-  
-  // Course ID with section
-  const courseIdEl = document.createElement('strong');
-  const sectionText = classItem.section ? ` - Section ${classItem.section}` : '';
+
+  // ---- COURSE ID + SECTION ----
+  const courseIdEl = document.createElement("strong");
+  const sectionText = classItem.section ? ` - Section ${classItem.section}` : "";
   courseIdEl.textContent = `${classCard.dataset.courseId}${sectionText}`;
-  courseIdEl.style.display = 'block';
-  courseIdEl.style.marginBottom = '5px';
-  courseIdEl.style.color = '#00274C';
-  
-  // Title
-  const titleEl = document.createElement('span');
-  titleEl.textContent = classItem.title || classItem.description || 'No title available';
-  titleEl.style.display = 'block';
-  titleEl.style.color = '#666';
-  titleEl.style.fontSize = '14px';
-  titleEl.style.marginBottom = '5px';
-  
-  // Professor with rating
+  courseIdEl.style.display = "block";
+  courseIdEl.style.marginBottom = "5px";
+  courseIdEl.style.color = "#00274C";
+
+  // ---- TITLE ----
+  const titleEl = document.createElement("span");
+  titleEl.textContent = classItem.title || classItem.description || "No title available";
+  titleEl.style.display = "block";
+  titleEl.style.color = "#666";
+  titleEl.style.fontSize = "14px";
+  titleEl.style.marginBottom = "5px";
+
+  // ---- PROFESSOR ----
   if (classItem.professor) {
-    const professorEl = document.createElement('span');
-    professorEl.id = `professor-${classItem.crn}-${classItem.section}`;
+    const professorEl = document.createElement("span");
     professorEl.textContent = `Professor: ${classItem.professor}`;
-    professorEl.style.display = 'block';
-    professorEl.style.color = '#666';
-    professorEl.style.fontSize = '13px';
-    professorEl.style.marginBottom = '5px';
+    professorEl.style.display = "block";
+    professorEl.style.color = "#444";
+    professorEl.style.fontSize = "13px";
+    professorEl.style.marginBottom = "5px";
     classCard.appendChild(professorEl);
-    
-    // Fetch and display professor rating asynchronously
+
+    // Fetch RMP rating async
     fetchProfessorRating(classItem.professor, professorEl);
   }
-  
-  // Units
-  const unitsEl = document.createElement('span');
+
+  // ---- UNITS ----
+  const unitsEl = document.createElement("span");
   unitsEl.textContent = `${classItem.units || 3} units`;
-  unitsEl.style.display = 'block';
-  unitsEl.style.color = '#666';
-  unitsEl.style.fontSize = '13px';
-  unitsEl.style.marginBottom = '5px';
-  
-  // Meeting info
+  unitsEl.style.display = "block";
+  unitsEl.style.color = "#444";
+  unitsEl.style.fontSize = "13px";
+  unitsEl.style.marginBottom = "5px";
+
+  // ---- MEETING DAYS + TIME ----
   if (classItem.meetings && classItem.meetings.length > 0) {
-    const meetingsInfo = classItem.meetings.map(meeting => {
-      const day = meeting.day || '';
-      let time = '';
-      let room = meeting.room || '';
-      
-      // Convert start/end from minutes to time format
-      if (meeting.start !== undefined && meeting.end !== undefined) {
-        const startHours = Math.floor(meeting.start / 60);
-        const startMins = meeting.start % 60;
-        const endHours = Math.floor(meeting.end / 60);
-        const endMins = meeting.end % 60;
-        
-        const formatTime = (hours, mins) => {
-          const period = hours >= 12 ? 'PM' : 'AM';
-          const displayHours = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);
-          return `${displayHours}:${mins.toString().padStart(2, '0')} ${period}`;
-        };
-        
-        time = `${formatTime(startHours, startMins)}-${formatTime(endHours, endMins)}`;
-      } else if (meeting.time) {
-        time = meeting.time;
-      }
-      
-      let meetingStr = `${day} ${time}`.trim();
-      if (room) {
-        meetingStr += ` (${room})`;
-      }
-      return meetingStr;
-    }).filter(Boolean).join('; ');
-    
-    if (meetingsInfo) {
-      const meetingEl = document.createElement('span');
-      meetingEl.textContent = meetingsInfo;
-      meetingEl.style.display = 'block';
-      meetingEl.style.color = '#00274C';
-      meetingEl.style.fontSize = '12px';
-      meetingEl.style.fontWeight = 'bold';
-      meetingEl.style.marginTop = '5px';
-      classCard.appendChild(meetingEl);
+    const meeting = classItem.meetings[0];
+
+    // Days
+    let days = "";
+    if (meeting.days && Array.isArray(meeting.days)) {
+      days = meeting.days.join(", ");
+    } else if (meeting.day) {
+      days = meeting.day;
+    } else {
+      days = "TBA";
     }
+
+    // Time
+    let time = "TBA";
+    if (meeting.start !== undefined && meeting.end !== undefined) {
+      const sH = Math.floor(meeting.start / 60);
+      const sM = meeting.start % 60;
+      const eH = Math.floor(meeting.end / 60);
+      const eM = meeting.end % 60;
+
+      const fmt = (h, m) => {
+        const period = h >= 12 ? "PM" : "AM";
+        const hr = h > 12 ? h - 12 : h === 0 ? 12 : h;
+        return `${hr}:${m.toString().padStart(2, "0")} ${period}`;
+      };
+
+      time = `${fmt(sH, sM)} - ${fmt(eH, eM)}`;
+    } else if (meeting.time) {
+      time = meeting.time;
+    }
+
+    const meetingEl = document.createElement("span");
+    meetingEl.textContent = `${days} | ${time}`;
+    meetingEl.style.display = "block";
+    meetingEl.style.color = "#00274C";
+    meetingEl.style.fontWeight = "bold";
+    meetingEl.style.fontSize = "13px";
+    meetingEl.style.marginTop = "5px";
+    classCard.appendChild(meetingEl);
   }
-  
+
+  // ---- CRN ----
+  if (classItem.crn) {
+    const crnEl = document.createElement("span");
+    crnEl.textContent = `CRN: ${classItem.crn}`;
+    crnEl.style.display = "block";
+    crnEl.style.color = "#444";
+    crnEl.style.fontSize = "12px";
+    crnEl.style.marginTop = "5px";
+    classCard.appendChild(crnEl);
+  }
+
+  // Append elements
   classCard.appendChild(courseIdEl);
   classCard.appendChild(titleEl);
   classCard.appendChild(unitsEl);
-  
-  // Drag event handlers
-  classCard.addEventListener('dragstart', handleDragStart);
-  classCard.addEventListener('dragend', handleDragEnd);
-  
+
+  // Drag handlers
+  classCard.addEventListener("dragstart", handleDragStart);
+  classCard.addEventListener("dragend", handleDragEnd);
+
   return classCard;
 }
+
 
 async function fetchAndDisplayOpenClasses(remainingNeeded, openClassesPanel) {
   try {
@@ -1474,105 +1484,91 @@ function handleDragLeave(e) {
 }
 
 function handleDrop(e) {
-  if (e.stopPropagation) {
-    e.stopPropagation();
-  }
-  
+  if (e.stopPropagation) e.stopPropagation();
   e.preventDefault();
+
   const schedulePanel = e.currentTarget;
-  schedulePanel.style.border = 'none';
-  schedulePanel.style.backgroundColor = '#ffffff';
-  
-  if (!draggedElement) return;
-  
-  // Don't handle drops from schedule items here (they're handled by handleScheduleDrop)
-  if (draggedFromSchedule) return;
-  
-  // Get course data from dragged element
+  schedulePanel.style.border = "none";
+  schedulePanel.style.backgroundColor = "#ffffff";
+
+  if (!draggedElement || draggedFromSchedule) return;
+
+  // Extract ALL stored data from the card
   const courseId = draggedElement.dataset.courseId;
   const courseTitle = draggedElement.dataset.courseTitle;
   const courseUnits = parseInt(draggedElement.dataset.courseUnits) || 3;
-  
-  // Check if course is already in schedule
-  const alreadyAdded = currentScheduleData.planned_courses.some(
-    c => c.course_id === courseId
-  );
-  
-  if (alreadyAdded) {
+  const crn = draggedElement.dataset.crn || "";
+  const professor = draggedElement.dataset.professor || "";
+  const section = draggedElement.dataset.section || "";
+  const meetingsRaw = draggedElement.dataset.meetings;
+
+  // Prevent duplicates
+  if (currentScheduleData.planned_courses.some(c => c.course_id === courseId)) {
     alert(`${courseId} is already in your schedule.`);
     return;
   }
-  
-  // Add course to schedule
+
+  // Build full meeting object
+  let meeting = { days: [], time: "TBA", room: "" };
+  let fullMeetings = [];
+
+  if (meetingsRaw) {
+    try {
+      fullMeetings = JSON.parse(meetingsRaw);
+
+      if (fullMeetings.length > 0) {
+        const m = fullMeetings[0];
+
+        // Extract days
+        if (m.days) meeting.days = m.days;
+        else if (m.day) meeting.days = [m.day];
+
+        // Extract room
+        if (m.room) meeting.room = m.room;
+
+        // Extract time
+        if (m.start !== undefined && m.end !== undefined) {
+          const format = mins => {
+            const h = Math.floor(mins / 60);
+            const m = mins % 60;
+            const period = h >= 12 ? "PM" : "AM";
+            const hh = h > 12 ? h - 12 : h === 0 ? 12 : h;
+            return `${hh}:${m.toString().padStart(2, "0")} ${period}`;
+          };
+          meeting.time = `${format(m.start)} - ${format(m.end)}`;
+        } else if (m.time) {
+          meeting.time = m.time;
+        }
+      }
+    } catch (err) {
+      console.warn("Failed to parse meeting JSON:", err);
+    }
+  }
+
+  // FINAL course object added into schedule
   const newCourse = {
     course_id: courseId,
     title: courseTitle,
     units: courseUnits,
-    meeting: {
-      days: [],
-      time: 'TBA'
-    }
+    crn: crn,
+    professor: professor,
+    section: section,
+    meeting: meeting,
+    meetings: fullMeetings     // keep full detail for conflict checking
   };
-  
-  // Extract meeting info from stored dataset
-  if (draggedElement.dataset.meetings) {
-    try {
-      const meetings = JSON.parse(draggedElement.dataset.meetings);
-      if (meetings && meetings.length > 0) {
-        const firstMeeting = meetings[0];
-        
-        // Handle day - can be string or array
-        if (firstMeeting.day) {
-          newCourse.meeting.days = [firstMeeting.day];
-        } else if (firstMeeting.days && Array.isArray(firstMeeting.days)) {
-          newCourse.meeting.days = firstMeeting.days;
-        }
-        
-        // Handle time - convert from minutes if needed
-        if (firstMeeting.time) {
-          newCourse.meeting.time = firstMeeting.time;
-        } else if (firstMeeting.start !== undefined && firstMeeting.end !== undefined) {
-          const startHours = Math.floor(firstMeeting.start / 60);
-          const startMins = firstMeeting.start % 60;
-          const endHours = Math.floor(firstMeeting.end / 60);
-          const endMins = firstMeeting.end % 60;
-          
-          const formatTime = (hours, mins) => {
-            const period = hours >= 12 ? 'PM' : 'AM';
-            const displayHours = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);
-            return `${displayHours}:${mins.toString().padStart(2, '0')} ${period}`;
-          };
-          
-          newCourse.meeting.time = `${formatTime(startHours, startMins)}-${formatTime(endHours, endMins)}`;
-        } else {
-          newCourse.meeting.time = 'TBA';
-        }
-      }
-    } catch (e) {
-      console.warn('Error parsing meeting data:', e);
-    }
-  }
-  
+
   currentScheduleData.planned_courses.push(newCourse);
   currentScheduleData.planned_units += courseUnits;
-  
-  // Remove from remaining needed if it's there
-  currentScheduleData.remaining_needed = currentScheduleData.remaining_needed.filter(
-    c => c !== courseId
-  );
-  
+
   // Re-render schedule
-  const scheduleList = document.getElementById('schedule-list');
-  if (scheduleList) {
-    scheduleList.remove();
-  }
+  const scheduleList = document.getElementById("schedule-list");
+  if (scheduleList) scheduleList.remove();
+
   renderSchedule();
-  
-  // Remove dragged element from open classes (optional - you might want to keep it)
-  // draggedElement.remove();
-  
+
   return false;
 }
+
 
 function handleScheduleDrop(e) {
   if (e.stopPropagation) {
