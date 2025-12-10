@@ -36,6 +36,11 @@ def parse_tda(file_bytes: bytes, filename: str):
 
     Your ONLY task is to extract a STRICT JSON list of all courses the student is allowed to take next.
 
+        If the file is NOT a Titan Degree Audit or you cannot confidently extract the required information,
+        you MUST output the following JSON ONLY:
+
+        { "status": "error" }
+
     ===========================================================
     EXPECTED OUTPUT FORMAT (STRICT JSON ONLY)
     ===========================================================

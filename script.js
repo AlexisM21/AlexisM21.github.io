@@ -3,6 +3,7 @@
 // ================= API CONFIGURATION =================
 // Change this to match your backend server URL
 const API_BASE_URL = 'https://titanbackend.online';
+const professorRatingCache = {};
 
 // ================= PAGE NAVIGATION =================
 function showPage(pageId) {
@@ -401,7 +402,9 @@ function createUnifiedClassCard(classItem, options = { isSchedule: false, index:
     card.appendChild(prof);
 
     // Fetch RMP rating for BOTH schedule + open classes
-    fetchProfessorRating(classItem.professor, prof);
+    const cleanName = (classItem.professor || "").replace(/\s+/g, " ").trim();
+    fetchProfessorRating(cleanName, prof);
+
   }
 
   // ----- CRN -----
@@ -561,62 +564,43 @@ function renderSchedule() {
 
 
 // ================= PROFESSOR RATING FETCH =================
-async function fetchProfessorRating(professorName, professorElement) {
-  if (!professorName || !professorName.trim()) {
+async function fetchProfessorRating(name, element) {
+  if (!name || name.trim() === "" || name.toLowerCase().includes("announced")) {
+    element.textContent = `Professor: ${name}`;
     return;
   }
-  
+
+  // Prevent double calls
+  if (professorRatingCache[name]) {
+    element.textContent = professorRatingCache[name];
+    return;
+  }
+
   try {
-    const response = await fetch(`${API_BASE_URL}/professor/rating?professor_name=${encodeURIComponent(professorName)}`);
-    
+    const response = await fetch(`${API_BASE_URL}/professor/rating?professor_name=${encodeURIComponent(name)}`);
+
     if (!response.ok) {
-      // Silently fail - don't show error if rating service is unavailable
-      if (response.status === 503) {
-        console.log(`Rate My Professor service unavailable for ${professorName}`);
-      }
+      element.textContent = `Professor: ${name} (No rating)`;
+      professorRatingCache[name] = `Professor: ${name} (No rating)`;
       return;
     }
-    
+
     const data = await response.json();
-    
-    if (data.found && data.overall_rating) {
-      const rating = parseFloat(data.overall_rating);
-      const numRatings = data.num_ratings || 0;
-      
-      // Determine rating color
-      let ratingColor = '#666';
-      if (rating >= 4.0) {
-        ratingColor = '#2e7d32'; // Green for good ratings
-      } else if (rating >= 3.0) {
-        ratingColor = '#f57c00'; // Orange for average ratings
-      } else if (rating > 0) {
-        ratingColor = '#d32f2f'; // Red for poor ratings
-      }
-      
-      // Update professor element with rating
-      const ratingText = numRatings > 0 
-        ? `Professor: ${professorName} | RMP Rating: ${rating.toFixed(1)}/5.0 (${numRatings} reviews)`
-        : `Professor: ${professorName} | RMP Rating: ${rating.toFixed(1)}/5.0`;
-      
-      professorElement.textContent = ratingText;
-      professorElement.style.color = ratingColor;
-      professorElement.style.fontWeight = '500';
-      
-      // Add a small star icon or emoji
-      const starSpan = document.createElement('span');
-      starSpan.textContent = ' ⭐';
-      starSpan.style.marginLeft = '3px';
-      professorElement.appendChild(starSpan);
-    } else {
-      // Professor not found on Rate My Professor
-      professorElement.textContent = `Professor: ${professorName} | RMP Rating: Not found`;
-      professorElement.style.color = '#999';
-    }
-  } catch (error) {
-    // Silently fail - don't disrupt the UI if rating fetch fails
-    console.log(`Error fetching rating for ${professorName}:`, error);
+
+    const ratingText = data.found
+      ? `Professor: ${name} | Rating: ${data.overall_rating} (${data.num_ratings})`
+      : `Professor: ${name} (No RMP profile)`;
+
+    professorRatingCache[name] = ratingText;
+    element.textContent = ratingText;
+
+  } catch (err) {
+    const fallback = `Professor: ${name} (Unavailable)`;
+    professorRatingCache[name] = fallback;
+    element.textContent = fallback;
   }
 }
+
 
 // ================= SCHEDULE GENERATION =================
 function generateScheduleFromClasses(eligibleClasses, preferences) {
@@ -1160,12 +1144,14 @@ function createClassCard(classItem) {
     classCard.appendChild(professorEl);
     
     // Fetch and display professor rating asynchronously
-    fetchProfessorRating(classItem.professor, professorEl);
+    const cleanName = (classItem.professor || "").replace(/\s+/g, " ").trim();
+    fetchProfessorRating(cleanName, professorEl);
+
   }
   
   // Units
   const unitsEl = document.createElement('span');
-  unitsEl.textContent = `${classItem.units || 3} units`;
+  unitsEl.textContent = `${classItem.units ? classItem.units : classCard.dataset.courseUnits} units`;
   unitsEl.style.display = 'block';
   unitsEl.style.color = '#666';
   unitsEl.style.fontSize = '13px';
@@ -1498,10 +1484,10 @@ function handleDrop(e) {
 
   if (!draggedElement) return;
 
-  // Ignore drops coming from schedule itself (remove handler handles those)
+  // Ignore drops coming from schedule itself
   if (draggedFromSchedule) return;
 
-  // Extract data from dragged element
+  // Extract data
   const courseId = draggedElement.dataset.courseId;
   const courseTitle = draggedElement.dataset.courseTitle;
   const courseUnits = parseInt(draggedElement.dataset.courseUnits) || 3;
@@ -1516,7 +1502,7 @@ function handleDrop(e) {
     return;
   }
 
-  // ========== CREATE NEW COURSE OBJECT (FIXED WITH ROOM SUPPORT) ==========
+  // Build new course object
   const newCourse = {
     course_id: courseId,
     title: courseTitle,
@@ -1524,15 +1510,15 @@ function handleDrop(e) {
     crn: draggedElement.dataset.crn || '',
     section: draggedElement.dataset.section || '',
     professor: draggedElement.dataset.professor || '',
-    meetings: [], // full meetings array
-    meeting: {    // simplified display version
+    meetings: [],
+    meeting: {
       days: [],
       time: 'TBA',
       room: ''
     }
   };
 
-  // --------- PARSE FULL MEETINGS FROM DATASET ---------
+  // ------ FIXED MEETING PARSING ------
   if (draggedElement.dataset.meetings) {
     try {
       const meetings = JSON.parse(draggedElement.dataset.meetings);
@@ -1548,7 +1534,7 @@ function handleDrop(e) {
           newCourse.meeting.days = [m.day];
         }
 
-        // Room  ✅ FIXED (your missing field)
+        // Room
         newCourse.meeting.room = m.room || '';
 
         // Time
@@ -1556,25 +1542,22 @@ function handleDrop(e) {
           newCourse.meeting.time = m.time;
         } else if (m.start !== undefined && m.end !== undefined) {
           newCourse.meeting.time = formatMeetingTime(m.start, m.end);
-        } else {
-          newCourse.meeting.time = 'TBA';
         }
       }
-
     } catch (err) {
       console.warn("Error parsing meeting data:", err);
     }
   }
 
-  // ---------- ADD NEW COURSE TO SCHEDULE ----------
+  // Add to schedule
   currentScheduleData.planned_courses.push(newCourse);
   currentScheduleData.planned_units += courseUnits;
 
-  // Remove from "remaining_needed"
+  // Remove from remaining_needed
   currentScheduleData.remaining_needed =
     currentScheduleData.remaining_needed.filter(c => c !== courseId);
 
-  // ---------- RE-RENDER SCHEDULE ----------
+  // Re-render schedule
   const scheduleList = document.getElementById('schedule-list');
   if (scheduleList) scheduleList.remove();
 
@@ -1582,6 +1565,7 @@ function handleDrop(e) {
 
   return false;
 }
+
 
 
 function handleScheduleDrop(e) {
