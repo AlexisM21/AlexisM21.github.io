@@ -2,7 +2,7 @@
 
 // ================= API CONFIGURATION =================
 // Change this to match your backend server URL
-const API_BASE_URL = 'http://titanbackend.online';
+const API_BASE_URL = 'https://titanbackend.online';
 
 // ================= PAGE NAVIGATION =================
 function showPage(pageId) {
