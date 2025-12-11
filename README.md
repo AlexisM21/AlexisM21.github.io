@@ -20,6 +20,9 @@ This program utilizes multiple API's to help instantly generate a student's sche
 * pyyaml
 * sqlalchemy
 
+`pip install fastapi uvicorn pydantic python-multipart openai selenium pandas pyyaml sqlalchemy`
+
+
 ### Instructions
 
 * CD into Backend/TitanAPI/app directory
