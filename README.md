@@ -35,5 +35,7 @@ This program utilizes multiple API's to help instantly generate a student's sche
 ## Authors
 
 Chloe Chung
+
 Alexis Martinez
+
 Eugene Kim
